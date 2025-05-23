@@ -1,4 +1,5 @@
 using NUnit.Framework.Internal;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody rb;
     public Transform cameraTransform;
+    public Transform visualTransform;
 
     //movement settings
     public float groundAcceleration = 10f;
@@ -19,8 +21,12 @@ public class PlayerMovement : MonoBehaviour
 
     //bounce settings
     public float defaultBounceMult = 0.5f;
-    public float releaseBufferTime = 0.15f;
+    public float releaseBufferTime = 0.35f;
     public float minimumBounceVelocity = .1f;
+
+    //stickiness
+    public float stickLeft;
+    public bool isSticking;
 
 
     //surface checking
@@ -30,12 +36,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 inputDirection;
     private Vector3 currentSurfaceNormal = Vector3.up;
-    bool onSurface;
+    
     float lastTouchTime;
 
     bool jumpHeld;
     float jumpChargeTime;
-    bool bounceReady;
+    
     Vector3 bounceReadyNormal;
 
     bool justBounced;
@@ -45,7 +51,45 @@ public class PlayerMovement : MonoBehaviour
     float bufferedChargePercent;
 
     Vector3 preImpactVelocity;
-    
+
+    private bool onSurface;
+
+    private void OnCollisionExit(Collision collision)
+    {
+        //Debug.Log("Exit collision");
+        onSurface = false;
+        lastTouchTime = Time.time;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        //Debug.Log("collision stay");
+        onSurface = true;
+        
+        currentSurfaceNormal = collision.GetContact(0).normal;
+    }
+    private void OnCollisionEnter(Collision collision)
+    { 
+        //Debug.Log("Collision eneter");
+        if (((1 << collision.gameObject.layer) & surfaceLayer) == 0) return;
+
+        ContactPoint contact = collision.GetContact(0);
+        Vector3 normal = contact.normal;
+
+        preImpactVelocity = collision.relativeVelocity;
+
+
+
+        onSurface = true;
+        currentSurfaceNormal = normal;
+        
+    }
+
+    public bool touchingSurface()
+    {
+        return onSurface;
+    }
+
 
     void Awake()
     {
@@ -82,6 +126,24 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    //PLayer can hold left click, until they hit a surface
+    //once they hit a surface, the stickiness meter will slowly deplete.
+    //if they release left click or run out of stickiness, they will unstick from the surface
+    void HandleStickInput()
+    {
+        //hold stick
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (touchingSurface())
+            {
+                isSticking = true;
+                //stick to wall
+                //remove gravity
+                //deplete velocity towards surface stuck to
+
+            }
+        }
+    }
     void HandleJumpInput()
     {
         //need to check first if space is released (keyup)
@@ -91,25 +153,16 @@ public class PlayerMovement : MonoBehaviour
         {
             float chargePercent = Mathf.Clamp01(jumpChargeTime / maxJumpChargeTime);
 
-            Debug.Log("IN HANDLE JUMP");
-
-            if(onSurface || bounceReady)
+            //Debug.Log("IN HANDLE JUMP");
+            //Debug.Log("touching surface = " + touchingSurface() + " Time.time- lastTouchTime = " + (Time.time - lastTouchTime) + " < Releasse buffer = " + releaseBufferTime);
+            //Debug.Log("Last Touch time" + lastTouchTime);
+            //Debug.Log("Time.time" + Time.time);
+            if((touchingSurface() || (Time.time - lastTouchTime) <= releaseBufferTime) && !isSticking)
             {
                 Debug.Log("on surface is true");
-                //if(bounceReady)
-                //{
-                //    Debug.Log("Bounce");
-                //    //this will be a second bounce on top of default bounce
-                //    Bounce(preImpactVelocity, currentSurfaceNormal, defaultBounceMult * chargePercent, false);
-                //}
-                //else
-                //{
-                //    Debug.Log("REgular jump");
-                //    //this will be regular jump
-
-                //}
+                
                 Bounce(rb.linearVelocity + preImpactVelocity, currentSurfaceNormal, defaultBounceMult * chargePercent);
-                bounceReady = false;
+                
 
 
             }
@@ -140,22 +193,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    //decreases buffer timer so that player cannot use big bounce midair
-    void UpdateReleaseBufferTimer()
-    {
-        if((Time.time - lastTouchTime) > releaseBufferTime)
-        {
-            bounceReady = false;
-        }
-    }
+    
+    
 
 
     void FixedUpdate()
     {
-        onSurface = CheckSurface(out currentSurfaceNormal);
-        
+        bool isOnSurface = touchingSurface();
+        //Debug.Log("Cursufacenormal = " + currentSurfaceNormal);
+        Debug.DrawRay(transform.position, -transform.up * 1f, Color.red);
 
-        float accel = onSurface ? groundAcceleration : airAcceleration;
+
+        float accel = isOnSurface ? groundAcceleration : airAcceleration;
 
         Vector3 moveOnSurface = Vector3.ProjectOnPlane(inputDirection, currentSurfaceNormal).normalized;
 
@@ -166,10 +215,10 @@ public class PlayerMovement : MonoBehaviour
         }
         justBounced = false;
 
+        //align character with movement direction NEEDED
         
+
         
-        UpdateReleaseBufferTimer();
-        AlignWithSurface();
         
     }
 
@@ -198,51 +247,9 @@ public class PlayerMovement : MonoBehaviour
 
    
     
-    bool CheckSurface(out Vector3 surfaceNormal)
-    {
-        RaycastHit hit;
-        Vector3 origin = transform.position + Vector3.up * 0.1f; //Slight offset to avoid embedded colliders
-        float checkDistance = 1f; //Adjust based on player height
+  
 
-        //detect surface using spherecast downward (relative to player's up)
-        if (Physics.SphereCast(origin, surfaceCheckRadius, -transform.up, out hit, checkDistance, surfaceLayer))
-        {
-            surfaceNormal = hit.normal;
-            return true;
-        }
-
-        surfaceNormal = Vector3.up;
-        return false;
-    }
-
-    void AlignWithSurface()
-    {
-        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, currentSurfaceNormal) * transform.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 2f);
-    }
-
-    //bouncing
-    void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Collision");
-        if (((1 << collision.gameObject.layer) & surfaceLayer) == 0) return;
-        
-        ContactPoint contact = collision.GetContact(0);
-        Vector3 normal = contact.normal;
-
-        preImpactVelocity = collision.relativeVelocity;
-        
-
-        if (jumpHeld) //jump is still being held, the player still has the buffer time to release
-        {
-            bounceReady = true;
-
-        }
-        
-        Bounce(preImpactVelocity, normal, defaultBounceMult);
-        lastTouchTime = Time.time;
-    }
-
+    //jump
     
     void Bounce(Vector3 impactVelocity, Vector3 normal, float mult) 
     {
