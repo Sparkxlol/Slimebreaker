@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -99,19 +100,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckWalled()
     {
-        /*
-        if (inputDirection == Vector3.zero || onGround)
-        {
-            onWall = false;
-            return; 
-        }
-        */
-        Debug.Log(onWall);
+        
+        
 
         int mask = ~LayerMask.GetMask("Player");
 
+        
+
         // Casts a circle towards the player's direction and checks if touching a sticky surface.
-        if (Physics.Raycast(transform.position, inputDirection, out RaycastHit hit, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
+        if (Physics.Raycast(transform.position, rb.linearVelocity.normalized, out RaycastHit hit, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
         {
             if (hit.collider.GetComponent<StickySurface>())
             {
@@ -120,12 +117,23 @@ public class PlayerMovement : MonoBehaviour
                 wallHit = hit;
                 onWall = true;
                 return;
+            } 
+        }
+        if (Physics.Raycast(transform.position + new Vector3(0, 2.5f, 0), rb.linearVelocity.normalized, out RaycastHit hit2, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
+        {
+            if (hit2.collider.GetComponent<StickySurface>())
+            {
+                Debug.DrawRay(transform.position + new Vector3(0, 2.5f, 0), inputDirection * (wallRadiusCheck), Color.red, .1f);
+
+                wallHit = hit2;
+                onWall = true;
+                return;
             }
         }
         else
         {
             Debug.DrawRay(transform.position, inputDirection * (wallRadiusCheck), Color.green, .1f);
-
+            Debug.DrawRay(transform.position + new Vector3(0, 2.5f, 0), inputDirection * (wallRadiusCheck), Color.green, .1f);
         }
     }
 
@@ -153,17 +161,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleWallRun()
     {
-        if (wallHit is RaycastHit hit)
+        if (wallHit is RaycastHit hit && Input.GetMouseButton(0))
         {
+            Debug.Log("holding down ");
             rb.useGravity = false; // Turn off gravity
 
-            Vector3 parallelMovement = Vector3.ProjectOnPlane(inputDirection, hit.normal).normalized;
+            
+            Vector3 wallNormal = hit.normal;
+            Vector3 wallRight = Vector3.Cross(wallNormal, Vector3.up).normalized;   // A/D
+            Vector3 wallUp = Vector3.Cross(wallRight, wallNormal).normalized;    // W/S
 
-            rb.linearVelocity = new Vector3(
-                parallelMovement.x * 10f,
-                0,
-                parallelMovement.z * 10f
-            );
+
+            
+            float horizontal = Input.GetAxisRaw("Horizontal"); // A/D = left/right
+            float vertical = Input.GetAxisRaw("Vertical");   // W/S = up/down on wall
+
+            // Movement direction on wall plane
+            Vector3 moveDir = (wallRight * horizontal + wallUp * vertical).normalized;
+
+            // Apply velocity on wall
+            float wallSpeed = 10f;
+            rb.linearVelocity = moveDir * wallSpeed;
+
+        }
+        else
+        {
+            rb.useGravity = true;
+            onWall = false;
+            wallHit = null;
         }
     }
 
