@@ -1,33 +1,37 @@
-using NUnit.Framework.Internal;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    [Header("Components")]
     public Rigidbody rb;
     public Transform cameraTransform;
     public Transform visualTransform;
 
-    //movement settings
-    public float groundAcceleration = 10f;
+    [Header("Movement Settings")]
+    public float groundAcceleration = 25f;
     public float airAcceleration = 10f;
     public float maxInputSpeed = 20f;
 
-    //jump settings
+    [Header("Jump Settings")]
     public float minJumpForce = 4f;
-    public float maxJumpForce = 12;
-    public float maxJumpChargeTime = 1f;
+    public float maxJumpForce = 20f;
+    public float maxJumpChargeTime = 2f;
 
-    //bounce settings
+    [Header("Bounce Settings")]
     public float defaultBounceMult = 0.5f;
     public float releaseBufferTime = 0.35f;
     public float minimumBounceVelocity = .1f;
 
-    //stickiness
+    [Header("Stickiness")]
     public float stickLeft;
     public bool isSticking;
 
+    [Header("Collision Checks")]
+    private float groundDistanceCheck = .25f;
+    private bool onGround = false;
+    private float wallRadiusCheck = 1.75f;
+    private bool onWall = false;
+    private RaycastHit? wallHit = null;
 
     //surface checking
     //should be half player height
@@ -37,72 +41,92 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 inputDirection;
     private Vector3 currentSurfaceNormal = Vector3.up;
     
-    float lastTouchTime;
-
     bool jumpHeld;
     float jumpChargeTime;
     
-    Vector3 bounceReadyNormal;
-
     bool justBounced;
 
-    bool releaseBufered;
-    float releaseTimer;
-    float bufferedChargePercent;
-
     Vector3 preImpactVelocity;
-
-    private bool onSurface;
-
-    private void OnCollisionExit(Collision collision)
-    {
-        //Debug.Log("Exit collision");
-        onSurface = false;
-        lastTouchTime = Time.time;
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        //Debug.Log("collision stay");
-        onSurface = true;
-        
-        currentSurfaceNormal = collision.GetContact(0).normal;
-    }
-    private void OnCollisionEnter(Collision collision)
-    { 
-        //Debug.Log("Collision eneter");
-        if (((1 << collision.gameObject.layer) & surfaceLayer) == 0) return;
-
-        ContactPoint contact = collision.GetContact(0);
-        Vector3 normal = contact.normal;
-
-        preImpactVelocity = collision.relativeVelocity;
-
-
-
-        onSurface = true;
-        currentSurfaceNormal = normal;
-        
-    }
-
-    public bool touchingSurface()
-    {
-        return onSurface;
-    }
-
-
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        rb.freezeRotation = true;
-    }
 
     void Update()
     {
         HandleMovementInput();
+        CheckGrounded();
+        CheckWalled();
+
         HandleJumpInput();
+    }
+
+    void FixedUpdate()
+    {
+        bool isOnSurface = onGround;
+
+        float accel = isOnSurface ? groundAcceleration : airAcceleration;
+
+        Vector3 moveOnSurface = Vector3.ProjectOnPlane(inputDirection, currentSurfaceNormal).normalized;
+
+        //STOP acceleration for a frame after bounce
+        if (!justBounced && !onWall)
+        {
+            Accelerate(moveOnSurface, accel, maxInputSpeed);
+        }
+
+        justBounced = false;
+
+        HandleWallRun();
+    }
+
+    private void CheckGrounded()
+    {
+        // Casts a downward raycast and checks if the tag Ground is applied.
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundDistanceCheck))
+        {
+            if (hit.collider.CompareTag("Ground"))
+            {
+                Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.red, .1f);
+
+                onGround = true;
+                return;
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.green, .1f);
+        }
+
+        onGround = false;
+    }
+
+    private void CheckWalled()
+    {
+        /*
+        if (inputDirection == Vector3.zero || onGround)
+        {
+            onWall = false;
+            return; 
+        }
+        */
+        Debug.Log(onWall);
+
+        int mask = ~LayerMask.GetMask("Player");
+
+        // Casts a circle towards the player's direction and checks if touching a sticky surface.
+        if (Physics.Raycast(transform.position, inputDirection, out RaycastHit hit, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
+        {
+            if (hit.collider.GetComponent<StickySurface>())
+            {
+                Debug.DrawRay(transform.position, inputDirection * (wallRadiusCheck), Color.red, .1f);
+
+                wallHit = hit;
+                onWall = true;
+                return;
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, inputDirection * (wallRadiusCheck), Color.green, .1f);
+
+        }
     }
 
     void HandleMovementInput()
@@ -123,48 +147,38 @@ public class PlayerMovement : MonoBehaviour
         Vector3 desiredDirection = camForward * vertical + camRight * horizontal;
         inputDirection = desiredDirection.normalized;
 
-
+        // Rotate player towards camera sight.
+        transform.eulerAngles = new Vector3(0, cameraTransform.eulerAngles.y, 0);
     }
 
-    //PLayer can hold left click, until they hit a surface
-    //once they hit a surface, the stickiness meter will slowly deplete.
-    //if they release left click or run out of stickiness, they will unstick from the surface
-    void HandleStickInput()
+    private void HandleWallRun()
     {
-        //hold stick
-        if (Input.GetMouseButtonDown(0))
+        if (wallHit is RaycastHit hit)
         {
-            if (touchingSurface())
-            {
-                isSticking = true;
-                //stick to wall
-                //remove gravity
-                //deplete velocity towards surface stuck to
+            rb.useGravity = false; // Turn off gravity
 
-            }
+            Vector3 parallelMovement = Vector3.ProjectOnPlane(inputDirection, hit.normal).normalized;
+
+            rb.linearVelocity = new Vector3(
+                parallelMovement.x * 10f,
+                0,
+                parallelMovement.z * 10f
+            );
         }
     }
+
     void HandleJumpInput()
     {
         //need to check first if space is released (keyup)
         //if so, check if on surface or last time touching surface was within buffer time
         //run bounce function using a multiplier depending on how long space was held
-        if(Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             float chargePercent = Mathf.Clamp01(jumpChargeTime / maxJumpChargeTime);
 
-            //Debug.Log("IN HANDLE JUMP");
-            //Debug.Log("touching surface = " + touchingSurface() + " Time.time- lastTouchTime = " + (Time.time - lastTouchTime) + " < Releasse buffer = " + releaseBufferTime);
-            //Debug.Log("Last Touch time" + lastTouchTime);
-            //Debug.Log("Time.time" + Time.time);
-            if((touchingSurface() || (Time.time - lastTouchTime) <= releaseBufferTime) && !isSticking)
+            if (onGround)
             {
-                Debug.Log("on surface is true");
-                
                 Bounce(rb.linearVelocity + preImpactVelocity, currentSurfaceNormal, defaultBounceMult * chargePercent);
-                
-
-
             }
 
             jumpChargeTime = 0f;
@@ -172,15 +186,12 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-
-
         //if space was pressed (keydown) && jumpCharge timer not already started
         //start charge timer
         if (Input.GetKeyDown(KeyCode.Space) && !jumpHeld)
         {
             jumpHeld = true;
             jumpChargeTime = 0f;
-
         }
 
         if(jumpHeld)
@@ -188,38 +199,6 @@ public class PlayerMovement : MonoBehaviour
             jumpChargeTime += Time.deltaTime;
             jumpChargeTime = Mathf.Min(jumpChargeTime, maxJumpChargeTime);
         }
-
-
-
-    }
-
-    
-    
-
-
-    void FixedUpdate()
-    {
-        bool isOnSurface = touchingSurface();
-        //Debug.Log("Cursufacenormal = " + currentSurfaceNormal);
-        Debug.DrawRay(transform.position, -transform.up * 1f, Color.red);
-
-
-        float accel = isOnSurface ? groundAcceleration : airAcceleration;
-
-        Vector3 moveOnSurface = Vector3.ProjectOnPlane(inputDirection, currentSurfaceNormal).normalized;
-
-        //STOP acceleration for a frame after bounce
-        if(!justBounced)
-        {
-            Accelerate(moveOnSurface, accel, maxInputSpeed);
-        }
-        justBounced = false;
-
-        //align character with movement direction NEEDED
-        
-
-        
-        
     }
 
     void Accelerate(Vector3 direction, float acceleration, float maxMoveSpeed)
@@ -239,24 +218,14 @@ public class PlayerMovement : MonoBehaviour
             float accelAmount = Mathf.Min(acceleration * Time.fixedDeltaTime, speedDiff);
 
             rb.AddForce(direction * accelAmount, ForceMode.VelocityChange);
-
         }
-
-
     }
 
-   
-    
-  
-
-    //jump
-    
     void Bounce(Vector3 impactVelocity, Vector3 normal, float mult) 
     {
-        //jump
-        
-        Debug.Log("regu jump");
         float jumpImpulse = Mathf.Lerp(minJumpForce, maxJumpForce, Mathf.Clamp01(mult));
+
+        Debug.Log("Hello");
 
         Vector3 vel = rb.linearVelocity;
         float vn = Vector3.Dot(vel, normal);
@@ -267,9 +236,6 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocity = vel;
         rb.AddForce(normal * jumpImpulse, ForceMode.VelocityChange);
-        
-        
     }
-
 
 }
