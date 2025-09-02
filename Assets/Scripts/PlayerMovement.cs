@@ -30,9 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("Collision Checks")]
     private float groundDistanceCheck = .25f;
     private bool onGround = false;
-    private float wallRadiusCheck = 1.75f;
+    private float wallRadiusCheck = 1.0f;
     private bool onWall = false;
     private RaycastHit? wallHit = null;
+    private Vector3 wallHitDirection = Vector3.zero;
 
     //surface checking
     //should be half player height
@@ -100,14 +101,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckWalled()
     {
-        
-        
-
         int mask = ~LayerMask.GetMask("Player");
 
-        
-
         // Casts a circle towards the player's direction and checks if touching a sticky surface.
+        /*
         if (Physics.Raycast(transform.position, rb.linearVelocity.normalized, out RaycastHit hit, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
         {
             if (hit.collider.GetComponent<StickySurface>())
@@ -134,6 +131,41 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.DrawRay(transform.position, inputDirection * (wallRadiusCheck), Color.green, .1f);
             Debug.DrawRay(transform.position + new Vector3(0, 2.5f, 0), inputDirection * (wallRadiusCheck), Color.green, .1f);
+        }
+        */
+
+        RaycastHit hit;
+
+        // If previously onWall, cast towards the previousHit's direction.
+        if (onWall)
+        {
+            if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, wallHitDirection, out hit, wallRadiusCheck))
+            {
+                if (hit.collider.GetComponent<StickySurface>())
+                {
+                    wallHit = hit;
+                    onWall = true;
+
+                    return;
+                }
+            }
+            else
+            {
+                wallHit = null;
+                onWall = false;
+            }
+        }
+
+        // Check if a wall is nearby towards current velocity's direction.
+        if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, rb.linearVelocity.normalized, out hit, wallRadiusCheck))
+        {
+            if (hit.collider.GetComponent<StickySurface>())
+            {
+                wallHit = hit;
+                onWall = true;
+
+                wallHitDirection = rb.linearVelocity.normalized;
+            }
         }
     }
 
@@ -168,8 +200,8 @@ public class PlayerMovement : MonoBehaviour
 
             
             Vector3 wallNormal = hit.normal;
-            Vector3 wallRight = Vector3.Cross(wallNormal, Vector3.up).normalized;   // A/D
-            Vector3 wallUp = Vector3.Cross(wallRight, wallNormal).normalized;    // W/S
+            Vector3 wallUp = Vector3.Cross(Vector3.up, wallNormal).normalized;   // A/D
+            Vector3 wallRight = Vector3.Cross(wallUp, wallNormal).normalized;    // W/S
 
 
             
@@ -177,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
             float vertical = Input.GetAxisRaw("Vertical");   // W/S = up/down on wall
 
             // Movement direction on wall plane
-            Vector3 moveDir = (wallRight * horizontal + wallUp * vertical).normalized;
+            Vector3 moveDir = (wallRight * horizontal + -wallUp * vertical).normalized;
 
             // Apply velocity on wall
             float wallSpeed = 10f;
