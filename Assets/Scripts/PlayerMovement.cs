@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -17,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     public float minJumpForce = 4f;
     public float maxJumpForce = 20f;
     public float maxJumpChargeTime = 2f;
+    public float lastGrounded;
+    public float jumpBufferTime = 1f;
+    public float lastJumped;
 
     [Header("Bounce Settings")]
     public float defaultBounceMult = 0.5f;
@@ -26,6 +30,18 @@ public class PlayerMovement : MonoBehaviour
     [Header("Stickiness")]
     public float stickLeft;
     public bool isSticking;
+    public float maxStickCharge = 4f;
+    public float stickDepletionRate = 1f;
+    public float stickRechargeRate = 1.5f;
+
+    [Header("Glide")]
+    public float glideLeft;
+    public bool isGliding;
+    public float maxGlideCharge = 5f;
+    public float glideRechargeRate = 1.5f;
+    public float glideDepletionRate = 1f;
+    public float glideGravity = 0.3f;
+
 
     [Header("Collision Checks")]
     private float groundDistanceCheck = .25f;
@@ -76,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         justBounced = false;
 
         HandleWallRun();
+        HandleGlide();
     }
 
     private void CheckGrounded()
@@ -88,6 +105,10 @@ public class PlayerMovement : MonoBehaviour
                 Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.red, .1f);
 
                 onGround = true;
+
+                //Start timer to give buffer for jump
+                lastGrounded = Time.time;
+
                 return;
             }
         }
@@ -141,6 +162,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, wallHitDirection, out hit, wallRadiusCheck))
             {
+                
                 if (hit.collider.GetComponent<StickySurface>())
                 {
                     wallHit = hit;
@@ -148,6 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
                     return;
                 }
+                //if not sticky surface, make wallhit and onwall no?
             }
             else
             {
@@ -191,12 +214,63 @@ public class PlayerMovement : MonoBehaviour
         transform.eulerAngles = new Vector3(0, cameraTransform.eulerAngles.y, 0);
     }
 
+    private void HandleGlide()
+    {
+        if (onGround || onWall)
+        {
+            isGliding = false;
+
+            if (!isSticking)
+            {
+                rb.useGravity = true;
+            }
+
+            glideLeft += glideRechargeRate * Time.deltaTime;
+            glideLeft = Mathf.Min(glideLeft, maxGlideCharge);
+            
+
+            return;
+        }
+        else if (Input.GetMouseButton(1) && glideLeft > 0) 
+        {
+            //UNFINISHED
+            //need to change gravity depending on angle of glide
+            isGliding = true;
+
+            glideLeft -= glideDepletionRate * Time.deltaTime;
+            glideLeft = Mathf.Max(0, glideLeft);
+
+            rb.useGravity = false;
+
+            //placeholder
+            Vector3 vel = rb.linearVelocity;
+            vel.y *= glideGravity;
+            rb.linearVelocity = vel;
+
+            return;
+        }
+
+        //in air
+        if (!Input.GetMouseButton(1))
+        {
+            glideLeft += glideRechargeRate * Time.deltaTime;
+            glideLeft = Mathf.Min(glideLeft, maxGlideCharge);
+        }
+
+        isGliding = false;
+        rb.useGravity = true;
+
+    }
     private void HandleWallRun()
     {
-        if (wallHit is RaycastHit hit && Input.GetMouseButton(0))
+        if (wallHit is RaycastHit hit && Input.GetMouseButton(0) && stickLeft > 0)
         {
             Debug.Log("holding down ");
             rb.useGravity = false; // Turn off gravity
+            isSticking = true;
+
+            stickLeft -= stickDepletionRate * Time.deltaTime;
+            stickLeft = Mathf.Max(0, stickLeft);
 
             
             Vector3 wallNormal = hit.normal;
@@ -221,6 +295,12 @@ public class PlayerMovement : MonoBehaviour
             rb.useGravity = true;
             onWall = false;
             wallHit = null;
+
+            if(stickLeft < maxStickCharge && !Input.GetMouseButton(0))
+            {
+                stickLeft += stickRechargeRate * Time.deltaTime;
+                stickLeft = Mathf.Min(maxStickCharge, stickLeft);
+            }
         }
     }
 
@@ -233,8 +313,9 @@ public class PlayerMovement : MonoBehaviour
         {
             float chargePercent = Mathf.Clamp01(jumpChargeTime / maxJumpChargeTime);
 
-            if (onGround)
+            if (onGround || ((Time.time - lastGrounded < jumpBufferTime) && Time.time - lastJumped  > jumpBufferTime))
             {
+                lastJumped = Time.time;
                 Bounce(rb.linearVelocity + preImpactVelocity, currentSurfaceNormal, defaultBounceMult * chargePercent);
             }
 
