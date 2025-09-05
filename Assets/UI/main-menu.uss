@@ -1,0 +1,12 @@
+.panel {
+    opacity: 1;
+    background-color: rgb(212, 45, 89);
+}
+
+.menu {
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    width: 400px;
+    height: 300px;
+    min-width: 0;
+}

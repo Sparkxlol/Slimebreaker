@@ -89,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
             Accelerate(moveOnSurface, accel, maxInputSpeed);
         }
 
+
         justBounced = false;
 
         HandleWallRun();
@@ -118,6 +119,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         onGround = false;
+
+
+
     }
 
     private void CheckWalled()
@@ -125,35 +129,7 @@ public class PlayerMovement : MonoBehaviour
         int mask = ~LayerMask.GetMask("Player");
 
         // Casts a circle towards the player's direction and checks if touching a sticky surface.
-        /*
-        if (Physics.Raycast(transform.position, rb.linearVelocity.normalized, out RaycastHit hit, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
-        {
-            if (hit.collider.GetComponent<StickySurface>())
-            {
-                Debug.DrawRay(transform.position, inputDirection * (wallRadiusCheck), Color.red, .1f);
-
-                wallHit = hit;
-                onWall = true;
-                return;
-            } 
-        }
-        if (Physics.Raycast(transform.position + new Vector3(0, 2.5f, 0), rb.linearVelocity.normalized, out RaycastHit hit2, wallRadiusCheck, mask)) //Physics.SphereCast(transform.position + inputDirection * 1.5f, wallRadiusCheck, inputDirection, out RaycastHit hit, wallRadiusCheck + 100))
-        {
-            if (hit2.collider.GetComponent<StickySurface>())
-            {
-                Debug.DrawRay(transform.position + new Vector3(0, 2.5f, 0), inputDirection * (wallRadiusCheck), Color.red, .1f);
-
-                wallHit = hit2;
-                onWall = true;
-                return;
-            }
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, inputDirection * (wallRadiusCheck), Color.green, .1f);
-            Debug.DrawRay(transform.position + new Vector3(0, 2.5f, 0), inputDirection * (wallRadiusCheck), Color.green, .1f);
-        }
-        */
+        
 
         RaycastHit hit;
 
@@ -261,6 +237,7 @@ public class PlayerMovement : MonoBehaviour
         rb.useGravity = true;
 
     }
+
     private void HandleWallRun()
     {
         if (wallHit is RaycastHit hit && Input.GetMouseButton(0) && stickLeft > 0)

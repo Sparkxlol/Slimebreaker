@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/main-menu.uss?fileID=7433441132597879392&amp;guid=8f065a73685e2584b83aa87540e3a430&amp;type=3#main-menu" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; display: flex;">
+        <ui:VisualElement class="menu" style="flex-grow: 1; width: 876px;" />
+    </ui:VisualElement>
+</ui:UXML>
