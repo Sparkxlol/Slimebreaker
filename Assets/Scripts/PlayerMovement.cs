@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Stickiness")]
     public float stickLeft;
     public bool isSticking;
-    public float maxStickCharge = 4f;
+    public float maxStickCharge = 50f;
     public float stickDepletionRate = 1f;
     public float stickRechargeRate = 1.5f;
 
@@ -42,11 +42,18 @@ public class PlayerMovement : MonoBehaviour
     public float glideDepletionRate = 1f;
     public float glideGravity = 0.3f;
 
+    [Header("Slide")]
+    public bool slideActive;
+    public float slideLeft;
+    public float maxSlideCharge = 5f;
+    public float slideDepletionRate = 1f;
+    public float slideRechargeRate = 1.5f;
+
 
     [Header("Collision Checks")]
     private float groundDistanceCheck = .25f;
     private bool onGround = false;
-    private float wallRadiusCheck = 1.0f;
+    private float wallRadiusCheck = 1.5f;
     private bool onWall = false;
     private RaycastHit? wallHit = null;
     private Vector3 wallHitDirection = Vector3.zero;
@@ -68,9 +75,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        HandleSlide();
         HandleMovementInput();
         CheckGrounded();
         CheckWalled();
+        
 
         HandleJumpInput();
     }
@@ -96,6 +105,23 @@ public class PlayerMovement : MonoBehaviour
         HandleGlide();
     }
 
+    private void HandleSlide()
+    {
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            slideActive = true;
+            slideLeft -= slideDepletionRate * Time.deltaTime;
+            slideLeft = Mathf.Max(0, slideLeft);
+            
+        }
+        else
+        {
+            slideActive = false;
+            slideLeft += slideRechargeRate * Time.deltaTime;
+            slideLeft = Mathf.Min(maxSlideCharge, slideLeft);
+        }
+    }
+
     private void CheckGrounded()
     {
         // Casts a downward raycast and checks if the tag Ground is applied.
@@ -106,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.red, .1f);
 
                 onGround = true;
+                currentSurfaceNormal = hit.normal;
 
                 //Start timer to give buffer for jump
                 lastGrounded = Time.time;
@@ -129,7 +156,7 @@ public class PlayerMovement : MonoBehaviour
         int mask = ~LayerMask.GetMask("Player");
 
         // Casts a circle towards the player's direction and checks if touching a sticky surface.
-        
+
 
         RaycastHit hit;
 
@@ -138,9 +165,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, wallHitDirection, out hit, wallRadiusCheck))
             {
-                
+
                 if (hit.collider.GetComponent<StickySurface>())
                 {
+                    onGround = true;
+                    lastGrounded = Time.time;
+                    currentSurfaceNormal = hit.normal;
                     wallHit = hit;
                     onWall = true;
 
@@ -150,6 +180,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                onGround= false;
                 wallHit = null;
                 onWall = false;
             }
@@ -167,6 +198,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+
+
 
     void HandleMovementInput()
     {
@@ -243,7 +277,7 @@ public class PlayerMovement : MonoBehaviour
         if (wallHit is RaycastHit hit && Input.GetMouseButton(0) && stickLeft > 0)
         {
             Debug.Log("holding down ");
-            rb.useGravity = false; // Turn off gravity
+            //rb.useGravity = false; // Turn off gravity
             isSticking = true;
 
             stickLeft -= stickDepletionRate * Time.deltaTime;
@@ -251,21 +285,41 @@ public class PlayerMovement : MonoBehaviour
 
             
             Vector3 wallNormal = hit.normal;
-            Vector3 wallUp = Vector3.Cross(Vector3.up, wallNormal).normalized;   // A/D
-            Vector3 wallRight = Vector3.Cross(wallUp, wallNormal).normalized;    // W/S
+            Vector3 wallUp = Vector3.Cross(Vector3.up, wallNormal).normalized; 
+            Vector3 wallRight = Vector3.Cross(wallUp, wallNormal).normalized;
+
+            if (slideActive)
+            {
+                rb.useGravity = true;
 
 
-            
-            float horizontal = Input.GetAxisRaw("Horizontal"); // A/D = left/right
-            float vertical = Input.GetAxisRaw("Vertical");   // W/S = up/down on wall
 
-            // Movement direction on wall plane
-            Vector3 moveDir = (wallRight * horizontal + -wallUp * vertical).normalized;
+                // Camera-relative movement constrained to wall
+                Vector3 camForward = cameraTransform.forward;
+                Vector3 camRight = cameraTransform.right;
 
-            // Apply velocity on wall
-            float wallSpeed = 10f;
-            rb.linearVelocity = moveDir * wallSpeed;
+                Vector3 moveForward = Vector3.ProjectOnPlane(camForward, wallNormal).normalized;
+                Vector3 moveRight = Vector3.ProjectOnPlane(camRight, wallNormal).normalized;
 
+                float horizontal = Input.GetAxisRaw("Horizontal");
+                float vertical = Input.GetAxisRaw("Vertical");
+
+                Vector3 inputDir = (moveForward * vertical + moveRight * horizontal).normalized;
+
+                // Keep existing velocity along wall
+                Vector3 velocityAlongWall = Vector3.ProjectOnPlane(rb.linearVelocity, wallNormal);
+
+                // Add small influence
+                float controlStrength = 0.2f;
+                Vector3 finalVelocity = velocityAlongWall + inputDir * controlStrength;
+
+                rb.linearVelocity = new Vector3(finalVelocity.x, finalVelocity.y, finalVelocity.z);
+            }
+            else
+            {
+                rb.useGravity = false;
+                rb.linearVelocity = Vector3.zero;
+            }
         }
         else
         {
@@ -336,6 +390,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+    //TODO: Balance the jumping so you cant gain inifnite speed
     void Bounce(Vector3 impactVelocity, Vector3 normal, float mult) 
     {
         float jumpImpulse = Mathf.Lerp(minJumpForce, maxJumpForce, Mathf.Clamp01(mult));
