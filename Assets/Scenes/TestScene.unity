@@ -907,9 +907,13 @@ MonoBehaviour:
   rb: {fileID: 737209846}
   cameraTransform: {fileID: 1183292355}
   visualTransform: {fileID: 737209847}
+  airGravityMultiplier: 0.8
   groundAcceleration: 25
-  airAcceleration: 10
+  airAcceleration: 50
   maxInputSpeed: 20
+  groundSlideSpeedMultiplier: 2
+  wallFrictionStrength: 5
+  airFrictionStrength: 1.5
   minJumpForce: 4
   maxJumpForce: 20
   maxJumpChargeTime: 2
@@ -926,15 +930,22 @@ MonoBehaviour:
   stickRechargeRate: 1.5
   glideLeft: 0
   isGliding: 0
-  maxGlideCharge: 5
+  maxGlideCharge: 20
   glideRechargeRate: 1.5
   glideDepletionRate: 1
-  glideGravity: 0.3
+  glideGravityMultiplier: 12
+  diveGravityMultiplier: 25
+  currentDiveAngle: 0
+  glideControlStrength: 0.5
+  maxNoseDiveAngle: 80
+  noseDiveSpeed: 60
+  slowDownGravityMultiplier: 3
   slideActive: 0
   slideLeft: 0
   maxSlideCharge: 5
   slideDepletionRate: 1
   slideRechargeRate: 1.5
+  slideGravityMultiplier: 0.5
   surfaceCheckRadius: 0.2
   surfaceLayer:
     serializedVersion: 2
@@ -949,7 +960,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1719,8 +1730,8 @@ Transform:
   m_GameObject: {fileID: 1006748286}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0000023842, y: -0.431, z: 60.2}
-  m_LocalScale: {x: 217.65921, y: 1, z: 141.48865}
+  m_LocalPosition: {x: -0.0000023842, y: -0.431, z: 435}
+  m_LocalScale: {x: 217.65921, y: 1, z: 876.5929}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1326211372}
@@ -1809,7 +1820,7 @@ Rigidbody:
   serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}

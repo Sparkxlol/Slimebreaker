@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.Hierarchy;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,9 +11,13 @@ public class PlayerMovement : MonoBehaviour
     public Transform visualTransform;
 
     [Header("Movement Settings")]
-    public float groundAcceleration = 25f;
-    public float airAcceleration = 10f;
+    public float airGravityMultiplier = 1.2f;
+    public float groundAcceleration = 500f;
+    public float airAcceleration = 10000f;
     public float maxInputSpeed = 20f;
+    public float groundSlideSpeedMultiplier = 2f;
+    [SerializeField] public float wallFrictionStrength = 5f;
+    public float airFrictionStrength = 1.5f;
 
     [Header("Jump Settings")]
     public float minJumpForce = 4f;
@@ -37,10 +42,16 @@ public class PlayerMovement : MonoBehaviour
     [Header("Glide")]
     public float glideLeft;
     public bool isGliding;
-    public float maxGlideCharge = 5f;
+    public float maxGlideCharge = 20f;
     public float glideRechargeRate = 1.5f;
     public float glideDepletionRate = 1f;
-    public float glideGravity = 0.3f;
+    public float glideGravityMultiplier = 0.5f;
+    public float diveGravityMultiplier = 1f;
+    [SerializeField] private float currentDiveAngle = 0f;
+    [SerializeField] private float glideControlStrength = 1.5f;
+    [SerializeField] private float maxNoseDiveAngle = 80f;
+    [SerializeField] private float noseDiveSpeed = 60f;
+    [SerializeField] private float slowDownGravityMultiplier = 5f;
 
     [Header("Slide")]
     public bool slideActive;
@@ -48,9 +59,11 @@ public class PlayerMovement : MonoBehaviour
     public float maxSlideCharge = 5f;
     public float slideDepletionRate = 1f;
     public float slideRechargeRate = 1.5f;
+    public float slideGravityMultiplier = 0.5f;
 
 
     [Header("Collision Checks")]
+    private bool isOnSurface;
     private float groundDistanceCheck = .25f;
     private bool onGround = false;
     private float wallRadiusCheck = 1.5f;
@@ -86,32 +99,48 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool isOnSurface = onGround;
+        isOnSurface = onGround;
+        if (!isOnSurface) 
+        {
+            isOnSurface = isSticking;
+        }
+
 
         float accel = isOnSurface ? groundAcceleration : airAcceleration;
 
-        Vector3 moveOnSurface = Vector3.ProjectOnPlane(inputDirection, currentSurfaceNormal).normalized;
+        Vector3 moveOnSurface = Vector3.ProjectOnPlane(inputDirection, Vector3.up).normalized;
 
         //STOP acceleration for a frame after bounce
-        if (!justBounced && !onWall)
-        {
-            Accelerate(moveOnSurface, accel, maxInputSpeed);
-        }
+        
 
 
         justBounced = false;
 
         HandleWallRun();
-        HandleGlide();
+        HandleGlide(moveOnSurface);
+
+        if (!justBounced)
+        {
+            Accelerate(moveOnSurface, accel, maxInputSpeed);
+        }
     }
 
     private void HandleSlide()
     {
         if(Input.GetKey(KeyCode.LeftShift))
-        {
-            slideActive = true;
+        {         
             slideLeft -= slideDepletionRate * Time.deltaTime;
             slideLeft = Mathf.Max(0, slideLeft);
+
+            if (slideLeft > 0)
+            {
+                slideActive = true;
+            }
+            else
+            {
+                slideActive= false;
+            }
+
             
         }
         else
@@ -168,7 +197,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (hit.collider.GetComponent<StickySurface>())
                 {
-                    onGround = true;
+                    //Debug.Log("On Wall");
                     lastGrounded = Time.time;
                     currentSurfaceNormal = hit.normal;
                     wallHit = hit;
@@ -180,7 +209,8 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                onGround= false;
+                //Debug.Log("OFF WALL");
+                onGround = false;
                 wallHit = null;
                 onWall = false;
             }
@@ -191,6 +221,9 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hit.collider.GetComponent<StickySurface>())
             {
+                //Debug.Log("On Wall 2");
+                currentSurfaceNormal = hit.normal;
+                lastGrounded = Time.time;
                 wallHit = hit;
                 onWall = true;
 
@@ -224,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
         transform.eulerAngles = new Vector3(0, cameraTransform.eulerAngles.y, 0);
     }
 
-    private void HandleGlide()
+    private void HandleGlide(Vector3 inputDir)
     {
         if (onGround || onWall)
         {
@@ -237,7 +270,8 @@ public class PlayerMovement : MonoBehaviour
 
             glideLeft += glideRechargeRate * Time.deltaTime;
             glideLeft = Mathf.Min(glideLeft, maxGlideCharge);
-            
+
+            currentDiveAngle = 0;
 
             return;
         }
@@ -247,15 +281,32 @@ public class PlayerMovement : MonoBehaviour
             //need to change gravity depending on angle of glide
             isGliding = true;
 
-            glideLeft -= glideDepletionRate * Time.deltaTime;
-            glideLeft = Mathf.Max(0, glideLeft);
+            
+            //if velocity.up is > 0
+            if(rb.linearVelocity.y > 0)
+            {
+                glideLeft -= glideDepletionRate * Time.deltaTime;
+                glideLeft = Mathf.Max(0, glideLeft);
 
-            rb.useGravity = false;
+                rb.useGravity = false;
 
-            //placeholder
-            Vector3 vel = rb.linearVelocity;
-            vel.y *= glideGravity;
-            rb.linearVelocity = vel;
+
+                
+                rb.AddForce(Physics.gravity * slowDownGravityMultiplier, ForceMode.Acceleration);
+
+                if(rb.linearVelocity.y < 0)
+                {
+                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+                }
+
+
+
+            }
+            else
+            {
+                glideInput(inputDir);
+            }
+            
 
             return;
         }
@@ -267,67 +318,145 @@ public class PlayerMovement : MonoBehaviour
             glideLeft = Mathf.Min(glideLeft, maxGlideCharge);
         }
 
+        currentDiveAngle = 0;
+
         isGliding = false;
         rb.useGravity = true;
 
     }
 
+    private void glideInput(Vector3 inputDir)
+    {
+        glideLeft -= glideDepletionRate * Time.deltaTime;
+        glideLeft = Mathf.Max(0, glideLeft);
+
+        rb.useGravity = false;
+
+
+        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
+        float speed = rb.linearVelocity.magnitude;
+
+
+
+
+        // ---------------------------
+        // 1. Horizontal control
+        // ---------------------------
+        if (inputDir.sqrMagnitude > 0f)
+        {
+            float maxTurnThisFrame = glideControlStrength * Time.deltaTime;
+            Vector3 newHorizontalDir = Vector3.RotateTowards(horizontalVelocity.normalized, inputDir.normalized, maxTurnThisFrame, 0f);
+            horizontalVelocity = newHorizontalDir * horizontalVelocity.magnitude;
+        }
+
+
+        //dive 
+        bool pressingW = Input.GetKey(KeyCode.W);
+
+        float targetDive = pressingW ? maxNoseDiveAngle : 0f;
+        // Smoothly adjust current dive angle toward target
+        currentDiveAngle = Mathf.MoveTowards(currentDiveAngle, targetDive, noseDiveSpeed * Time.deltaTime);
+
+        Debug.Log("Angle: " + currentDiveAngle);
+        Debug.Log("Magnitude: " + horizontalVelocity.magnitude);
+        // Compute vertical component based on dive angle
+
+        float diveRadians = Mathf.Deg2Rad * currentDiveAngle;
+        float horizontalMag = Mathf.Cos(diveRadians) * speed;
+        float verticalMag = -Mathf.Sin(diveRadians) * speed;
+
+        Vector3 finalVel = horizontalVelocity.normalized * horizontalMag;
+        finalVel.y = verticalMag;
+
+        rb.linearVelocity = finalVel;
+
+        
+        //extra gravity (not needed)
+        float gravityMultiplier = Mathf.Lerp(glideGravityMultiplier, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
+        Debug.Log("Gravity Multiplier = " + gravityMultiplier);
+        rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
+
+
+
+
+    }
+
     private void HandleWallRun()
     {
-        if (wallHit is RaycastHit hit && Input.GetMouseButton(0) && stickLeft > 0)
+        if(wallHit is RaycastHit hit)
         {
-            Debug.Log("holding down ");
-            //rb.useGravity = false; // Turn off gravity
-            isSticking = true;
-
-            stickLeft -= stickDepletionRate * Time.deltaTime;
-            stickLeft = Mathf.Max(0, stickLeft);
-
             
-            Vector3 wallNormal = hit.normal;
-            Vector3 wallUp = Vector3.Cross(Vector3.up, wallNormal).normalized; 
-            Vector3 wallRight = Vector3.Cross(wallUp, wallNormal).normalized;
-
-            if (slideActive)
+            if(Input.GetMouseButton(0) && stickLeft > 0)
             {
+                
+                //rb.useGravity = false; // Turn off gravity
+                isSticking = true;
+
+                stickLeft -= stickDepletionRate * Time.deltaTime;
+                stickLeft = Mathf.Max(0, stickLeft);
+
+
+                Vector3 wallNormal = hit.normal;
+                Vector3 wallUp = Vector3.Cross(Vector3.up, wallNormal).normalized;
+                Vector3 wallRight = Vector3.Cross(wallUp, wallNormal).normalized;
+
+                if (slideActive)
+                {
+                    rb.useGravity = false;
+
+                    rb.AddForce(Physics.gravity * slideGravityMultiplier, ForceMode.Acceleration);
+
+                    // Camera-relative movement constrained to wall
+                    Vector3 camForward = cameraTransform.forward;
+                    Vector3 camRight = cameraTransform.right;
+
+                    Vector3 moveForward = Vector3.ProjectOnPlane(camForward, wallNormal).normalized;
+                    Vector3 moveRight = Vector3.ProjectOnPlane(camRight, wallNormal).normalized;
+
+                    float horizontal = Input.GetAxisRaw("Horizontal");
+                    float vertical = Input.GetAxisRaw("Vertical");
+
+                    Vector3 inputDir = (moveForward * vertical + moveRight * horizontal).normalized;
+
+                    // Keep existing velocity along wall
+                    Vector3 velocityAlongWall = Vector3.ProjectOnPlane(rb.linearVelocity, wallNormal);
+
+                    // Add small influence
+                    float controlStrength = 0.2f;
+                    Vector3 finalVelocity = velocityAlongWall + inputDir * controlStrength;
+
+                    rb.linearVelocity = new Vector3(finalVelocity.x, finalVelocity.y, finalVelocity.z);
+                }
+                else
+                {
+                    rb.useGravity = false;
+                    rb.linearVelocity = Vector3.zero;
+                }
+            }
+            else if(!slideActive)
+            {
+                applyWallFriction(wallFrictionStrength, hit);
+                isSticking = false;
                 rb.useGravity = true;
+                onWall = false;
+                wallHit = null;
 
-
-
-                // Camera-relative movement constrained to wall
-                Vector3 camForward = cameraTransform.forward;
-                Vector3 camRight = cameraTransform.right;
-
-                Vector3 moveForward = Vector3.ProjectOnPlane(camForward, wallNormal).normalized;
-                Vector3 moveRight = Vector3.ProjectOnPlane(camRight, wallNormal).normalized;
-
-                float horizontal = Input.GetAxisRaw("Horizontal");
-                float vertical = Input.GetAxisRaw("Vertical");
-
-                Vector3 inputDir = (moveForward * vertical + moveRight * horizontal).normalized;
-
-                // Keep existing velocity along wall
-                Vector3 velocityAlongWall = Vector3.ProjectOnPlane(rb.linearVelocity, wallNormal);
-
-                // Add small influence
-                float controlStrength = 0.2f;
-                Vector3 finalVelocity = velocityAlongWall + inputDir * controlStrength;
-
-                rb.linearVelocity = new Vector3(finalVelocity.x, finalVelocity.y, finalVelocity.z);
+                if (stickLeft < maxStickCharge && !Input.GetMouseButton(0))
+                {
+                    stickLeft += stickRechargeRate * Time.deltaTime;
+                    stickLeft = Mathf.Min(maxStickCharge, stickLeft);
+                }
             }
-            else
-            {
-                rb.useGravity = false;
-                rb.linearVelocity = Vector3.zero;
-            }
+            
         }
         else
         {
+            isSticking = false;
             rb.useGravity = true;
             onWall = false;
             wallHit = null;
 
-            if(stickLeft < maxStickCharge && !Input.GetMouseButton(0))
+            if (stickLeft < maxStickCharge && !Input.GetMouseButton(0))
             {
                 stickLeft += stickRechargeRate * Time.deltaTime;
                 stickLeft = Mathf.Min(maxStickCharge, stickLeft);
@@ -344,7 +473,9 @@ public class PlayerMovement : MonoBehaviour
         {
             float chargePercent = Mathf.Clamp01(jumpChargeTime / maxJumpChargeTime);
 
-            if (onGround || ((Time.time - lastGrounded < jumpBufferTime) && Time.time - lastJumped  > jumpBufferTime))
+            
+
+            if ((onWall ||onGround || ((Time.time - lastGrounded < jumpBufferTime) && Time.time - lastJumped  > jumpBufferTime)) && !isSticking)
             {
                 lastJumped = Time.time;
                 Bounce(rb.linearVelocity + preImpactVelocity, currentSurfaceNormal, defaultBounceMult * chargePercent);
@@ -372,22 +503,32 @@ public class PlayerMovement : MonoBehaviour
 
     void Accelerate(Vector3 direction, float acceleration, float maxMoveSpeed)
     {
-        //dont move if no input or canceling input
-        if (direction.sqrMagnitude == 0f) return;
-
+ 
         Vector3 velocity = rb.linearVelocity;
 
         float currentSpeedInDir = Vector3.Dot(velocity, direction);
 
-        //only accelerate if under max speed in input direction
-        if(currentSpeedInDir < maxMoveSpeed)
+        if (slideActive && isSticking)
         {
-            //make sure player doesnt accelerate over max move speed
-            float speedDiff = maxMoveSpeed - currentSpeedInDir;
-            float accelAmount = Mathf.Min(acceleration * Time.fixedDeltaTime, speedDiff);
-
-            rb.AddForce(direction * accelAmount, ForceMode.VelocityChange);
+            return;
         }
+
+        if (isGliding) return;
+
+        //on ground pressing input
+        if (onGround)
+        {
+            moveOnGround(direction, velocity, acceleration, maxMoveSpeed);
+        }
+        
+
+        //in air or on wall
+        else if (!onGround && !onWall)
+        {
+
+            moveInAir(currentSpeedInDir, maxMoveSpeed, acceleration, direction, airFrictionStrength);
+        }
+        
     }
 
 
@@ -396,7 +537,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float jumpImpulse = Mathf.Lerp(minJumpForce, maxJumpForce, Mathf.Clamp01(mult));
 
-        Debug.Log("Hello");
+        //Debug.Log("Hello");
 
         Vector3 vel = rb.linearVelocity;
         float vn = Vector3.Dot(vel, normal);
@@ -408,5 +549,91 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = vel;
         rb.AddForce(normal * jumpImpulse, ForceMode.VelocityChange);
     }
+
+
+
+    private void moveInAir(float currentSpeedInDir, float maxMoveSpeed, float acceleration, Vector3 direction, float friction)
+    {
+        Vector3 accelDir = direction.normalized;
+
+        float currentSpeed = Vector3.Dot(rb.linearVelocity, accelDir);
+
+        
+        float addSpeed = maxMoveSpeed - currentSpeed;
+
+        if (addSpeed < 0f) return;
+
+        float accelSpeed = acceleration * Time.deltaTime;
+        if (accelSpeed > addSpeed) accelSpeed = addSpeed;
+
+        Debug.Log(rb.linearVelocity);
+        // Apply acceleration along accelDir
+        rb.linearVelocity += accelDir * accelSpeed;
+
+        rb.AddForce(Physics.gravity * airGravityMultiplier, ForceMode.Acceleration);
+
+        Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        Vector3 frictionForce = airFrictionStrength * Time.deltaTime * -horizontalVel;
+        rb.linearVelocity += frictionForce;
+
+    }
+
+
+    private void moveOnGround(Vector3 direction, Vector3 velocity, float acceleration, float maxMoveSpeed)
+    {
+        float friction = 8f;
+        float accel = groundAcceleration; // smooth accel value for ground movement
+        Vector3 newVelocity = velocity;
+
+        if (slideActive)
+        {
+            
+            Vector3 accelDir = direction.normalized;
+
+            float currentSpeed = Vector3.Dot(rb.linearVelocity, accelDir);
+
+            
+            float addSpeed = maxMoveSpeed * groundSlideSpeedMultiplier - currentSpeed;
+
+            if (addSpeed < 0f) return;
+
+            float accelSpeed = acceleration * Time.deltaTime;
+            if (accelSpeed > addSpeed) accelSpeed = addSpeed;
+
+            
+            // Apply acceleration along accelDir
+            rb.linearVelocity += accelDir * accelSpeed;
+
+            
+        }
+        else
+        {
+            // Normal ground control
+            Vector3 targetVel = direction.normalized * maxInputSpeed;
+
+            //if there is input change velocity
+            if (direction.normalized != Vector3.zero) 
+            {
+                rb.linearVelocity = new Vector3(targetVel.x, velocity.y, targetVel.z);
+            }
+
+            // Apply friction
+            Vector3 horizontalVel = new Vector3(velocity.x, 0, velocity.z);
+            Vector3 counterForce = friction * Time.fixedDeltaTime * -horizontalVel; 
+            rb.AddForce(counterForce, ForceMode.VelocityChange);
+            
+        }
+    }
+    private void applyWallFriction(float wallFrictionStrength, RaycastHit hit)
+    {
+
+        
+    }
+
+
+
+
+
+
 
 }
