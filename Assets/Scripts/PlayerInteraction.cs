@@ -21,8 +21,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         IInteractable interactable = other.GetComponent<IInteractable>();
         currentinteractable?.hidePrompt();
+        
 
-        if(interactable != null && interactable == currentinteractable)
+        if (interactable != null && interactable == currentinteractable)
         {
             currentinteractable.exitInteraction();
             currentinteractable = null;
