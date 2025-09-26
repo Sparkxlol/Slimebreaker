@@ -85,6 +85,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public bool empoweredJump = false;
     [SerializeField] public bool empoweredStick = false;
     [SerializeField] public bool empoweredGlide = false;
+
+    private bool usedEmpoweredSlide = false;
+
+    private int slideNum = 1;
+    private int jumpNum = 2;
+    private int stickNum = 3;
+    private int glideNum = 4;
+
     [SerializeField] private float empoweredSlideMultiplier = 2f;
     [SerializeField] private float empoweredJumpMultiplier = 2f;
     [SerializeField] private float empoweredStickMultiplier = 2f;
@@ -191,11 +199,13 @@ public class PlayerMovement : MonoBehaviour
 
             if (slideLeft > 0)
             {
+                usedEmpoweredSlide = true;
                 startSlide();
                 slideActive = true;
             }
             else
             {
+                stopEmpowered(slideNum);
                 stopSlide();
                 slideActive= false;
             }
@@ -203,7 +213,13 @@ public class PlayerMovement : MonoBehaviour
             
         }
         else
-        {  
+        {
+            //wont get rid of empowered slide if never pressed slide key
+            if(usedEmpoweredSlide)
+            {
+                stopEmpowered(slideNum);
+            }
+
             stopSlide();
             slideActive = false;
             slideLeft += slideRechargeRate * Time.deltaTime;
@@ -345,6 +361,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                stopEmpowered(glideNum);
                 isGliding = false;
                 rb.useGravity = true;
             }
@@ -357,6 +374,7 @@ public class PlayerMovement : MonoBehaviour
             glideLeft = Mathf.Min(glideLeft, maxGlideCharge);
             currentDiveAngle = 0;
 
+            stopEmpowered(glideNum);
             rb.useGravity = true;
             isGliding = false;
             return;
@@ -368,7 +386,7 @@ public class PlayerMovement : MonoBehaviour
             if (rb.linearVelocity.y > 0)
             {
                 glideLeft -= glideDepletionRate * Time.deltaTime;
-                rb.AddForce(Physics.gravity * slowDownGravityMultiplier, ForceMode.Acceleration);
+                rb.AddForce(Physics.gravity * (slowDownGravityMultiplier), ForceMode.Acceleration);
 
                 if (rb.linearVelocity.y < 0)
                     rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
@@ -381,6 +399,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             // Out of glide juice
+            stopEmpowered(glideNum);
             isGliding = false;
             rb.useGravity = true;
         }
@@ -388,7 +407,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void glideInput(Vector3 inputDir)
     {
-        glideLeft -= glideDepletionRate * Time.deltaTime;
+        float tempGlideDepletion = glideDepletionRate;
+        float tempGlideGravityMulti = glideGravityMultiplier;
+
+        if(empoweredGlide)
+        {
+            tempGlideDepletion /= empoweredGlideMultiplier;
+            tempGlideGravityMulti /= empoweredGlideMultiplier;
+        }
+
+        glideLeft -= tempGlideDepletion * Time.deltaTime;
         glideLeft = Mathf.Max(0, glideLeft);
 
         rb.useGravity = false;
@@ -426,8 +454,8 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = finalVel;
 
         
-        //extra gravity (not needed)
-        float gravityMultiplier = Mathf.Lerp(glideGravityMultiplier, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
+        //extra gravity
+        float gravityMultiplier = Mathf.Lerp(tempGlideGravityMulti, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
         
         rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
 
@@ -533,6 +561,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 lastJumped = Time.time;
                 Bounce(rb.linearVelocity, currentSurfaceNormal, charged);
+
+                stopEmpowered(jumpNum);
                 chargeTime = 0f;
                 chargeHeld = false;
             }
@@ -553,6 +583,12 @@ public class PlayerMovement : MonoBehaviour
         {
             chargeTime += Time.deltaTime;
             chargeTime = Mathf.Min(chargeTime, maxChargeTime);
+        }
+
+        if(!Input.GetKey(KeyCode.LeftShift))
+        {
+            chargeTime = 0; 
+            chargeHeld = false;
         }
     }
 
@@ -598,7 +634,12 @@ public class PlayerMovement : MonoBehaviour
             jumpSpeed = preImpactVelocity.magnitude;
         }
 
-        
+        float empoweredNonCharged = 1;
+        if(empoweredJump)
+        {
+            jumpSpeed *= empoweredJumpMultiplier;
+            empoweredNonCharged *= empoweredJumpMultiplier;
+        }
 
         //get rid of velocity into the surface
         float intoSurface = Vector3.Dot(rb.linearVelocity, currentSurfaceNormal);
@@ -634,16 +675,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //need to add non charged jump
-        newVelocity = baseJumpMagnitude * currentSurfaceNormal.normalized;
+        newVelocity = baseJumpMagnitude * empoweredNonCharged * currentSurfaceNormal.normalized;
         rb.linearVelocity += newVelocity;
 
-        //Glide r/q
-        //Slide RMB
-        //Shift charge jump
-        //space jump
-
-
-
+ 
     }
 
 
@@ -688,8 +723,15 @@ public class PlayerMovement : MonoBehaviour
 
             float currentSpeed = Vector3.Dot(rb.linearVelocity, accelDir);
 
+            //if empowered slide add multi
+            float tempGroundSlideSpeedMulti = groundSlideSpeedMultiplier;
+            if(empoweredSlide)
+            {
+                tempGroundSlideSpeedMulti *= empoweredSlideMultiplier;
+            }
+
             
-            float addSpeed = maxMoveSpeed * groundSlideSpeedMultiplier - currentSpeed;
+            float addSpeed = maxMoveSpeed * tempGroundSlideSpeedMulti - currentSpeed;
 
             if (addSpeed < 0f) return;
 
@@ -729,6 +771,44 @@ public class PlayerMovement : MonoBehaviour
     private void stopSlide()
     {
         col.material = normalFriction;
+    }
+
+    private void stopEmpowered(int num)
+    {
+        switch (num)
+        {
+            case 1:
+                if (empoweredSlide)
+                {
+                    usedEmpoweredSlide = false;
+                    empoweredReady = false;
+                    empoweredSlide = false; 
+                }
+                break;
+            case 2:
+                if (empoweredJump)
+                {
+                    empoweredReady = false;
+                    empoweredJump = false;
+                }
+                break;
+            case 3:
+                if (empoweredStick)
+                {
+                    empoweredReady = false;
+                    empoweredStick = false;
+                }
+                break;
+            case 4:
+                if (empoweredGlide)
+                {
+                    empoweredReady = false;
+                    empoweredGlide = false;
+                }
+                break;
+
+            default: break;
+        }
     }
 }
 

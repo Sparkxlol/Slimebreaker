@@ -10,12 +10,14 @@ public class EmpoweredInteractable : MonoBehaviour
     {
         if (pickedUp) return;
 
+
         if(other.CompareTag("Player"))
         {
-            PlayerMovement pm = other.GetComponent<PlayerMovement>();
+            PlayerMovement pm = other.GetComponentInParent<PlayerMovement>();
+
             if (pm != null) 
             {
-                if(!pm.empoweredReady)
+                if (!pm.empoweredReady)
                 {
                     pm.empoweredReady = true;
                     pickedUp = true;
