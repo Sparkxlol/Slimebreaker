@@ -14,11 +14,11 @@ public class PlayerMovement : MonoBehaviour
     public Transform visualTransform;
 
     [Header("Movement Settings")]
-    public float airGravityMultiplier = 1.2f;
-    public float groundAcceleration = 500f;
-    public float airAcceleration = 10000f;
+    public float airGravityMultiplier = 0.8f;
+    public float groundAcceleration = 25f;
+    public float airAcceleration = 50f;
     public float maxInputSpeed = 20f;
-    public float groundSlideSpeedMultiplier = 10f;
+    public float groundSlideSpeedMultiplier = 2f;
     [SerializeField] public float wallFrictionStrength = 5f;
     public float airFrictionStrength = 1.5f;
 
@@ -35,14 +35,14 @@ public class PlayerMovement : MonoBehaviour
     public float maxChargeTime = 2f;
 
     [Header("Bounce Settings")]
-    public float defaultBounceMult = 0.5f;
+    public float defaultBounceMult = 1f;
     public float releaseBufferTime = 0.35f;
     public float minimumBounceVelocity = .1f;
 
     [Header("Stickiness")]
     public float stickLeft;
     public bool isSticking;
-    public float maxStickCharge = 50f;
+    public float maxStickCharge = 7f;
     public float stickDepletionRate = 1f;
     public float stickRechargeRate = 1.5f;
 
@@ -52,20 +52,20 @@ public class PlayerMovement : MonoBehaviour
     public float maxGlideCharge = 20f;
     public float glideRechargeRate = 1.5f;
     public float glideDepletionRate = 1f;
-    public float glideGravityMultiplier = 0.5f;
-    public float diveGravityMultiplier = 1f;
+    public float glideGravityMultiplier = 12f;
+    public float diveGravityMultiplier = 25f;
     [SerializeField] private float currentDiveAngle = 0f;
-    [SerializeField] private float glideControlStrength = 1.5f;
+    [SerializeField] private float glideControlStrength = 0.5f;
     [SerializeField] private float maxNoseDiveAngle = 80f;
     [SerializeField] private float noseDiveSpeed = 60f;
-    [SerializeField] private float slowDownGravityMultiplier = 5f;
+    [SerializeField] private float slowDownGravityMultiplier = 3f;
     [SerializeField] private float lastGlidePress = 0f;
     [SerializeField] public bool glideTogglePressed = false;
 
     [Header("Slide")]
     public bool slideActive;
     public float slideLeft;
-    public float maxSlideCharge = 5f;
+    public float maxSlideCharge = 15f;
     public float slideDepletionRate = 1f;
     public float slideRechargeRate = 1.5f;
     public float slideGravityMultiplier = 0.5f;
@@ -78,6 +78,17 @@ public class PlayerMovement : MonoBehaviour
     private float wallRadiusCheck = 1.5f;
     private bool onWall = false;
     private RaycastHit? wallHit = null;
+
+    [Header("Empowered Abilities")]
+    [SerializeField] public bool empoweredReady = false;
+    [SerializeField] public bool empoweredSlide = false;
+    [SerializeField] public bool empoweredJump = false;
+    [SerializeField] public bool empoweredStick = false;
+    [SerializeField] public bool empoweredGlide = false;
+    [SerializeField] private float empoweredSlideMultiplier = 2f;
+    [SerializeField] private float empoweredJumpMultiplier = 2f;
+    [SerializeField] private float empoweredStickMultiplier = 2f;
+    [SerializeField] private float empoweredGlideMultiplier = 2f;
     
     private Vector3 wallHitDirection = Vector3.zero;
 
@@ -109,6 +120,27 @@ public class PlayerMovement : MonoBehaviour
         {
             glideTogglePressed = true;
             lastGlidePress = Time.time;
+        }
+
+        if(empoweredReady)
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                empoweredJump = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                empoweredSlide = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                empoweredStick = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                empoweredGlide = true;
+            }
+
         }
 
         HandleSlide();
