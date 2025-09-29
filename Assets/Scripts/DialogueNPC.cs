@@ -6,11 +6,14 @@ public class DialogueNPC : MonoBehaviour, IInteractable
     public CameraLock CameraLock;
     [SerializeField] private NPCConversation conversation;
     [SerializeField] private GameObject promptUI;
+    [SerializeField] private Animator anim;
 
     public void interact()
     {
         ConversationManager.Instance.StartConversation(conversation);
         CameraLock.LockCameraInput();
+
+        anim.SetBool("speaking", true);
     }
 
     public void showPrompt()
@@ -27,6 +30,8 @@ public class DialogueNPC : MonoBehaviour, IInteractable
     {
         ConversationManager.Instance.EndConversation();
         CameraLock.UnlockCameraInput();
+
+        anim.SetBool("speaking", false);
     }
 }
 
