@@ -634,7 +634,7 @@ namespace DialogueEditor
                 DialogueBackground.sprite = BackgroundImage;
 
                 if (BackgroundImageSliced)
-                    DialogueBackground.type = Image.Type.Sliced;
+                    DialogueBackground.type = Image.Type.Tiled;
                 else
                     DialogueBackground.type = Image.Type.Simple;
             }
