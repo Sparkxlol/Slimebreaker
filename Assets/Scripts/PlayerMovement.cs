@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     public float baseJumpMagnitude = 30f;
     
     public float lastGrounded;
-    public float jumpBufferTime = 1f;
+    public float jumpBufferTime = 0.2f;
     public float lastJumped;
     [SerializeField] private bool chargeHeld = false;
     public float chargeTime = 0f;
@@ -75,8 +75,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isOnSurface;
     private float groundDistanceCheck = .25f;
     private bool onGround = false;
-    private float wallRadiusCheck = 1.5f;
+    [SerializeField] private float wallRadiusCheck = 1.5f;
     private bool onWall = false;
+    [SerializeField] private bool onSurface;
     private RaycastHit? wallHit = null;
 
     [Header("Empowered Abilities")]
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public bool empoweredGlide = false;
 
     private bool usedEmpoweredSlide = false;
+    private bool usedEmpoweredStick = false;
 
     private int slideNum = 1;
     private int jumpNum = 2;
@@ -119,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         col = GetComponentInChildren<Collider>();
+        if (col == null) Debug.LogError("No collider found under PlayerRoot!");
         col.material = normalFriction;
     }
     void Update()
@@ -151,11 +154,24 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
+
+        if (isSticking && !slideActive)
+        {
+            rb.useGravity = false;
+            rb.constraints |= RigidbodyConstraints.FreezePositionY;
+        }
+        else
+        {
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+        }
+
         HandleSlide();
         HandleMovementInput();
-        CheckGrounded();
-        CheckWalled();
-        
+        //CheckGrounded();
+        //CheckWalled();
+        //CheckGrounded();
+        //CheckWalled();
+        CheckSurface();
 
         HandleJumpInput();
     }
@@ -166,6 +182,16 @@ public class PlayerMovement : MonoBehaviour
         if (!isOnSurface) 
         {
             isOnSurface = isSticking;
+        }
+
+        if (isSticking && !slideActive)
+        {
+            rb.useGravity = false;
+            rb.constraints |= RigidbodyConstraints.FreezePositionY;
+        }
+        else
+        {
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
         }
 
 
@@ -227,99 +253,212 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckGrounded()
+    //private void CheckGrounded()
+    //{
+    //    // Casts a downward raycast and checks if the tag Ground is applied.
+    //    if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundDistanceCheck))
+    //    {
+    //        if (hit.collider.CompareTag("Ground"))
+    //        {
+    //            Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.red, .1f);
+
+    //            onGround = true;
+    //            currentSurfaceNormal = hit.normal;
+
+    //            //Start timer to give buffer for jump
+    //            lastGrounded = Time.time;
+    //            preImpactVelocity = rb.linearVelocity;
+
+    //            return;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.green, .1f);
+    //    }
+
+    //    onGround = false;
+
+
+
+    //}
+
+    //private void CheckWalled()
+    //{
+    //    int mask = ~LayerMask.GetMask("Player");
+
+    //    // Casts a circle towards the player's direction and checks if touching a sticky surface.
+
+
+    //    RaycastHit hit;
+
+    //    // If previously onWall, cast towards the previousHit's direction.
+    //    if (onWall)
+    //    {
+    //        if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, wallHitDirection, out hit, wallRadiusCheck))
+    //        {
+
+    //            if (hit.collider.GetComponent<StickySurface>())
+    //            {
+    //                //Debug.Log("On Wall");
+    //                lastGrounded = Time.time;
+    //                currentSurfaceNormal = hit.normal;
+    //                preImpactVelocity = rb.linearVelocity;
+
+    //                wallHit = hit;
+    //                onWall = true;
+
+    //                return;
+    //            }
+    //            //if not sticky surface, make wallhit and onwall no?
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("OFF WALL");
+    //            onGround = false;
+    //            wallHit = null;
+    //            onWall = false;
+    //        }
+
+
+
+
+    //    }
+
+
+
+    //    // Check if a wall is nearby towards current velocity's direction.
+    //    if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, rb.linearVelocity.normalized, out hit, wallRadiusCheck))
+    //    {
+    //        if (hit.collider.GetComponent<StickySurface>())
+    //        {
+    //            //Debug.Log("On Wall 2");
+    //            currentSurfaceNormal = hit.normal;
+    //            lastGrounded = Time.time;
+    //            preImpactVelocity = rb.linearVelocity;
+
+    //            wallHit = hit;
+    //            onWall = true;
+
+    //            wallHitDirection = rb.linearVelocity.normalized;
+    //        }
+    //    }
+
+    //}
+
+    private void OnDrawGizmos()
     {
-        // Casts a downward raycast and checks if the tag Ground is applied.
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundDistanceCheck))
+        // Safely get the collider
+        Collider drawCol = col != null ? col : GetComponentInChildren<Collider>();
+        if (drawCol == null) return;
+
+        Vector3 checkOrigin = drawCol.bounds.center;
+
+        // Red if not touching, green if touching
+        Gizmos.color = onSurface ? Color.green : Color.red;
+        Gizmos.DrawWireSphere(checkOrigin, wallRadiusCheck);
+
+        // If we have a valid surface normal, draw it
+        if (onSurface && currentSurfaceNormal != Vector3.zero)
         {
-            if (hit.collider.CompareTag("Ground"))
-            {
-                Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.red, .1f);
-
-                onGround = true;
-                currentSurfaceNormal = hit.normal;
-
-                //Start timer to give buffer for jump
-                lastGrounded = Time.time;
-                preImpactVelocity = rb.linearVelocity;
-
-                return;
-            }
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(checkOrigin, currentSurfaceNormal * wallRadiusCheck);
         }
-        else
+
+        if (isSticking)
         {
-            Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.green, .1f);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, rb.linearVelocity);
         }
+    }
+
+
+
+    private void CheckSurface()
+    {
+        Collider[] hitcolliders = new Collider[10];
+
+
+        Collider childCol = GetComponentInChildren<Collider>();
+        if (childCol == null)
+        {
+            Debug.Log("Child collider null");
+            return;
+        }
+        
+        Vector3 checkOrigin = childCol.bounds.center;
+
+
+        int hits = Physics.OverlapSphereNonAlloc(checkOrigin, wallRadiusCheck, hitcolliders, surfaceLayer);
+
 
         onGround = false;
+        onWall = false;
+        onSurface = hits > 0;
+        wallHit = null;
 
 
 
-    }
 
-    private void CheckWalled()
-    {
-        int mask = ~LayerMask.GetMask("Player");
-
-        // Casts a circle towards the player's direction and checks if touching a sticky surface.
-
-
-        RaycastHit hit;
-
-        // If previously onWall, cast towards the previousHit's direction.
-        if (onWall)
+        if (onSurface)
         {
-            if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, wallHitDirection, out hit, wallRadiusCheck))
-            {
+            float closestDist = Mathf.Infinity;
+            Vector3 closestPoint = Vector3.zero;
+            Collider closestCollider = null;
+            
 
-                if (hit.collider.GetComponent<StickySurface>())
+            for (int i = 0; i < hits; i++)
+            {
+                Collider c = hitcolliders[i];
+                if (c == null) continue;
+
+                Vector3 point = c.ClosestPoint(checkOrigin);
+                float dist = Vector3.Distance(checkOrigin, point);
+
+                if (dist < closestDist)
                 {
-                    //Debug.Log("On Wall");
-                    lastGrounded = Time.time;
-                    currentSurfaceNormal = hit.normal;
-                    preImpactVelocity = rb.linearVelocity;
-
-                    wallHit = hit;
-                    onWall = true;
-
-                    return;
+                    closestDist = dist;
+                    closestPoint = point;
+                    closestCollider = c;
                 }
-                //if not sticky surface, make wallhit and onwall no?
+
+
             }
-            else
+
+            if (closestDist < Mathf.Infinity)
             {
-                Debug.Log("OFF WALL");
-                onGround = false;
-                wallHit = null;
-                onWall = false;
+                Vector3 dir = (closestPoint - checkOrigin).normalized;
+                if (Physics.Raycast(checkOrigin, dir, out RaycastHit hit, wallRadiusCheck * 2f, surfaceLayer))
+                {
+                    currentSurfaceNormal = hit.normal;
+
+                    if (hit.collider.GetComponent<StickySurface>())
+                    {
+                        currentSurfaceNormal = hit.normal;
+                        lastGrounded = Time.time;
+                        preImpactVelocity = rb.linearVelocity;
+
+                        wallHit = hit;
+                        onWall = true;
+                        onGround = false;
+                        return;
+                    }
+                    else if (hit.collider.CompareTag("Ground"))
+                    {
+                        onGround = true;
+                        onWall = false;
+                        //Start timer to give buffer for jump
+                        lastGrounded = Time.time;
+                        preImpactVelocity = rb.linearVelocity;
+                    }
+                }
+
             }
-
-
-
 
         }
-
-
-
-        // Check if a wall is nearby towards current velocity's direction.
-        if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, rb.linearVelocity.normalized, out hit, wallRadiusCheck))
-        {
-            if (hit.collider.GetComponent<StickySurface>())
-            {
-                //Debug.Log("On Wall 2");
-                currentSurfaceNormal = hit.normal;
-                lastGrounded = Time.time;
-                preImpactVelocity = rb.linearVelocity;
-
-                wallHit = hit;
-                onWall = true;
-
-                wallHitDirection = rb.linearVelocity.normalized;
-            }
-        }
+        
 
     }
-
 
 
 
@@ -381,7 +520,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // If gliding
-        if (isGliding && glideLeft > 0)
+        if (isGliding && glideLeft > 0 && (!onGround || !onWall))
         {
             if (rb.linearVelocity.y > 0)
             {
@@ -398,7 +537,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Out of glide juice
+            //end gliding
             stopEmpowered(glideNum);
             isGliding = false;
             rb.useGravity = true;
@@ -466,13 +605,23 @@ public class PlayerMovement : MonoBehaviour
         if(wallHit is RaycastHit hit)
         {
             
-            if(Input.GetMouseButton(0) && stickLeft > 0)
+
+
+            if (Input.GetMouseButton(0) && stickLeft > 0)
             {
                 Debug.Log("Stick?");
-                //rb.useGravity = false; // Turn off gravity
+                
                 isSticking = true;
 
-                stickLeft -= stickDepletionRate * Time.deltaTime;
+
+                float trueStickDepletionRate = stickDepletionRate;
+                if(empoweredStick)
+                {
+                    usedEmpoweredStick = true;
+                    trueStickDepletionRate /= empoweredStickMultiplier;
+                }
+
+                stickLeft -= trueStickDepletionRate * Time.deltaTime;
                 stickLeft = Mathf.Max(0, stickLeft);
 
 
@@ -483,8 +632,15 @@ public class PlayerMovement : MonoBehaviour
                 if (slideActive)
                 {
                     rb.useGravity = false;
+                    
 
-                    rb.AddForce(Physics.gravity * slideGravityMultiplier, ForceMode.Acceleration);
+                    float trueSlideGravityMultiplier = slideGravityMultiplier;
+                    if(empoweredSlide)
+                    {
+                        trueSlideGravityMultiplier /= empoweredSlideMultiplier;
+                    }
+
+                    rb.AddForce(Physics.gravity * trueSlideGravityMultiplier, ForceMode.Acceleration);
 
                     // Camera-relative movement constrained to wall
                     Vector3 camForward = cameraTransform.forward;
@@ -503,6 +659,11 @@ public class PlayerMovement : MonoBehaviour
 
                     // Add small influence
                     float controlStrength = 0.2f;
+                    if(empoweredSlide)
+                    {
+                        controlStrength *= empoweredSlideMultiplier;
+                    }
+
                     Vector3 finalVelocity = velocityAlongWall + inputDir * controlStrength;
 
                     rb.linearVelocity = new Vector3(finalVelocity.x, finalVelocity.y, finalVelocity.z);
@@ -513,13 +674,19 @@ public class PlayerMovement : MonoBehaviour
                     rb.linearVelocity = Vector3.zero;
                 }
             }
-            else if(!slideActive)
+            else
             {
-                //can probably get rid of this whole else if
+                
                 isSticking = false;
                 rb.useGravity = true;
-                onWall = false;
+                
                 wallHit = null;
+                
+                if(usedEmpoweredStick)
+                {
+                    stopEmpowered(stickNum);
+                    usedEmpoweredStick = false;
+                }
 
                 if (stickLeft < maxStickCharge && !Input.GetMouseButton(0))
                 {
@@ -529,20 +696,23 @@ public class PlayerMovement : MonoBehaviour
             }
             
         }
-        else
+
+        if(!Input.GetMouseButton(0) || !onWall)
         {
             isSticking = false;
             rb.useGravity = true;
-            onWall = false;
-            wallHit = null;
             
-
-            if (stickLeft < maxStickCharge && !Input.GetMouseButton(0))
-            {
-                stickLeft += stickRechargeRate * Time.deltaTime;
-                stickLeft = Mathf.Min(maxStickCharge, stickLeft);
-            }
+            wallHit = null;
         }
+        
+
+
+        if (stickLeft < maxStickCharge && !Input.GetMouseButton(0))
+        {
+            stickLeft += stickRechargeRate * Time.deltaTime;
+            stickLeft = Mathf.Min(maxStickCharge, stickLeft);
+        }
+        
     }
 
     void HandleJumpInput()
@@ -605,6 +775,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (isGliding) return;
+        if (isSticking) return;
 
         //on ground pressing input
         if (onGround && !onWall)
@@ -613,8 +784,8 @@ public class PlayerMovement : MonoBehaviour
         }
         
 
-        //in air or on wall
-        else if (!onGround && !onWall)
+        //in air
+        else if (!onGround)
         {
 
             moveInAir(currentSpeedInDir, maxMoveSpeed, acceleration, direction, airFrictionStrength);
@@ -685,7 +856,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void moveInAir(float currentSpeedInDir, float maxMoveSpeed, float acceleration, Vector3 direction, float friction)
     {
+        Debug.Log("yooooooooo");
         Vector3 accelDir = direction.normalized;
+
+        //make sure no sticking to wall
+        float gravityMultiplier = airGravityMultiplier;
+        if (onWall)
+        {
+            float dotIntoWall = Vector3.Dot(accelDir, currentSurfaceNormal);
+
+            if(dotIntoWall < -.5f)
+            {
+                
+                gravityMultiplier *= 3;
+                
+            }
+            else
+            {
+                gravityMultiplier *= 1.5f;
+            }
+            
+            Debug.Log(dotIntoWall);
+            Debug.Log(gravityMultiplier);
+
+        }
+
+
 
         float currentSpeed = Vector3.Dot(rb.linearVelocity, accelDir);
 
@@ -701,17 +897,22 @@ public class PlayerMovement : MonoBehaviour
         // Apply acceleration along accelDir
         rb.linearVelocity += accelDir * accelSpeed;
 
-        rb.AddForce(Physics.gravity * airGravityMultiplier, ForceMode.Acceleration);
+        //prevent sticking to wall if pressing into wall
+        
 
-        Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        Vector3 frictionForce = airFrictionStrength * Time.deltaTime * -horizontalVel;
-        rb.linearVelocity += frictionForce;
+        rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
+
+        //Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        //Vector3 frictionForce = airFrictionStrength * Time.deltaTime * -horizontalVel;
+        //Vector3 frictionForce = -horizontalVel.normalized * Mathf.Min(horizontalVel.magnitude, airFrictionStrength * Time.deltaTime);
+        //rb.linearVelocity += frictionForce;
 
     }
 
 
     private void moveOnGround(Vector3 direction, Vector3 velocity, float acceleration, float maxMoveSpeed)
     {
+        
         float friction = 8f;
         float accel = groundAcceleration; // smooth accel value for ground movement
         Vector3 newVelocity = velocity;
