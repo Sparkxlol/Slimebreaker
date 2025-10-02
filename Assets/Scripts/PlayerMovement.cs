@@ -573,14 +573,14 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        //dive 
-        bool pressingW = Input.GetKey(KeyCode.W);
+        
+        bool pressingW = false;
 
         float targetDive = pressingW ? maxNoseDiveAngle : 0f;
         // Smoothly adjust current dive angle toward target
         currentDiveAngle = Mathf.MoveTowards(currentDiveAngle, targetDive, noseDiveSpeed * Time.deltaTime);
 
-        
+
         // Compute vertical component based on dive angle
 
         float diveRadians = Mathf.Deg2Rad * currentDiveAngle;
@@ -592,11 +592,11 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocity = finalVel;
 
-        
+
         //extra gravity
         float gravityMultiplier = Mathf.Lerp(tempGlideGravityMulti, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
-        
-        rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
+
+        rb.AddForce(Physics.gravity * glideGravityMultiplier, ForceMode.Acceleration);
 
     }
 
@@ -609,7 +609,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetMouseButton(0) && stickLeft > 0)
             {
-                Debug.Log("Stick?");
+                
                 
                 isSticking = true;
 
@@ -819,7 +819,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity -= intoSurface * currentSurfaceNormal;
         }
 
-        Debug.Log("YO");
+        
         float maxAngle = 80f;
         Vector3 newVelocity;
         Vector3 camDir = cameraTransform.forward.normalized;
@@ -856,7 +856,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void moveInAir(float currentSpeedInDir, float maxMoveSpeed, float acceleration, Vector3 direction, float friction)
     {
-        Debug.Log("yooooooooo");
+        
         Vector3 accelDir = direction.normalized;
 
         //make sure no sticking to wall
@@ -876,8 +876,7 @@ public class PlayerMovement : MonoBehaviour
                 gravityMultiplier *= 1.5f;
             }
             
-            Debug.Log(dotIntoWall);
-            Debug.Log(gravityMultiplier);
+            
 
         }
 
