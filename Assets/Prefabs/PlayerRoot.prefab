@@ -165,7 +165,7 @@ Rigidbody:
   m_GameObject: {fileID: 6986026575604813296}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.3
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -198,16 +198,16 @@ MonoBehaviour:
   rb: {fileID: 234669671976339911}
   cameraTransform: {fileID: 0}
   visualTransform: {fileID: 0}
-  airGravityMultiplier: 0.8
-  groundAcceleration: 25
-  airAcceleration: 50
+  airGravityMultiplier: 3
+  groundAcceleration: 20
+  airAcceleration: 15
   maxInputSpeed: 20
   groundSlideSpeedMultiplier: 2
   wallFrictionStrength: 5
   airFrictionStrength: 1.5
-  minJumpForce: 4
-  maxJumpForce: 20
-  baseJumpMagnitude: 30
+  minJumpForce: 5
+  maxJumpForce: 30
+  baseJumpMagnitude: 40
   lastGrounded: 0
   jumpBufferTime: 0.2
   lastJumped: 0
@@ -224,7 +224,7 @@ MonoBehaviour:
   stickRechargeRate: 1.5
   glideLeft: 0
   isGliding: 0
-  maxGlideCharge: 20
+  maxGlideCharge: 10
   glideRechargeRate: 1.5
   glideDepletionRate: 1
   glideGravityMultiplier: 12
