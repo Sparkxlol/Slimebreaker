@@ -31,18 +31,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float firstPersonBlendThreshold = 0.95f;
 
     [Header("Movement Settings")]
-    public float airGravityMultiplier = 1.2f;
-    public float groundAcceleration = 25f;
-    public float airAcceleration = 50f;
+    public float airGravityMultiplier = 3;
+    public float groundAcceleration = 20f;
+    public float airAcceleration = 15f;
     public float maxInputSpeed = 20f;
     
     [SerializeField] public float wallFrictionStrength = 5f;
     public float airFrictionStrength = 1.5f;
 
     [Header("Jump Settings")]
-    public float minJumpForce = 4f;
-    public float maxJumpForce = 20f;
-    public float baseJumpMagnitude = 30f;
+    public float minJumpForce = 5f;
+    public float maxJumpForce = 30f;
+    public float baseJumpMagnitude = 40f;
     
     public float lastGrounded;
     public float jumpBufferTime = 0.2f;
