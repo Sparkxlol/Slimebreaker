@@ -1,5 +1,6 @@
 
 using TMPro;
+using Unity.Cinemachine;
 using Unity.Hierarchy;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,12 +14,28 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     public Transform visualTransform;
 
+    [Header("Camera Settings")]
+    [SerializeField] private CinemachineCamera cmCamera;
+    [SerializeField] private float minFov = 60;
+    [SerializeField] private float maxFov = 100;
+    [SerializeField] private float fovChangeSpeed = 5f;
+    [SerializeField] private float positionLerpSpeed = 5f;
+    [SerializeField] private float playerSpeed;
+    [SerializeField] private Vector3 firstPersonOffset = new Vector3(0, 1.5f, 0);
+    [SerializeField] private Vector3 thirdPersonOffset = new Vector3(0, 3f, -5);
+    [SerializeField] private Camera playerCamera;
+    
+
+    [Header("Player Visibility")]
+    [SerializeField] private Renderer[] playerRenderers; 
+    [SerializeField] private float firstPersonBlendThreshold = 0.95f;
+
     [Header("Movement Settings")]
-    public float airGravityMultiplier = 0.8f;
+    public float airGravityMultiplier = 1.2f;
     public float groundAcceleration = 25f;
     public float airAcceleration = 50f;
     public float maxInputSpeed = 20f;
-    public float groundSlideSpeedMultiplier = 2f;
+    
     [SerializeField] public float wallFrictionStrength = 5f;
     public float airFrictionStrength = 1.5f;
 
@@ -33,11 +50,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool chargeHeld = false;
     public float chargeTime = 0f;
     public float maxChargeTime = 2f;
+    [SerializeField] private float chargeJumpMultiplier = 10f;
 
-    [Header("Bounce Settings")]
-    public float defaultBounceMult = 1f;
-    public float releaseBufferTime = 0.35f;
-    public float minimumBounceVelocity = .1f;
+    
+    
+    
+    
 
     [Header("Stickiness")]
     public float stickLeft;
@@ -69,11 +87,10 @@ public class PlayerMovement : MonoBehaviour
     public float slideDepletionRate = 1f;
     public float slideRechargeRate = 1.5f;
     public float slideGravityMultiplier = 0.5f;
-
+    public float groundSlideSpeedMultiplier = 2f;
 
     [Header("Collision Checks")]
     private bool isOnSurface;
-    private float groundDistanceCheck = .25f;
     private bool onGround = false;
     [SerializeField] private float wallRadiusCheck = 1.5f;
     private bool onWall = false;
@@ -109,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 inputDirection;
     private Vector3 currentSurfaceNormal = Vector3.up;
+    private bool currentSurfaceSticky = false;
 
     private Collider col;
     public PhysicsMaterial normalFriction;
@@ -172,9 +190,34 @@ public class PlayerMovement : MonoBehaviour
         //CheckGrounded();
         //CheckWalled();
         CheckSurface();
-
+        //cameraControl();
         HandleJumpInput();
     }
+
+    //void cameraControl()
+    //{
+
+    //    if (playerCamera == null || cmCamera == null)
+    //    {
+    //        Debug.Log("camera null");
+    //        return;
+    //    }
+
+    //    // --- Speed-based FOV ---
+    //    float speed = rb.linearVelocity.magnitude;
+    //    float speedFov = Mathf.Lerp(minFov, maxFov, speed / maxInputSpeed);
+
+    //    // --- First-person FOV ---
+        
+
+    //    //Hide player model when fully first-person
+    //    bool hidePlayer = chargeBlend >= firstPersonBlendThreshold;
+    //    foreach (Renderer r in playerRenderers)
+    //    {
+    //        if (r != null) r.enabled = !hidePlayer;
+    //    }
+
+    //}
 
     void FixedUpdate()
     {
@@ -203,10 +246,15 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        justBounced = false;
+        
 
         HandleWallRun();
         HandleGlide(moveOnSurface);
+
+        if(Time.time - lastJumped > 0.1f)
+        {
+            justBounced = false;
+        }
 
         if (!justBounced)
         {
@@ -346,31 +394,7 @@ public class PlayerMovement : MonoBehaviour
 
     //}
 
-    private void OnDrawGizmos()
-    {
-        // Safely get the collider
-        Collider drawCol = col != null ? col : GetComponentInChildren<Collider>();
-        if (drawCol == null) return;
-
-        Vector3 checkOrigin = drawCol.bounds.center;
-
-        // Red if not touching, green if touching
-        Gizmos.color = onSurface ? Color.green : Color.red;
-        Gizmos.DrawWireSphere(checkOrigin, wallRadiusCheck);
-
-        // If we have a valid surface normal, draw it
-        if (onSurface && currentSurfaceNormal != Vector3.zero)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay(checkOrigin, currentSurfaceNormal * wallRadiusCheck);
-        }
-
-        if (isSticking)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, rb.linearVelocity);
-        }
-    }
+    
 
 
 
@@ -396,7 +420,7 @@ public class PlayerMovement : MonoBehaviour
         onWall = false;
         onSurface = hits > 0;
         wallHit = null;
-
+        currentSurfaceSticky = false;
 
 
 
@@ -434,6 +458,10 @@ public class PlayerMovement : MonoBehaviour
 
                     if (hit.collider.GetComponent<StickySurface>())
                     {
+
+                        currentSurfaceSticky = hit.collider.GetComponent<StickySurface>() ? true : false;
+                        
+
                         currentSurfaceNormal = hit.normal;
                         lastGrounded = Time.time;
                         preImpactVelocity = rb.linearVelocity;
@@ -445,6 +473,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else if (hit.collider.CompareTag("Ground"))
                     {
+                        currentSurfaceSticky = false;
                         onGround = true;
                         onWall = false;
                         //Start timer to give buffer for jump
@@ -797,18 +826,19 @@ public class PlayerMovement : MonoBehaviour
     //TODO: Balance the jumping so you cant gain inifnite speed
     void Bounce(Vector3 veloctiy, Vector3 surfaceNormal, bool charged) 
     {
+        justBounced = true;
         
 
         float jumpSpeed = baseJumpMagnitude;
         if(preImpactVelocity.magnitude > baseJumpMagnitude)
         {
-            jumpSpeed = preImpactVelocity.magnitude;
+            jumpSpeed = preImpactVelocity.magnitude + baseJumpMagnitude;
         }
 
         float empoweredNonCharged = 1;
         if(empoweredJump)
         {
-            jumpSpeed *= empoweredJumpMultiplier;
+            jumpSpeed = empoweredJumpMultiplier * jumpSpeed;
             empoweredNonCharged *= empoweredJumpMultiplier;
         }
 
@@ -838,7 +868,10 @@ public class PlayerMovement : MonoBehaviour
             float speed = veloctiy.magnitude;
             Debug.Log(speed);
             Debug.Log(camDir);
+            Debug.Log(jumpSpeed);
+            //jumpSpeed += chargeJumpMultiplier;
             newVelocity = camDir * (speed + jumpSpeed);
+            Debug.Log(newVelocity);
 
             rb.linearVelocity = newVelocity;
 

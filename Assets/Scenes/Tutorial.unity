@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: A2
       objectReference: {fileID: 0}
+    - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1770,7 +1774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2656340250704165958, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50
+      value: 101.59
       objectReference: {fileID: 0}
     - target: {fileID: 2656340250704165958, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1879,6 +1883,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 126033603}
     - target: {fileID: 4344016988761949500, guid: 8c2a0397a41fd53418c7b5b91b4fd36b, type: 3}
+      propertyPath: airAcceleration
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344016988761949500, guid: 8c2a0397a41fd53418c7b5b91b4fd36b, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 1673122315}
@@ -1886,6 +1894,10 @@ PrefabInstance:
       propertyPath: visualTransform
       value: 
       objectReference: {fileID: 1673122315}
+    - target: {fileID: 4344016988761949500, guid: 8c2a0397a41fd53418c7b5b91b4fd36b, type: 3}
+      propertyPath: airGravityMultiplier
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6838066605391627891, guid: 8c2a0397a41fd53418c7b5b91b4fd36b, type: 3}
       propertyPath: inputController
       value: 
