@@ -119,7 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
 --- !u!1001 &13386976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,8 +180,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
-=======
->>>>>>> 188f5782420dd3225120e347a7f5306aa0abf394
 --- !u!1 &28031026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,11 +2918,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalPosition.z
-<<<<<<< HEAD
       value: 101.59
-=======
-      value: 60
->>>>>>> 188f5782420dd3225120e347a7f5306aa0abf394
       objectReference: {fileID: 0}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3025,13 +3018,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1673122315}
     - target: {fileID: 4344016988761949500, guid: 8c2a0397a41fd53418c7b5b91b4fd36b, type: 3}
-<<<<<<< HEAD
-      propertyPath: airGravityMultiplier
-      value: 2
-=======
       propertyPath: groundAcceleration
       value: 30
->>>>>>> 188f5782420dd3225120e347a7f5306aa0abf394
       objectReference: {fileID: 0}
     - target: {fileID: 6838066605391627891, guid: 8c2a0397a41fd53418c7b5b91b4fd36b, type: 3}
       propertyPath: inputController
