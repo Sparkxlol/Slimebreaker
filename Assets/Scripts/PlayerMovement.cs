@@ -579,10 +579,45 @@ public class PlayerMovement : MonoBehaviour
         rb.useGravity = false;
 
 
+
+
+        
+
+
         Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
         float speed = rb.linearVelocity.magnitude;
 
-       
+
+        //Default angle is a slight tilt downward, say 20 degrees with no side to side tilt.
+
+        //Get input direction. Pressing w or s will tilt direction angle upwards or downwards frame by frame.
+        //make sure player cannot tilt vertically more than 70 degrees
+
+
+
+        //pressing a or d, will move player left or right.
+        //make sure that the player can only tilt say 45 degrees
+
+        //use these angle tilts to point velocity magnitude in direction. 
+
+
+        //we will be conserving the current speed of the rigid body, only changing the direction
+
+        //if the tilt is below 20 degrees downward, increase magnitude at a rate depenedent on the tilt, (if the tilt is shallow, rate is slower, more vertical is faster rate)
+        //if the tilt is upward, decrease magnitude at a rate dependent on the tilt (if the tilt is shallow, rate is slower, more vertical is faster rate)
+
+        //if the tilt is upward and the magnitude is low say less than 5f, just start falling
+
+
+        //if there is no input, return to default tilt
+
+
+
+
+
+
+
+
         if (inputDir.sqrMagnitude > 0f)
         {
             float maxTurnThisFrame = glideControlStrength * Time.deltaTime;
@@ -591,7 +626,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        
+
         bool pressingW = false;
 
         float targetDive = pressingW ? maxNoseDiveAngle : 0f;
@@ -612,7 +647,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         //extra gravity
-        float gravityMultiplier = Mathf.Lerp(tempGlideGravityMulti, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
+         float gravityMultiplier = Mathf.Lerp(tempGlideGravityMulti, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
 
         rb.AddForce(Physics.gravity * glideGravityMultiplier, ForceMode.Acceleration);
 
