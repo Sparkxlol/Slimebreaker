@@ -14,21 +14,9 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     public Transform visualTransform;
 
-    [Header("Camera Settings")]
-    [SerializeField] private CinemachineCamera cmCamera;
-    [SerializeField] private float minFov = 60;
-    [SerializeField] private float maxFov = 100;
-    [SerializeField] private float fovChangeSpeed = 5f;
-    [SerializeField] private float positionLerpSpeed = 5f;
-    [SerializeField] private float playerSpeed;
-    [SerializeField] private Vector3 firstPersonOffset = new Vector3(0, 1.5f, 0);
-    [SerializeField] private Vector3 thirdPersonOffset = new Vector3(0, 3f, -5);
-    [SerializeField] private Camera playerCamera;
     
-
-    [Header("Player Visibility")]
-    [SerializeField] private Renderer[] playerRenderers; 
-    [SerializeField] private float firstPersonBlendThreshold = 0.95f;
+    
+    
 
     [Header("Movement Settings")]
     public float airGravityMultiplier = 3;
@@ -51,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public float chargeTime = 0f;
     public float maxChargeTime = 2f;
     [SerializeField] private float chargeJumpMultiplier = 10f;
+    [SerializeField] private bool chargeReleased = true;
 
     
     
@@ -191,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         //CheckWalled();
         CheckSurface();
         //cameraControl();
-        HandleJumpInput();
+        
     }
 
     //void cameraControl()
@@ -243,10 +232,10 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveOnSurface = Vector3.ProjectOnPlane(inputDirection, Vector3.up).normalized;
 
         //STOP acceleration for a frame after bounce
-        
 
 
-        
+
+        HandleJumpInput();
 
         HandleWallRun();
         HandleGlide(moveOnSurface);
@@ -510,7 +499,7 @@ public class PlayerMovement : MonoBehaviour
         inputDirection = desiredDirection.normalized;
 
         // Rotate player towards camera sight.
-        transform.eulerAngles = new Vector3(0, cameraTransform.eulerAngles.y, 0);
+        //transform.eulerAngles = new Vector3(0, cameraTransform.eulerAngles.y, 0);
     }
 
     private void HandleGlide(Vector3 inputDir)
@@ -770,22 +759,27 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+
+        
         //if space was pressed (keydown) && jumpCharge timer not already started
         //start charge timer
-        if (Input.GetKey(KeyCode.LeftShift) && !chargeHeld)
+        if (Input.GetKey(KeyCode.LeftShift) && !chargeHeld && chargeReleased)
         {
+            
             chargeHeld = true;
             chargeTime = 0f;
         }
 
         if(chargeHeld && Input.GetKey(KeyCode.LeftShift))
         {
+            chargeReleased = false;
             chargeTime += Time.deltaTime;
             chargeTime = Mathf.Min(chargeTime, maxChargeTime);
         }
 
         if(!Input.GetKey(KeyCode.LeftShift))
         {
+            chargeReleased = true;
             chargeTime = 0; 
             chargeHeld = false;
         }
