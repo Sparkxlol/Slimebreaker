@@ -61,13 +61,15 @@ public class PlayerMovement : MonoBehaviour
     public float glideDepletionRate = 1f;
     public float glideGravityMultiplier = 12f;
     public float diveGravityMultiplier = 25f;
-    [SerializeField] private float currentDiveAngle = 0f;
+    [SerializeField] private float currentVerticalDiveAngle = 0f;
+    [SerializeField] private float currentHorizontalDiveAngle = 0f;
+    [SerializeField] private float defaultVerticalGlideAngle = -10f;
+    [SerializeField] private float defaultHorizontalGlideAngle = 0f;
     [SerializeField] private float glideControlStrength = 0.5f;
-    [SerializeField] private float maxNoseDiveAngle = 80f;
-    [SerializeField] private float noseDiveSpeed = 60f;
     [SerializeField] private float slowDownGravityMultiplier = 3f;
     [SerializeField] private float lastGlidePress = 0f;
     [SerializeField] public bool glideTogglePressed = false;
+    [SerializeField] private float initialGlideSpeed;
 
     [Header("Slide")]
     public bool slideActive;
@@ -255,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleSlide()
     {
-        if(Input.GetMouseButton(1))
+        if(Input.GetMouseButton(1) && (onGround || onWall))
         {         
             slideLeft -= slideDepletionRate * Time.deltaTime;
             slideLeft = Mathf.Max(0, slideLeft);
@@ -290,101 +292,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void CheckGrounded()
-    //{
-    //    // Casts a downward raycast and checks if the tag Ground is applied.
-    //    if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, groundDistanceCheck))
-    //    {
-    //        if (hit.collider.CompareTag("Ground"))
-    //        {
-    //            Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.red, .1f);
-
-    //            onGround = true;
-    //            currentSurfaceNormal = hit.normal;
-
-    //            //Start timer to give buffer for jump
-    //            lastGrounded = Time.time;
-    //            preImpactVelocity = rb.linearVelocity;
-
-    //            return;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.DrawRay(transform.position, Vector3.down * (groundDistanceCheck), Color.green, .1f);
-    //    }
-
-    //    onGround = false;
-
-
-
-    //}
-
-    //private void CheckWalled()
-    //{
-    //    int mask = ~LayerMask.GetMask("Player");
-
-    //    // Casts a circle towards the player's direction and checks if touching a sticky surface.
-
-
-    //    RaycastHit hit;
-
-    //    // If previously onWall, cast towards the previousHit's direction.
-    //    if (onWall)
-    //    {
-    //        if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, wallHitDirection, out hit, wallRadiusCheck))
-    //        {
-
-    //            if (hit.collider.GetComponent<StickySurface>())
-    //            {
-    //                //Debug.Log("On Wall");
-    //                lastGrounded = Time.time;
-    //                currentSurfaceNormal = hit.normal;
-    //                preImpactVelocity = rb.linearVelocity;
-
-    //                wallHit = hit;
-    //                onWall = true;
-
-    //                return;
-    //            }
-    //            //if not sticky surface, make wallhit and onwall no?
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("OFF WALL");
-    //            onGround = false;
-    //            wallHit = null;
-    //            onWall = false;
-    //        }
-
-
-
-
-    //    }
-
-
-
-    //    // Check if a wall is nearby towards current velocity's direction.
-    //    if (Physics.SphereCast(transform.position + new Vector3(0, wallRadiusCheck, 0), wallRadiusCheck, rb.linearVelocity.normalized, out hit, wallRadiusCheck))
-    //    {
-    //        if (hit.collider.GetComponent<StickySurface>())
-    //        {
-    //            //Debug.Log("On Wall 2");
-    //            currentSurfaceNormal = hit.normal;
-    //            lastGrounded = Time.time;
-    //            preImpactVelocity = rb.linearVelocity;
-
-    //            wallHit = hit;
-    //            onWall = true;
-
-    //            wallHitDirection = rb.linearVelocity.normalized;
-    //        }
-    //    }
-
-    //}
-
-    
-
+   
 
 
     private void CheckSurface()
@@ -515,6 +423,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 isGliding = true;
                 rb.useGravity = false;
+
+                initialGlideSpeed = rb.linearVelocity.magnitude;
+                currentVerticalDiveAngle = defaultVerticalGlideAngle;
+                currentHorizontalDiveAngle = defaultHorizontalGlideAngle;
             }
             else
             {
@@ -529,7 +441,7 @@ public class PlayerMovement : MonoBehaviour
         {
             glideLeft += glideRechargeRate * Time.deltaTime;
             glideLeft = Mathf.Min(glideLeft, maxGlideCharge);
-            currentDiveAngle = 0;
+            
 
             stopEmpowered(glideNum);
             rb.useGravity = true;
@@ -540,18 +452,20 @@ public class PlayerMovement : MonoBehaviour
         // If gliding
         if (isGliding && glideLeft > 0 && (!onGround || !onWall))
         {
-            if (rb.linearVelocity.y > 0)
-            {
-                glideLeft -= glideDepletionRate * Time.deltaTime;
-                rb.AddForce(Physics.gravity * (slowDownGravityMultiplier), ForceMode.Acceleration);
+            //this stops y velocity when glide starts
+            //if (rb.linearVelocity.y > 0)
+            //{
+            //    glideLeft -= glideDepletionRate * Time.deltaTime;
+            //    rb.AddForce(Physics.gravity * (slowDownGravityMultiplier), ForceMode.Acceleration);
 
-                if (rb.linearVelocity.y < 0)
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-            }
-            else
-            {
-                glideInput(inputDir);
-            }
+            //    if (rb.linearVelocity.y < 0)
+            //        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            //}
+            //else
+            //{
+            //    glideInput(inputDir);
+            //}
+            glideInput(inputDir);
         }
         else
         {
@@ -584,8 +498,86 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, rb.linearVelocity.z);
+        
         float speed = rb.linearVelocity.magnitude;
+
+        float maxVerticalAngle = 70f;
+        float maxHorizontalAngle = 45f;
+
+        float verticalAngleChangeMultiplier = 1;
+        float horizontalAngleChangeMultiplier = 1;
+
+        //tilt down
+        if(Input.GetKey(KeyCode.W))
+        {
+            currentVerticalDiveAngle -= verticalAngleChangeMultiplier * Time.deltaTime;
+            currentVerticalDiveAngle = Mathf.Min(currentVerticalDiveAngle, maxVerticalAngle); 
+        }
+
+        //tilt up
+        else if (Input.GetKey(KeyCode.S)) 
+        {
+            currentVerticalDiveAngle += verticalAngleChangeMultiplier * Time.deltaTime;
+            currentVerticalDiveAngle = Mathf.Min(Mathf.Abs(currentVerticalDiveAngle), maxVerticalAngle);
+        }
+        else
+        {
+            Mathf.Lerp(currentVerticalDiveAngle, defaultVerticalGlideAngle, Time.deltaTime);
+        }
+
+        //tilt left
+        if (Input.GetKey(KeyCode.A))
+        {
+            currentHorizontalDiveAngle -= horizontalAngleChangeMultiplier * Time.deltaTime;
+            currentHorizontalDiveAngle = Mathf.Min(Mathf.Abs(currentHorizontalDiveAngle), maxHorizontalAngle);
+        }
+        //tilt right
+        else if (Input.GetKey(KeyCode.D))
+        {
+            currentHorizontalDiveAngle += horizontalAngleChangeMultiplier * Time.deltaTime;
+            currentHorizontalDiveAngle = Mathf.Min(Mathf.Abs(currentHorizontalDiveAngle), maxHorizontalAngle);
+        }
+        else
+        {
+            Mathf.Lerp(currentHorizontalDiveAngle, defaultHorizontalGlideAngle, Time.deltaTime);
+        }
+
+
+
+            //given currentHorizontal and vertical dive angles, calculate
+            //note that forwards direction is pointing from player along the angle of currentverticaldiveangle
+
+
+        Vector3 verticalVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        Vector3 horizontalVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+
+        float verticalMultiplier = 1f;
+        float angleRatio = Mathf.Abs(currentVerticalDiveAngle / maxVerticalAngle);
+
+        float verticalSpeedChange = 1f;
+
+        //if angled upward, slowly lost velocity in the forwards direction
+        if (currentVerticalDiveAngle > 0)
+        {
+            //depending on how large angle is compared to maxvertical angle increase/decrease velocity quicker
+            
+        }
+        //if angled more downward than defaultglide, slowly gain velocity in forwards direction
+        else if(currentVerticalDiveAngle < defaultVerticalGlideAngle)
+        {
+
+            //depending on how large angle is compared to maxvertical angle increase/decrease velocity quicker
+            
+        }
+
+        float maxGlideSpeed = initialGlideSpeed * 1.5f;
+        
+
+        
+
+
+        rb.linearVelocity = horizontalVelocity + verticalVelocity;
+
 
 
         //Default angle is a slight tilt downward, say 20 degrees with no side to side tilt.
@@ -618,38 +610,38 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-        if (inputDir.sqrMagnitude > 0f)
-        {
-            float maxTurnThisFrame = glideControlStrength * Time.deltaTime;
-            Vector3 newHorizontalDir = Vector3.RotateTowards(horizontalVelocity.normalized, inputDir.normalized, maxTurnThisFrame, 0f);
-            horizontalVelocity = newHorizontalDir * horizontalVelocity.magnitude;
-        }
+        //if (inputDir.sqrMagnitude > 0f)
+        //{
+        //    float maxTurnThisFrame = glideControlStrength * Time.deltaTime;
+        //    Vector3 newHorizontalDir = Vector3.RotateTowards(horizontalVelocity.normalized, inputDir.normalized, maxTurnThisFrame, 0f);
+        //    horizontalVelocity = newHorizontalDir * horizontalVelocity.magnitude;
+        //}
 
 
 
-        bool pressingW = false;
+        //bool pressingW = false;
 
-        float targetDive = pressingW ? maxNoseDiveAngle : 0f;
-        // Smoothly adjust current dive angle toward target
-        currentDiveAngle = Mathf.MoveTowards(currentDiveAngle, targetDive, noseDiveSpeed * Time.deltaTime);
-
-
-        // Compute vertical component based on dive angle
-
-        float diveRadians = Mathf.Deg2Rad * currentDiveAngle;
-        float horizontalMag = Mathf.Cos(diveRadians) * speed;
-        float verticalMag = -Mathf.Sin(diveRadians) * speed;
-
-        Vector3 finalVel = horizontalVelocity.normalized * horizontalMag;
-        finalVel.y = verticalMag;
-
-        rb.linearVelocity = finalVel;
+        //float targetDive = pressingW ? maxNoseDiveAngle : 0f;
+        //// Smoothly adjust current dive angle toward target
+        //currentDiveAngle = Mathf.MoveTowards(currentDiveAngle, targetDive, noseDiveSpeed * Time.deltaTime);
 
 
-        //extra gravity
-         float gravityMultiplier = Mathf.Lerp(tempGlideGravityMulti, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
+        //// Compute vertical component based on dive angle
 
-        rb.AddForce(Physics.gravity * glideGravityMultiplier, ForceMode.Acceleration);
+        //float diveRadians = Mathf.Deg2Rad * currentDiveAngle;
+        //float horizontalMag = Mathf.Cos(diveRadians) * speed;
+        //float verticalMag = -Mathf.Sin(diveRadians) * speed;
+
+        //Vector3 finalVel = horizontalVelocity.normalized * horizontalMag;
+        //finalVel.y = verticalMag;
+
+        //rb.linearVelocity = finalVel;
+
+
+        ////extra gravity
+        // float gravityMultiplier = Mathf.Lerp(tempGlideGravityMulti, diveGravityMultiplier, currentDiveAngle / maxNoseDiveAngle);
+
+        //rb.AddForce(Physics.gravity * glideGravityMultiplier, ForceMode.Acceleration);
 
     }
 
@@ -688,9 +680,16 @@ public class PlayerMovement : MonoBehaviour
                     
 
                     float trueSlideGravityMultiplier = slideGravityMultiplier;
+
+                    
                     if(empoweredSlide)
                     {
                         trueSlideGravityMultiplier /= empoweredSlideMultiplier;
+                    }
+
+                    if (!onGround)
+                    {
+                        trueSlideGravityMultiplier = airGravityMultiplier;
                     }
 
                     rb.AddForce(Physics.gravity * trueSlideGravityMultiplier, ForceMode.Acceleration);
