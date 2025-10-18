@@ -43,4 +43,12 @@ public class MainMenu : MonoBehaviour
         menuCanvas.SetActive(true);
         creditsCanvas.SetActive(false);
     }
+
+    public void ExitClicked()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
 }
