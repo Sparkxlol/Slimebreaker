@@ -76,5 +76,7 @@ public class OptionsManager : MonoBehaviour
         // Video Settings
         PlayerPrefs.SetInt(FULLSCREEN_KEY, Fullscreen ? 1 : 0);
         PlayerPrefs.SetInt(WINDOWED_FULLSCREEN_KEY, WindowedFullscreen ? 1 : 0);
+
+        PlayerPrefs.Save();
     }
 }
