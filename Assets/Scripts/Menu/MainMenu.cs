@@ -37,4 +37,10 @@ public class MainMenu : MonoBehaviour
         menuCanvas.SetActive(false);
         creditsCanvas.SetActive(true);
     }
+
+    public void CreditsClosed()
+    {
+        menuCanvas.SetActive(true);
+        creditsCanvas.SetActive(false);
+    }
 }
