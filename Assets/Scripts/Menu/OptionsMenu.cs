@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using TMPro;
@@ -22,6 +23,12 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI fullscreenValue;
     [SerializeField] private TextMeshProUGUI windowedValue;
 
+    [Header("Audio Options")]
+    [SerializeField] private Slider musicVolumeValue;
+
+    [Header("Saving")]
+    private List<RevertedAction> revertedActions = new List<RevertedAction>();
+
     void Start()
     {
         ResetActiveToppers();
@@ -33,6 +40,22 @@ public class OptionsMenu : MonoBehaviour
         // Video Settings
         fullscreenValue.text = (OptionsManager.instance.Fullscreen) ? "On" : "Off";
         windowedValue.text = (OptionsManager.instance.WindowedFullscreen) ? "On" : "Off";
+
+        // Audio Settings
+        musicVolumeValue.value = OptionsManager.instance.MusicVolumePercentage;
+    }
+
+    public void OptionsCancelled()
+    {
+        foreach (RevertedAction action in revertedActions)
+        {
+            action.actions();
+        }
+    }
+
+    public void OptionsSaved()
+    {
+        revertedActions.Clear();
     }
 
     void ResetActiveToppers()
@@ -69,13 +92,59 @@ public class OptionsMenu : MonoBehaviour
 
     public void FullscreenClicked()
     {
+        bool oldFullscreen = OptionsManager.instance.Fullscreen;
+        RecordAction(() =>
+        {
+            OptionsManager.instance.Fullscreen = oldFullscreen;
+            fullscreenValue.text = (OptionsManager.instance.Fullscreen) ? "On" : "Off";
+        }, "Fullscreen");
+
         OptionsManager.instance.Fullscreen = !OptionsManager.instance.Fullscreen;
         fullscreenValue.text = (OptionsManager.instance.Fullscreen) ? "On" : "Off";
     }
 
     public void WindowedClicked()
     {
+        bool oldWindowedFullscreen = OptionsManager.instance.WindowedFullscreen;
+        RecordAction(() => 
+        {
+            OptionsManager.instance.WindowedFullscreen = oldWindowedFullscreen;
+            windowedValue.text = (OptionsManager.instance.WindowedFullscreen) ? "On" : "Off";
+        }, "WindowedFullscreen");
+
         OptionsManager.instance.WindowedFullscreen = !OptionsManager.instance.WindowedFullscreen;
         windowedValue.text = (OptionsManager.instance.WindowedFullscreen) ? "On" : "Off";
+    }
+
+    public void MusicVolumeChanged(float value)
+    {
+        float oldMusicVolume = OptionsManager.instance.MusicVolumePercentage;
+        RecordAction(() =>
+        {
+            OptionsManager.instance.MusicVolumePercentage = oldMusicVolume;
+            musicVolumeValue.value = oldMusicVolume;
+        }, "MusicVolume");
+
+        OptionsManager.instance.MusicVolumePercentage = musicVolumeValue.value;
+    }
+
+    public void RecordAction(Action actions, string key)
+    {
+        if (revertedActions.Exists(action => action.key == key))
+            return;
+
+        revertedActions.Add(new RevertedAction(actions, key));
+    }
+}
+
+public class RevertedAction
+{
+    public Action actions;
+    public string key;
+
+    public RevertedAction(Action actions, string key)
+    {
+        this.actions = actions;
+        this.key = key;
     }
 }

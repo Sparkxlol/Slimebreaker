@@ -135,6 +135,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        // Ignores Inputs + Updates when game is paused.
+        if (GameManager.GamePaused) return;
+
 
         if(Input.GetKeyDown(KeyCode.F))
         {
