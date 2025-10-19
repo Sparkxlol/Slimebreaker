@@ -30,6 +30,7 @@ public class AudioManager : MonoBehaviour
 
         activeSoundtrack.clip = levelSoundtracks[level];
         activeSoundtrack.Play();
+        activeSoundtrack.ignoreListenerPause = true;
     }
 
     private void Update()
