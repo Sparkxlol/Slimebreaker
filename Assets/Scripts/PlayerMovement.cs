@@ -29,8 +29,7 @@ public class PlayerMovement : MonoBehaviour
     public float airFrictionStrength = 1.5f;
 
     [Header("Jump Settings")]
-    public float minJumpForce = 5f;
-    public float maxJumpForce = 30f;
+    
     public float baseJumpMagnitude = 40f;
     
     public float lastGrounded;
@@ -38,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public float lastJumped;
     [SerializeField] private bool chargeHeld = false;
     public float chargeTime = 0f;
-    public float maxChargeTime = 2f;
+    public float maxChargeTime = 1f;
     [SerializeField] private bool chargeReleased = true;
 
     
@@ -56,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Glide")]
     public float glideLeft;
     public bool isGliding;
-    public float maxGlideCharge = 20f;
+    public float maxGlideCharge = 10f;
     public float glideRechargeRate = 1.5f;
     public float glideDepletionRate = 1f;
     public float glideGravityMultiplier = 12f;
@@ -74,9 +73,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Slide")]
     public bool slideActive;
     public float slideLeft;
-    public float maxSlideCharge = 15f;
+    public float maxSlideCharge = 5f;
     public float slideDepletionRate = 1f;
-    public float slideRechargeRate = 1.5f;
+    public float slideRechargeRate = 1f;
     public float slideGravityMultiplier = 0.5f;
     public float groundSlideSpeedMultiplier = 2f;
 
@@ -168,15 +167,8 @@ public class PlayerMovement : MonoBehaviour
 
         
 
-        if (isSticking && !slideActive)
-        {
-            rb.useGravity = false;
-            rb.constraints |= RigidbodyConstraints.FreezePositionY;
-        }
-        else
-        {
-            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        }
+        
+        
 
         HandleSlide();
         HandleMovementInput();
@@ -223,15 +215,8 @@ public class PlayerMovement : MonoBehaviour
             isOnSurface = isSticking;
         }
 
-        if (isSticking && !slideActive)
-        {
-            rb.useGravity = false;
-            rb.constraints |= RigidbodyConstraints.FreezePositionY;
-        }
-        else
-        {
-            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
-        }
+        
+       
 
 
         float accel = isOnSurface ? groundAcceleration : airAcceleration;
@@ -331,7 +316,7 @@ public class PlayerMovement : MonoBehaviour
             float closestDist = Mathf.Infinity;
             Vector3 closestPoint = Vector3.zero;
             Collider closestCollider = null;
-            
+
 
             for (int i = 0; i < hits; i++)
             {
@@ -350,6 +335,8 @@ public class PlayerMovement : MonoBehaviour
 
 
             }
+
+
 
             if (closestDist < Mathf.Infinity)
             {
@@ -694,7 +681,7 @@ public class PlayerMovement : MonoBehaviour
             
 
 
-            if (Input.GetMouseButton(0) && stickLeft > 0)
+            if (Input.GetMouseButton(0) && stickLeft > 0 && currentSurfaceSticky)
             {
                 
                 
@@ -913,11 +900,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //get rid of velocity into the surface
-        float intoSurface = Vector3.Dot(rb.linearVelocity, currentSurfaceNormal);
-        if (intoSurface < 0f) 
-        {
-            rb.linearVelocity -= intoSurface * currentSurfaceNormal;
-        }
+        //float intoSurface = Vector3.Dot(rb.linearVelocity, currentSurfaceNormal);
+        //if (intoSurface < 0f) 
+        //{
+        //    rb.linearVelocity -= intoSurface * currentSurfaceNormal;
+        //}
 
         
         float maxAngle = 80f;
@@ -990,16 +977,19 @@ public class PlayerMovement : MonoBehaviour
         
         float addSpeed = maxMoveSpeed - currentSpeed;
 
-        if (addSpeed < 0f) return;
+        if (addSpeed > 0f)
+        {
+            float accelSpeed = acceleration * Time.deltaTime;
+            if (accelSpeed > addSpeed) accelSpeed = addSpeed;
 
-        float accelSpeed = acceleration * Time.deltaTime;
-        if (accelSpeed > addSpeed) accelSpeed = addSpeed;
+
+            // Apply acceleration along accelDir
+            rb.linearVelocity += accelDir * accelSpeed;
+        }
 
         
-        // Apply acceleration along accelDir
-        rb.linearVelocity += accelDir * accelSpeed;
 
-        //prevent sticking to wall if pressing into wall
+        
         
 
         rb.AddForce(Physics.gravity * gravityMultiplier, ForceMode.Acceleration);
