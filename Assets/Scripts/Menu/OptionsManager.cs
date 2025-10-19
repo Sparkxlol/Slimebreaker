@@ -36,14 +36,16 @@ public class OptionsManager : MonoBehaviour
     }
 
     [Header("Audio")]
-    private float overallAudioPercentage = 1.0f;
+    private const string MUSIC_VOLUME_KEY = "MusicVolumeOption";
 
-    public float OverallAudioPercentage
+    private float musicVolumePercentage = 1.0f;
+
+    public float MusicVolumePercentage
     {
-        get => overallAudioPercentage;
+        get => musicVolumePercentage;
         set
         {
-            overallAudioPercentage = value;
+            musicVolumePercentage = value;
         }
     }
 
@@ -55,7 +57,7 @@ public class OptionsManager : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
 
         LoadOptions();
@@ -68,7 +70,7 @@ public class OptionsManager : MonoBehaviour
         WindowedFullscreen = PlayerPrefs.GetInt(WINDOWED_FULLSCREEN_KEY, 0) == 1; ;
 
         // Audio Settings
-        OverallAudioPercentage = 1.0f;
+        MusicVolumePercentage = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1);
     }
 
     public void SaveSettings()
@@ -76,6 +78,9 @@ public class OptionsManager : MonoBehaviour
         // Video Settings
         PlayerPrefs.SetInt(FULLSCREEN_KEY, Fullscreen ? 1 : 0);
         PlayerPrefs.SetInt(WINDOWED_FULLSCREEN_KEY, WindowedFullscreen ? 1 : 0);
+
+        // Audio Settings
+        PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, MusicVolumePercentage);
 
         PlayerPrefs.Save();
     }
