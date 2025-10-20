@@ -495,8 +495,8 @@ public class PlayerMovement : MonoBehaviour
         float maxVerticalAngle = 70f;
         float maxHorizontalAngle = 45f;
 
-        float verticalAngleChangeMultiplier = 30f;
-        float horizontalAngleChangeMultiplier = 30f;
+        float verticalAngleChangeMultiplier = 50f;
+        float horizontalAngleChangeMultiplier = 40f;
 
         //tilt down
         if(Input.GetKey(KeyCode.W))
@@ -542,12 +542,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (currentHorizontalDiveAngle > defaultHorizontalGlideAngle)
             {
-                currentHorizontalDiveAngle -= horizontalAngleChangeMultiplier * Time.deltaTime;
+                currentHorizontalDiveAngle -= horizontalAngleChangeMultiplier * Time.deltaTime * 5f;
                 currentHorizontalDiveAngle = Mathf.Max(currentHorizontalDiveAngle, defaultHorizontalGlideAngle);
             }
             else if (currentHorizontalDiveAngle < defaultVerticalGlideAngle)
             {
-                currentHorizontalDiveAngle += horizontalAngleChangeMultiplier * Time.deltaTime;
+                currentHorizontalDiveAngle += horizontalAngleChangeMultiplier * Time.deltaTime * 5f;
                 currentHorizontalDiveAngle = Mathf.Min(currentHorizontalDiveAngle, defaultHorizontalGlideAngle);
             }
         }
