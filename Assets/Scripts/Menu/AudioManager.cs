@@ -28,7 +28,9 @@ public class AudioManager : MonoBehaviour
         activeSoundtrack = GetComponent<AudioSource>();
         activeSoundtrack.volume = OptionsManager.instance.MusicVolumePercentage;
 
-        activeSoundtrack.clip = levelSoundtracks[level];
+        if (level < levelSoundtracks.Count && level >= 0)
+            activeSoundtrack.clip = levelSoundtracks[level];
+
         activeSoundtrack.Play();
         activeSoundtrack.ignoreListenerPause = true;
     }

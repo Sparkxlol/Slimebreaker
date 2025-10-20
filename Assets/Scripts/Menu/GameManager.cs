@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject optionsCanvas;
     [SerializeField] private OptionsMenu optionsMenu;
 
+    [Header("Canvas")]
+    [SerializeField] private GameObject promptCanvas;
+
     private void Awake()
     {
         if (instance == null)
@@ -20,6 +24,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        PreloadCanvas();
     }
 
     void Start()
@@ -32,6 +38,17 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Escape) && gameplayScene)
         {
             PauseGame();
+        }
+    }
+
+    // We must load the canvases to prevent lagging on first activation.
+    private void PreloadCanvas()
+    {
+        if (promptCanvas != null)
+        {
+            promptCanvas.SetActive(true);
+            promptCanvas.GetComponentInChildren<TMP_Text>().ForceMeshUpdate();
+            promptCanvas.SetActive(false);
         }
     }
 
