@@ -247,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleSlide()
     {
-        if(Input.GetMouseButton(1) && (onGround || onWall))
+        if(Input.GetMouseButton(1))
         {         
             slideLeft -= slideDepletionRate * Time.deltaTime;
             slideLeft = Mathf.Max(0, slideLeft);
@@ -525,6 +525,7 @@ public class PlayerMovement : MonoBehaviour
             }
                 
         }
+        //geol
 
         //tilt left
         if (Input.GetKey(KeyCode.A))
@@ -567,7 +568,7 @@ public class PlayerMovement : MonoBehaviour
         float angleRatio = Mathf.Abs(currentVerticalDiveAngle / maxVerticalAngle);
 
         float maxClimbSpeed = initialGlideVelocity.magnitude;
-        float maxDiveSpeed = initialGlideVelocity.magnitude * 1.5f;
+        float maxDiveSpeed = initialGlideVelocity.magnitude * 2f;
         
 
         float initialHorizontalSpeed = new Vector3(initialGlideVelocity.x, 0, initialGlideVelocity.z).magnitude;
@@ -588,7 +589,7 @@ public class PlayerMovement : MonoBehaviour
             
             verticalVelocity.y = Mathf.Min(verticalVelocity.y, maxClimbSpeed);
             
-            verticalVelocity.y = Mathf.Max(verticalVelocity.y, -15f);
+            //verticalVelocity.y = Mathf.Max(verticalVelocity.y, -15f);
             
 
             horizontalSpeed -= Time.deltaTime * angleRatio * 10f;
@@ -603,14 +604,14 @@ public class PlayerMovement : MonoBehaviour
         {
             
             //depending on how large angle is compared to maxvertical angle increase/decrease velocity quicker
-            verticalSpeedChange = 10f;
+            verticalSpeedChange = 20f;
 
             
             verticalVelocity.y -= verticalSpeedChange * Time.deltaTime * angleRatio;
             verticalVelocity.y = Mathf.Max(verticalVelocity.y, -Mathf.Abs(maxDiveSpeed));
 
 
-            horizontalSpeed += Time.deltaTime * angleRatio * 2f;
+            horizontalSpeed += Time.deltaTime * angleRatio * 10f;
             horizontalSpeed = Mathf.Min(horizontalSpeed, initialHorizontalSpeed * 2f);
 
 
@@ -618,11 +619,21 @@ public class PlayerMovement : MonoBehaviour
         else
         {
 
-            
-            float defaultFallSpeed = -5f;
+            verticalSpeedChange = 40f;
+            float defaultFallSpeed = -10f;
 
-            verticalVelocity.y -= Time.deltaTime * angleRatio;
-            verticalVelocity.y = Mathf.Lerp(verticalVelocity.y, defaultFallSpeed, 5f);
+            if(verticalVelocity.y > defaultFallSpeed)
+            {
+                verticalVelocity.y -= Time.deltaTime * angleRatio * verticalSpeedChange;
+                verticalVelocity.y = Mathf.Max(defaultFallSpeed, verticalVelocity.y);
+            }
+            else
+            {
+                verticalVelocity.y += Time.deltaTime * angleRatio * verticalSpeedChange;
+                verticalVelocity.y = Mathf.Min(defaultFallSpeed, verticalVelocity.y);
+            }
+
+                
         }
         
 
@@ -664,7 +675,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-
+        
         horizontalVelocity = horizontalVelocity.normalized * horizontalSpeed;
 
         rb.linearVelocity = horizontalVelocity + verticalVelocity;
@@ -887,10 +898,7 @@ public class PlayerMovement : MonoBehaviour
         
 
         float jumpSpeed = baseJumpMagnitude;
-        if(preImpactVelocity.magnitude > baseJumpMagnitude)
-        {
-            jumpSpeed = preImpactVelocity.magnitude + baseJumpMagnitude;
-        }
+        
 
         float empoweredNonCharged = 1;
         if(empoweredJump)
