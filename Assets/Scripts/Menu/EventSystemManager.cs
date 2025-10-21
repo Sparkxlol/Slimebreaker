@@ -7,7 +7,7 @@ public class EventSystemManager : MonoBehaviour
     {
         if (FindObjectsByType<EventSystem>(FindObjectsSortMode.None).Length > 1)
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

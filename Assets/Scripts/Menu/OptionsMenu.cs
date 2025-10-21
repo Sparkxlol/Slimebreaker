@@ -18,6 +18,7 @@ public class OptionsMenu : MonoBehaviour
 
     [Header("Menus")]
     [SerializeField] private List<GameObject> menus;
+    [SerializeField] private GameObject optionsUI;
 
     [Header("Video Options")]
     [SerializeField] private TextMeshProUGUI fullscreenValue;
@@ -33,6 +34,16 @@ public class OptionsMenu : MonoBehaviour
     {
         ResetActiveToppers();
         LoadOptions();
+    }
+
+    public void ActivateOptions()
+    {
+        optionsUI.SetActive(true);
+    }
+
+    public void DeactivateOptions()
+    {
+        optionsUI.SetActive(false);
     }
 
     private void LoadOptions()

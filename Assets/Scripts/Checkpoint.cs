@@ -10,7 +10,18 @@ public class Checkpoint : MonoBehaviour
 
     private void OnValidate()
     {
-        if (string.IsNullOrEmpty(checkpointId))
+        if (!gameObject.scene.IsValid())
+        {
+            if (checkpointId == null)
+                checkpointId = String.Empty;
+
+            return;
+        }
+
+        var checkpoints = FindObjectsByType<Checkpoint>(FindObjectsSortMode.None);
+        bool duplicate = Array.Exists(checkpoints, c => c != this && c.CheckpointId == checkpointId);
+
+        if (string.IsNullOrEmpty(checkpointId) || duplicate)
         {
             checkpointId = Guid.NewGuid().ToString();
 #if UNITY_EDITOR

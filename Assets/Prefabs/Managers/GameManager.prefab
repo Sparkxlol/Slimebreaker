@@ -47,3 +47,5 @@ MonoBehaviour:
   gameplayScene: 0
   optionsCanvas: {fileID: 0}
   optionsMenu: {fileID: 0}
+  promptCanvas: {fileID: 0}
+  lockCursorWhilePlaying: 0

@@ -28,6 +28,8 @@ public class DialogueNPC : MonoBehaviour, IInteractable
     {
         if (!canInteract) return;
 
+        GameManager.instance.UnlockCursor();
+
         ConversationManager.Instance.StartConversation(conversation);
         CameraLock.LockCameraInput();
 
@@ -52,6 +54,8 @@ public class DialogueNPC : MonoBehaviour, IInteractable
     public void exitInteraction()
     {
         if (!canInteract) return;
+
+        GameManager.instance.LockCursor();
 
         ConversationManager.Instance.EndConversation();
         CameraLock.UnlockCameraInput();

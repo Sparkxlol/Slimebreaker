@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class PlayerRespawn : MonoBehaviour
 {
-    private static PlayerRespawn instance;
+    public static PlayerRespawn instance;
     private Checkpoint[] checkpoints;
 
     private Rigidbody rb;
 
     public Transform startingPoint;
-    private Transform respawnPoint;
+    private Vector3 respawnPoint;
 
     private void Awake()
     {
@@ -27,15 +27,17 @@ public class PlayerRespawn : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        respawnPoint = startingPoint;
-
         checkpoints = GameObject.FindGameObjectsWithTag("CheckPoint").Select(checkpoint => checkpoint.GetComponent<Checkpoint>()).ToArray();
         
         Checkpoint loadedCheckpoint = LoadCheckpoint();
         if (loadedCheckpoint != null)
         {
-            SetCheckPoint(loadedCheckpoint.transform);
-            Invoke("Respawn", 0f);
+            SetCheckPoint(loadedCheckpoint.transform.position);
+            Respawn();
+        }
+        else
+        {
+            SetCheckPoint(startingPoint.position);
         }
     }
 
@@ -48,15 +50,16 @@ public class PlayerRespawn : MonoBehaviour
 
         if(other.CompareTag("CheckPoint"))
         {
-            SetCheckPoint(other.transform);
+            SetCheckPoint(other.transform.position);
             SaveCheckpoint(other.GetComponent<Checkpoint>());
         }
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         rb.linearVelocity = Vector3.zero;
-        transform.position = respawnPoint.position;
+        rb.angularVelocity = Vector3.zero;
+        rb.position = respawnPoint;
     }
 
     private void SaveCheckpoint(Checkpoint checkpoint)
@@ -75,9 +78,9 @@ public class PlayerRespawn : MonoBehaviour
         return checkpoints.FirstOrDefault(c => c.CheckpointId == checkpointId);
     }
 
-    private void SetCheckPoint(Transform loc)
+    private void SetCheckPoint(Vector3 position)
     {
-        respawnPoint = loc;
+        respawnPoint = position;
     }
 
     [ContextMenu("Remove Active Checkpoint")]
