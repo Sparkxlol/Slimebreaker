@@ -8402,6 +8402,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7404440331182227793, guid: 13a987faf3ec2d24fa7645f4cf15fb89, type: 3}
+      propertyPath: defaultVerticalGlideAngle
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7404440331182227793, guid: 13a987faf3ec2d24fa7645f4cf15fb89, type: 3}
       propertyPath: groundSlideSpeedMultiplier
       value: 3
       objectReference: {fileID: 0}
