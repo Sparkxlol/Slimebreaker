@@ -8,6 +8,8 @@ public class PlayerRespawn : MonoBehaviour
 
     private Rigidbody rb;
 
+    public PlayerMovement pm;
+
     public Transform startingPoint;
     private Vector3 respawnPoint;
 
@@ -28,7 +30,11 @@ public class PlayerRespawn : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         checkpoints = GameObject.FindGameObjectsWithTag("CheckPoint").Select(checkpoint => checkpoint.GetComponent<Checkpoint>()).ToArray();
-        
+        if(pm == null)
+        {
+            Debug.Log("PLayermovment null in playerrespawn");
+        }
+
         Checkpoint loadedCheckpoint = LoadCheckpoint();
         if (loadedCheckpoint != null)
         {
@@ -60,6 +66,10 @@ public class PlayerRespawn : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.position = respawnPoint;
+
+        pm.slideLeft = pm.maxSlideCharge;
+        pm.stickLeft = pm.maxStickCharge;
+        pm.glideLeft = pm.maxGlideCharge;
     }
 
     private void SaveCheckpoint(Checkpoint checkpoint)
