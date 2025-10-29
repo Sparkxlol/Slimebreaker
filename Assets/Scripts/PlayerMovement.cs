@@ -609,7 +609,7 @@ public class PlayerMovement : MonoBehaviour
             //verticalVelocity.y = Mathf.Max(verticalVelocity.y, -15f);
 
 
-            horizontalSpeed -= Time.deltaTime * angleRatio * 10f;
+            horizontalSpeed -= Time.deltaTime * angleRatio * 20f;
             horizontalSpeed = Mathf.Max(horizontalSpeed, 0f);
 
 
