@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public float chargeTime = 0f;
     public float maxChargeTime = 1f;
     [SerializeField] private bool chargeReleased = true;
+    private bool pressedSpace = false;
 
     
     
@@ -178,34 +179,11 @@ public class PlayerMovement : MonoBehaviour
         //CheckWalled();
         CheckSurface();
         
-        //cameraControl();
+        
 
     }
 
-    //void cameraControl()
-    //{
-
-    //    if (playerCamera == null || cmCamera == null)
-    //    {
-    //        Debug.Log("camera null");
-    //        return;
-    //    }
-
-    //    // --- Speed-based FOV ---
-    //    float speed = rb.linearVelocity.magnitude;
-    //    float speedFov = Mathf.Lerp(minFov, maxFov, speed / maxInputSpeed);
-
-    //    // --- First-person FOV ---
-        
-
-    //    //Hide player model when fully first-person
-    //    bool hidePlayer = chargeBlend >= firstPersonBlendThreshold;
-    //    foreach (Renderer r in playerRenderers)
-    //    {
-    //        if (r != null) r.enabled = !hidePlayer;
-    //    }
-
-    //}
+    
 
     void FixedUpdate()
     {
@@ -225,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
 
         //STOP acceleration for a frame after bounce
 
-
+        pressedSpace = Input.GetKey(KeyCode.Space);
 
         HandleJumpInput();
 
@@ -650,6 +628,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            //need to make more gradual
             verticalVelocity.y = -Mathf.Abs(angleRatio * maxDiveSpeed);
             verticalVelocity.y = Mathf.Min(0f, verticalVelocity.y);
         }
@@ -710,7 +689,7 @@ public class PlayerMovement : MonoBehaviour
             
 
 
-            if (Input.GetMouseButton(0) && stickLeft > 0 && currentSurfaceSticky)
+            if (Input.GetMouseButton(0) && stickLeft > 0 && currentSurfaceSticky && !pressedSpace)
             {
                 
                 
@@ -830,14 +809,14 @@ public class PlayerMovement : MonoBehaviour
         //need to check first if space is released (keyup)
         //if so, check if on surface or last time touching surface was within buffer time
         //run bounce function using a multiplier depending on how long space was held
-        if (Input.GetKey(KeyCode.Space))
+        if (pressedSpace)
         {
             bool charged = false;
             if(chargeTime == maxChargeTime) charged = true;
 
 
 
-            if ((onWall ||onGround) && !isSticking && Time.time - lastJumped > jumpBufferTime)
+            if ((onWall ||onGround) && Time.time - lastJumped > jumpBufferTime)
             {
                 lastJumped = Time.time;
                 Bounce(rb.linearVelocity, currentSurfaceNormal, charged);
