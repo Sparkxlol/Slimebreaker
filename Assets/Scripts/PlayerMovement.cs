@@ -299,7 +299,7 @@ public class PlayerMovement : MonoBehaviour
             for (int i = 0; i < hits; i++)
             {
                 Collider c = hitcolliders[i];
-                if (c == null) continue;
+                if (c == null || c is MeshCollider) continue;
 
                 Vector3 point = c.ClosestPoint(checkOrigin);
                 float dist = Vector3.Distance(checkOrigin, point);
@@ -327,7 +327,7 @@ public class PlayerMovement : MonoBehaviour
                     {
 
                         currentSurfaceSticky = hit.collider.GetComponent<StickySurface>() ? true : false;
-                        
+
 
                         currentSurfaceNormal = hit.normal;
                         lastGrounded = Time.time;
@@ -352,6 +352,31 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
+        if(!onGround || !onWall)
+        {
+            //need to do a simple downward raycast so player can walk on mesh collider
+            RaycastHit groundHit;   
+            Vector3 rayOrigin = checkOrigin + Vector3.up * 0.1f; // slight lift prevents false negatives
+            
+
+            if (Physics.Raycast(rayOrigin, Vector3.down, out groundHit, wallRadiusCheck * 1.5f, surfaceLayer))
+            {
+                
+                
+                if (groundHit.collider.CompareTag("Floor"))
+                {
+                    
+                    onGround = true;
+                    onWall = false;
+                    currentSurfaceNormal = groundHit.normal;
+                    lastGrounded = Time.time;
+                    preImpactVelocity = rb.linearVelocity;
+                }
+            }
+        }
+
+        
+
         
 
     }
