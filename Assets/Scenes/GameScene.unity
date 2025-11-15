@@ -7305,6 +7305,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Mountain_Cave_07
       objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_TagString
+      value: Floor
+      objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.2173772
