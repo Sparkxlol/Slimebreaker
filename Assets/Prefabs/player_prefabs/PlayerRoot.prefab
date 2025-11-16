@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8398317925874384289}
   - component: {fileID: 8567116573535012272}
   - component: {fileID: 34084673749178063}
+  - component: {fileID: 3987811639101414096}
   m_Layer: 0
   m_Name: PlayerRoot
   m_TagString: Player
@@ -88,8 +89,6 @@ MonoBehaviour:
   maxInputSpeed: 20
   wallFrictionStrength: 5
   airFrictionStrength: 1.5
-  minJumpForce: 4
-  maxJumpForce: 20
   baseJumpMagnitude: 30
   lastGrounded: 0
   jumpBufferTime: 0.2
@@ -97,7 +96,6 @@ MonoBehaviour:
   chargeHeld: 0
   chargeTime: 0
   maxChargeTime: 2
-  chargeJumpMultiplier: 10
   chargeReleased: 1
   stickLeft: 0
   isSticking: 0
@@ -111,13 +109,15 @@ MonoBehaviour:
   glideDepletionRate: 1
   glideGravityMultiplier: 12
   diveGravityMultiplier: 25
-  currentDiveAngle: 0
-  glideControlStrength: 0.5
-  maxNoseDiveAngle: 80
-  noseDiveSpeed: 60
+  currentVerticalDiveAngle: 0
+  currentHorizontalDiveAngle: 0
+  defaultVerticalGlideAngle: -10
+  defaultHorizontalGlideAngle: 0
   slowDownGravityMultiplier: 3
   lastGlidePress: 0
   glideTogglePressed: 0
+  initialGlideVelocity: {x: 0, y: 0, z: 0}
+  glideJustStarted: 0
   slideActive: 0
   slideLeft: 0
   maxSlideCharge: 15
@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf570c44bdecc2458ec406bca29513d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pm: {fileID: 0}
   startingPoint: {fileID: 0}
 --- !u!114 &8398317925874384289
 MonoBehaviour:
@@ -195,6 +196,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thirdPersonCam: {fileID: 0}
   firstPersonCam: {fileID: 0}
+  firstPersonPanTilt: {fileID: 0}
+  thirdPersonOrbitalFollow: {fileID: 0}
   playerModel: {fileID: 6139999059583459470}
   maxFOVSpeed: 100
   zoomSpeed: 5
@@ -202,6 +205,23 @@ MonoBehaviour:
   minFOV: 40
   maxFOV: 140
   chargeZoomSpeed: 1
+--- !u!114 &3987811639101414096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4678334792066403446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d5a825e38212748b3b734e8aaf216a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineEffectPrefab: {fileID: 3325107277947265082, guid: c78989f3774c7f341854b15400ed42de, type: 3}
+  offsetMaxDistance: 1
+  behindDistance: 2
+  minSpeed: 100
+  spawnSpeed: 1
 --- !u!1 &6139999059583459470
 GameObject:
   m_ObjectHideFlags: 0
