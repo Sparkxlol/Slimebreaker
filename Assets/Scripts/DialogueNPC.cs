@@ -63,5 +63,13 @@ public class DialogueNPC : MonoBehaviour, IInteractable
         if (animParams.Contains("speaking"))
             anim.SetBool("speaking", false);
     }
+
+    public void SwitchConversation(NPCConversation newConversation)
+    {
+        hidePrompt();
+        exitInteraction();
+
+        conversation = newConversation;
+    }
 }
 

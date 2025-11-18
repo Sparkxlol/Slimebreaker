@@ -87,17 +87,7 @@ public class CameraSwitcher : MonoBehaviour
         }
     }
 
-
-    //void AlignCamera(CinemachineCamera targetCam, CinemachineCamera sourceCam)
-    //{
-    //    if (targetCam == null || sourceCam == null) return;
-
-    //    Transform sourceTransform = sourceCam.transform;
-    //    Transform targetTransform = targetCam.transform;
-
-    //    targetTransform.position = sourceTransform.position;
-    //    targetTransform.rotation = sourceTransform.rotation;
-    //}
+ 
     void AlignCamera(CinemachineCamera targetCam, CinemachineCamera sourceCam)
     {
         if (targetCam == null || sourceCam == null)
@@ -109,10 +99,6 @@ public class CameraSwitcher : MonoBehaviour
             sourceCam.transform.rotation
         );
     }
-
-
-
-
 
 
     void SetPlayerVisible(bool visible)

@@ -5,6 +5,7 @@ using Unity.Hierarchy;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 
 
@@ -70,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public bool glideTogglePressed = false;
     [SerializeField] private Vector3 initialGlideVelocity;
     [SerializeField] private bool glideJustStarted;
+    private float maxClimbSpeed = 0;
 
     [Header("Slide")]
     public bool slideActive;
@@ -287,7 +289,7 @@ public class PlayerMovement : MonoBehaviour
         wallHit = null;
         currentSurfaceSticky = false;
 
-
+        
 
         if (onSurface)
         {
@@ -298,9 +300,10 @@ public class PlayerMovement : MonoBehaviour
 
             for (int i = 0; i < hits; i++)
             {
+
                 Collider c = hitcolliders[i];
                 if (c == null || c is MeshCollider) continue;
-
+                
                 Vector3 point = c.ClosestPoint(checkOrigin);
                 float dist = Vector3.Distance(checkOrigin, point);
 
@@ -315,12 +318,14 @@ public class PlayerMovement : MonoBehaviour
             }
 
 
-
+            
             if (closestDist < Mathf.Infinity)
             {
+                
                 Vector3 dir = (closestPoint - checkOrigin).normalized;
                 if (Physics.Raycast(checkOrigin, dir, out RaycastHit hit, wallRadiusCheck * 2f, surfaceLayer))
                 {
+                    
                     currentSurfaceNormal = hit.normal;
 
                     if (hit.collider.GetComponent<StickySurface>())
@@ -352,20 +357,21 @@ public class PlayerMovement : MonoBehaviour
             }
 
         }
-        if(!onGround || !onWall)
+        if (!onGround && !onWall)
         {
+
             //need to do a simple downward raycast so player can walk on mesh collider
-            RaycastHit groundHit;   
+            RaycastHit groundHit;
             Vector3 rayOrigin = checkOrigin + Vector3.up * 0.1f; // slight lift prevents false negatives
-            
+
 
             if (Physics.Raycast(rayOrigin, Vector3.down, out groundHit, wallRadiusCheck * 1.5f, surfaceLayer))
             {
-                
-                
+
+
                 if (groundHit.collider.CompareTag("Floor"))
                 {
-                    
+
                     onGround = true;
                     onWall = false;
                     currentSurfaceNormal = groundHit.normal;
@@ -375,9 +381,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        
 
-        
+
+
 
     }
 
@@ -421,6 +427,7 @@ public class PlayerMovement : MonoBehaviour
 
                 glideJustStarted = true;
                 initialGlideVelocity = rb.linearVelocity;
+                maxClimbSpeed = initialGlideVelocity.magnitude;
                 currentVerticalDiveAngle = defaultVerticalGlideAngle;
                 currentHorizontalDiveAngle = defaultHorizontalGlideAngle;
             }
@@ -574,7 +581,7 @@ public class PlayerMovement : MonoBehaviour
         float verticalSpeed = verticalVelocity.magnitude;
         float angleRatio = Mathf.Abs(currentVerticalDiveAngle / maxVerticalAngle);
 
-        float maxClimbSpeed = initialGlideVelocity.magnitude;
+        
         float maxDiveSpeed = initialGlideVelocity.magnitude * 2f;
 
 
@@ -585,31 +592,31 @@ public class PlayerMovement : MonoBehaviour
             maxHorizontalSpeed = rb.linearVelocity.magnitude;
         }
 
-        float verticalSpeedChange = 5f;
+        
 
 
-
+        //Pointing up/Climbing
         if (currentVerticalDiveAngle > 0f)
         {
-            verticalSpeedChange = 30f;
+            float verticalSpeedChange = 30f;
 
-            if (horizontalSpeed < initialHorizontalSpeed / 2 || horizontalSpeed < 10f)
+            
+
+            if(horizontalSpeed < 10f)
             {
-                verticalSpeedChange = -verticalSpeedChange;
-                verticalVelocity.y += verticalSpeedChange * Time.deltaTime * angleRatio;
+                maxClimbSpeed = 0f;
+            }
 
+            if (maxClimbSpeed < initialGlideVelocity.y / 5f)
+            {
+                verticalVelocity.y -= verticalSpeedChange * Time.deltaTime * angleRatio;
             }
             else
             {
                 verticalVelocity.y = angleRatio * maxClimbSpeed;
+                maxClimbSpeed *= 1 - (Time.deltaTime / 2f);
+
             }
-
-
-                
-
-            verticalVelocity.y = Mathf.Min(verticalVelocity.y, maxClimbSpeed);
-
-            //verticalVelocity.y = Mathf.Max(verticalVelocity.y, -15f);
 
 
             horizontalSpeed -= Time.deltaTime * angleRatio * 20f;
@@ -641,6 +648,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         }
+        //angle is higher than -10 so lose speed
         else if(currentVerticalDiveAngle > defaultVerticalGlideAngle)
         {
            
@@ -648,12 +656,13 @@ public class PlayerMovement : MonoBehaviour
             verticalVelocity.y = -Mathf.Abs(angleRatio * maxDiveSpeed);
             verticalVelocity.y = Mathf.Min(0f, verticalVelocity.y);
 
-            horizontalSpeed -= Time.deltaTime * 0.2f;
+            horizontalSpeed -= Time.deltaTime * 1f;
             horizontalSpeed = Mathf.Max(horizontalSpeed, 0f);
         }
+        //this is causing instant downward velocity
         else
         {
-            //need to make more gradual
+            //this line is causing instant downwards when returning to default angle
             verticalVelocity.y = -Mathf.Abs(angleRatio * maxDiveSpeed);
             verticalVelocity.y = Mathf.Min(0f, verticalVelocity.y);
         }
