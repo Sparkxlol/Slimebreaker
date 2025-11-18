@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     [Header("Canvas")]
     [SerializeField] private GameObject promptCanvas;
+    [SerializeField] private GameObject conversationCanvas;
+    [SerializeField] private GameObject dialoguePanel;
 
     [Header("Mouse")]
     [Tooltip("Locks the cursor in the middle of the screen, if true")]
@@ -78,6 +80,12 @@ public class GameManager : MonoBehaviour
                 pauseMenu.SetActive(true);
             }
 
+            if (promptCanvas != null)
+                promptCanvas.SetActive(false);
+
+            if (conversationCanvas != null)
+                conversationCanvas.SetActive(false);
+
             if (lockCursorWhilePlaying)
                 UnlockCursor();
         }
@@ -95,8 +103,14 @@ public class GameManager : MonoBehaviour
             if (optionsMenu != null)
                 optionsMenu.OptionsCancelled();
 
+            if (conversationCanvas != null)
+                conversationCanvas.SetActive(true);
+
             if (lockCursorWhilePlaying)
-                LockCursor();
+            {
+                if (dialoguePanel == null || !dialoguePanel.activeInHierarchy)
+                    LockCursor();
+            }
         }
     }
 
