@@ -45,6 +45,10 @@ public class PlayerRespawn : MonoBehaviour
         {
             SetCheckPoint(startingPoint.position);
         }
+
+        pm.slideLeft = pm.maxSlideCharge;
+        pm.stickLeft = pm.maxStickCharge;
+        pm.glideLeft = pm.maxGlideCharge;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,6 +71,8 @@ public class PlayerRespawn : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         rb.position = respawnPoint;
 
+        pm.isGliding = false;
+        rb.useGravity = true;
         pm.slideLeft = pm.maxSlideCharge;
         pm.stickLeft = pm.maxStickCharge;
         pm.glideLeft = pm.maxGlideCharge;

@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraSwitcher : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class CameraSwitcher : MonoBehaviour
 
     [Header("Player Visibility")]
     [SerializeField] private GameObject playerModel;
-    
+    [SerializeField] private Image crosshair;
 
     [Header("Camera FOV Settings")]
     [SerializeField] private float maxFOVSpeed = 100f;
@@ -103,6 +104,7 @@ public class CameraSwitcher : MonoBehaviour
 
     void SetPlayerVisible(bool visible)
     {
+        crosshair.enabled = !visible;
         Renderer[] renderers = playerModel.GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renderers)
         {

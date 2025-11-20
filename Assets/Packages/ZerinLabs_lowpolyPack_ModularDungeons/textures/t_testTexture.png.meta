@@ -91,5 +91,5 @@ AssetOrigin:
   productId: 154284
   packageName: "Dungeon Builder \u2013 Modular Lowpoly Medieval Kit for Fantasy RPGs"
   packageVersion: 2.5
-  assetPath: Assets/ZerinLabs_lowpolyPack_ModularDungeons/textures/t_testTexture.png
+  assetPath: Assets/Packages/ZerinLabs_lowpolyPack_ModularDungeons/textures/t_testTexture.png
   uploadId: 756360
