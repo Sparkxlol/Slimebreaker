@@ -16,9 +16,12 @@ public class PlayerMovement : MonoBehaviour
     public Transform cameraTransform;
     public Transform visualTransform;
 
-    
-    
-    
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private bool walking;
+    [SerializeField] private bool inAir;
+    [SerializeField] private bool jumping;
+
 
     [Header("Movement Settings")]
     public float airGravityMultiplier = 6;
@@ -171,20 +174,14 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-        
-
-        
-        
 
         HandleSlide();
         HandleMovementInput();
-        //CheckGrounded();
-        //CheckWalled();
-        //CheckGrounded();
-        //CheckWalled();
         CheckSurface();
-        
-        
+
+
+        animator.SetBool("Gliding", isGliding);
+        animator.SetBool("Sliding", slideActive);
 
     }
 
@@ -226,6 +223,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         glideTogglePressed = false;
+
+        
+        animator.SetBool("Walking", walking);
+        animator.SetBool("InAir", inAir);
+        if(jumping) Debug.Log("Jump true");
+
+        animator.SetBool("Jump", jumping);
     }
 
     private void HandleSlide()
@@ -855,6 +859,7 @@ public class PlayerMovement : MonoBehaviour
         //need to check first if space is released (keyup)
         //if so, check if on surface or last time touching surface was within buffer time
         //run bounce function using a multiplier depending on how long space was held
+        jumping = false;
         if (pressedSpace)
         {
             bool charged = false;
@@ -864,7 +869,7 @@ public class PlayerMovement : MonoBehaviour
 
             if ((onWall ||onGround) && (Time.time - lastJumped > jumpBufferTime))
             {
-                
+                jumping = true;
                 lastJumped = Time.time;
                 Bounce(rb.linearVelocity, currentSurfaceNormal, charged);
 
@@ -905,7 +910,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Accelerate(Vector3 direction, float acceleration, float maxMoveSpeed)
     {
- 
+        walking = false;
+        inAir = false;
+
         Vector3 velocity = rb.linearVelocity;
 
         float currentSpeedInDir = Vector3.Dot(velocity, direction);
@@ -998,7 +1005,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void moveInAir(float currentSpeedInDir, float maxMoveSpeed, float acceleration, Vector3 direction, float friction)
     {
-        
+        inAir = true;
         Vector3 accelDir = direction.normalized;
 
         //make sure no sticking to wall
@@ -1091,12 +1098,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            
             // Normal ground control
             Vector3 targetVel = direction.normalized * maxInputSpeed;
 
             //if there is input change velocity
             if (direction.normalized != Vector3.zero) 
             {
+                walking = true;
                 rb.linearVelocity = new Vector3(targetVel.x, velocity.y, targetVel.z);
             }
 
