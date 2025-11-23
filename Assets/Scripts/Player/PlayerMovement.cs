@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Movement Settings")]
-    public float airGravityMultiplier = 6;
-    public float groundAcceleration = 20f;
+    public float airGravityMultiplier = 5;
+    public float groundAcceleration = 40f;
     public float airAcceleration = 15f;
     public float maxInputSpeed = 20f;
     
@@ -975,9 +975,7 @@ public class PlayerMovement : MonoBehaviour
             camDir.Normalize();
 
             float speed = veloctiy.magnitude;
-            Debug.Log(speed);
-            Debug.Log(camDir);
-            Debug.Log(jumpSpeed);
+            
             //jumpSpeed += chargeJumpMultiplier;
             newVelocity = camDir * (speed + jumpSpeed);
             Debug.Log(newVelocity);
@@ -995,7 +993,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //need to add non charged jump
-        newVelocity = baseJumpMagnitude * empoweredNonCharged * currentSurfaceNormal.normalized;
+        newVelocity = baseJumpMagnitude * empoweredNonCharged * currentSurfaceNormal.normalized * 1.3f;
         rb.linearVelocity += newVelocity;
 
  
