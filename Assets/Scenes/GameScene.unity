@@ -8595,6 +8595,10 @@ PrefabInstance:
       propertyPath: level
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5788645849298631379, guid: 0e4549f14842122478c5043359cb7c98, type: 3}
+      propertyPath: bossPlayerDeathClipsEnabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6085586756589093641, guid: 0e4549f14842122478c5043359cb7c98, type: 3}
       propertyPath: m_Name
       value: Managers
@@ -9030,6 +9034,10 @@ PrefabInstance:
       value: 53.792725
       objectReference: {fileID: 0}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.096794
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalScale.z
       value: 32.59094
       objectReference: {fileID: 0}
@@ -9039,7 +9047,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 98.32772
+      value: 95.74
       objectReference: {fileID: 0}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12463,6 +12471,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1652391968642252642, guid: 354f509bf74a94748b5285a165abd162, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -7387706064836869012, guid: f9ddceb136337f54ea3da1e13c90cc8f, type: 3}
     - target: {fileID: 2538303047113421070, guid: 354f509bf74a94748b5285a165abd162, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.42

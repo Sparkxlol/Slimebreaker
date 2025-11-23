@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class PlayerRespawn : MonoBehaviour
 
     public Transform startingPoint;
     private Vector3 respawnPoint;
+
+    public static event Action OnDeath;
 
     private void Awake()
     {
@@ -67,6 +70,8 @@ public class PlayerRespawn : MonoBehaviour
 
     public void Respawn()
     {
+        OnDeath?.Invoke();
+
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.position = respawnPoint;
