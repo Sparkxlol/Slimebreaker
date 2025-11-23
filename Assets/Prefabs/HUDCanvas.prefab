@@ -464,6 +464,7 @@ MonoBehaviour:
   stickCoolDownBar: {fileID: 291572988537571361}
   glideCoolDownBar: {fileID: 4534359075989787535}
   chargeCoolDownBar: {fileID: 4732569955501579104}
+  crosshair: {fileID: 4901345668851421722}
 --- !u!1 &3880145915010711475
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    
     public CinemachineCamera thirdPersonCam;
     public CinemachineCamera firstPersonCam;
 
@@ -12,7 +11,6 @@ public class CameraSwitcher : MonoBehaviour
     public CinemachineOrbitalFollow thirdPersonOrbitalFollow;
 
     private PlayerMovement playerMovement;
-
 
     [Header("Player Visibility")]
     [SerializeField] private GameObject playerModel;
@@ -27,19 +25,17 @@ public class CameraSwitcher : MonoBehaviour
     [SerializeField] private float maxFOV = 140f;
     [SerializeField] private float chargeZoomSpeed = 1f;
 
-
-
-
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
-        
+
+        if (crosshair == null && AbilityHUD.instance != null)
+            crosshair = AbilityHUD.instance.crosshair;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(playerMovement.chargeTime == playerMovement.maxChargeTime)
+        if (playerMovement.chargeTime == playerMovement.maxChargeTime)
         {
             AlignCamera(firstPersonCam, thirdPersonCam);
             firstPersonCam.Priority = 10;
@@ -68,8 +64,6 @@ public class CameraSwitcher : MonoBehaviour
             float goalFOV = Mathf.Lerp(defaultFOV, maxFOV, speedFOV);
             thirdPersonCam.Lens.FieldOfView = Mathf.Lerp(thirdPersonCam.Lens.FieldOfView, goalFOV, Time.deltaTime * zoomSpeed);           
         }
-
-
     }
 
     void SyncFirstPersonTiltToFreeLook()
@@ -111,7 +105,4 @@ public class CameraSwitcher : MonoBehaviour
             r.enabled = visible;
         }
     }
-
-
-
 }
