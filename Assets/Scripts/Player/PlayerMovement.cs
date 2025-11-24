@@ -88,10 +88,10 @@ public class PlayerMovement : MonoBehaviour
     public float groundSlideSpeedMultiplier = 2f;
 
     [Header("Collision Checks")]
-    private bool isOnSurface;
-    private bool onGround = false;
+    public bool isOnSurface;
+    public bool onGround = false;
     [SerializeField] private float wallRadiusCheck = 1.5f;
-    private bool onWall = false;
+    public bool onWall = false;
     [SerializeField] private bool onSurface;
     private RaycastHit? wallHit = null;
 
