@@ -4,7 +4,9 @@ using Unity.Cinemachine;
 using Unity.Hierarchy;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 using UnityEngine.Rendering;
 
 
@@ -181,7 +183,17 @@ public class PlayerMovement : MonoBehaviour
 
 
         animator.SetBool("Gliding", isGliding);
-        animator.SetBool("Sliding", slideActive);
+
+
+        if(isGliding || inAir)
+        {
+            animator.SetBool("Sliding", false);
+        }
+        else
+        {
+            animator.SetBool("Sliding", slideActive);
+        }
+        
 
     }
 
@@ -226,8 +238,9 @@ public class PlayerMovement : MonoBehaviour
 
         
         animator.SetBool("Walking", walking);
+
         animator.SetBool("InAir", inAir);
-        if(jumping) Debug.Log("Jump true");
+        
 
         animator.SetBool("Jump", jumping);
     }
@@ -720,7 +733,7 @@ public class PlayerMovement : MonoBehaviour
         
 
         rb.linearVelocity = horizontalVelocity + verticalVelocity;
-        
+        ApplyGlideRotation(currentHorizontalDiveAngle);
 
     }
 
@@ -744,7 +757,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = vel;
 
                 isSticking = true;
-
+                rotatePlayer(Vector3.zero, true);
 
                 float trueStickDepletionRate = stickDepletionRate;
                 if(empoweredStick)
@@ -802,6 +815,8 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 finalVelocity = velocityAlongWall + inputDir * controlStrength;
 
                     rb.linearVelocity = finalVelocity;
+
+                    rotatePlayer(inputDir, true);
                 }
                 else
                 {
@@ -941,6 +956,64 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    void ApplyGlideRotation(float horizontalAngle)
+    {
+
+        Vector3 vel = rb.linearVelocity;
+
+        //YAW toward movement direction
+        Vector3 flatVel = new Vector3(vel.x, 0f, vel.z);
+        if (flatVel.sqrMagnitude < 0.001f)
+            return; // do nothing if not moving
+
+        Quaternion yawRot = Quaternion.LookRotation(flatVel.normalized, Vector3.up);
+
+        //PITCH from verticalAngle
+        float verticalAngle = Mathf.Asin(vel.normalized.y) * Mathf.Rad2Deg;
+        Quaternion pitchRot = Quaternion.Euler(-verticalAngle, 0f, 0f);
+
+        //ROLL from horizontalAngle
+        Quaternion rollRot = Quaternion.Euler(0f, 0f, -horizontalAngle);
+
+        //Combine all rotations
+        Quaternion targetRot = yawRot * pitchRot * rollRot;
+
+        //Smooth the rotation
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRot,
+            8f * Time.deltaTime
+        );
+    }
+
+    void rotatePlayer(Vector3 direction, bool sticking)
+    {
+        Quaternion targetRot = Quaternion.LookRotation(direction, Vector3.up);
+
+        if(sticking)
+        {
+            Vector3 forward = direction;
+            if(direction == Vector3.zero)
+            {
+                forward = transform.forward;
+            }
+
+            Vector3 surfaceUp = currentSurfaceNormal.normalized;
+
+            // Project the forward vector onto the surface
+            forward = Vector3.ProjectOnPlane(forward, surfaceUp).normalized;
+
+            // Build the rotation using LookRotation(forward, up)
+            targetRot = Quaternion.LookRotation(forward, surfaceUp);
+        }
+
+        // Smoothly rotate toward it
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRot,
+            10f * Time.deltaTime
+        );
+    }
 
     //TODO: Balance the jumping so you cant gain inifnite speed
     void Bounce(Vector3 veloctiy, Vector3 surfaceNormal, bool charged) 
@@ -1006,6 +1079,11 @@ public class PlayerMovement : MonoBehaviour
         inAir = true;
         Vector3 accelDir = direction.normalized;
 
+        if(direction.sqrMagnitude > 0.1f)
+        {
+            rotatePlayer(accelDir, false);
+        }
+        
         //make sure no sticking to wall
         float gravityMultiplier = airGravityMultiplier;
         if (onWall)
@@ -1039,7 +1117,7 @@ public class PlayerMovement : MonoBehaviour
             float accelSpeed = acceleration * Time.deltaTime;
             if (accelSpeed > addSpeed) accelSpeed = addSpeed;
 
-
+            
             // Apply acceleration along accelDir
             rb.linearVelocity += accelDir * accelSpeed;
         }
@@ -1088,7 +1166,7 @@ public class PlayerMovement : MonoBehaviour
             float accelSpeed = acceleration * Time.deltaTime;
             if (accelSpeed > addSpeed) accelSpeed = addSpeed;
 
-            
+            rotatePlayer(accelDir, false);
             // Apply acceleration along accelDir
             rb.linearVelocity += accelDir * accelSpeed;
 
@@ -1103,6 +1181,7 @@ public class PlayerMovement : MonoBehaviour
             //if there is input change velocity
             if (direction.normalized != Vector3.zero) 
             {
+                rotatePlayer(direction.normalized, false);
                 walking = true;
                 rb.linearVelocity = new Vector3(targetVel.x, velocity.y, targetVel.z);
             }
