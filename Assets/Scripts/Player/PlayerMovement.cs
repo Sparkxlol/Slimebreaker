@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody rb;
     public Transform cameraTransform;
     public Transform visualTransform;
+    private Transform modelTransform;
 
     [Header("Animations")]
     [SerializeField] private Animator animator;
@@ -141,6 +142,10 @@ public class PlayerMovement : MonoBehaviour
         col.material = normalFriction;
 
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+        modelTransform = transform.Find("Model");
+        if (modelTransform == null)
+            Debug.LogError("Model child object not found!");
 
     }
     void Update()
@@ -979,8 +984,8 @@ public class PlayerMovement : MonoBehaviour
         Quaternion targetRot = yawRot * pitchRot * rollRot;
 
         //Smooth the rotation
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
+        modelTransform.rotation = Quaternion.Slerp(
+            modelTransform.rotation,
             targetRot,
             8f * Time.deltaTime
         );
@@ -995,7 +1000,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 forward = direction;
             if(direction == Vector3.zero)
             {
-                forward = transform.forward;
+                forward = modelTransform.forward;
             }
 
             Vector3 surfaceUp = currentSurfaceNormal.normalized;
@@ -1005,11 +1010,14 @@ public class PlayerMovement : MonoBehaviour
 
             // Build the rotation using LookRotation(forward, up)
             targetRot = Quaternion.LookRotation(forward, surfaceUp);
+
+            
+            
         }
 
         // Smoothly rotate toward it
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
+        modelTransform.rotation = Quaternion.Slerp(
+            modelTransform.rotation,
             targetRot,
             10f * Time.deltaTime
         );
