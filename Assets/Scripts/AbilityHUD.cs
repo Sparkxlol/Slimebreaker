@@ -6,7 +6,7 @@ public class AbilityHUD : MonoBehaviour
 {
     public static AbilityHUD instance;
 
-    public PlayerMovement playerMovement;
+    private PlayerMovement playerMovement;
 
     public Image slideCoolDownBar;
     public Image stickCoolDownBar;
@@ -21,16 +21,18 @@ public class AbilityHUD : MonoBehaviour
             instance = this;
         else
             Destroy(this);
+
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
     }
 
     private void Start()
     {
-        if (playerMovement == null) Debug.Log("playermovement null in abilityhud");
+        if (playerMovement == null) Debug.Log("playermovement null in abilityhud"); 
     }
     // Update is called once per frame
     void Update()
     {
-        if (playerMovement == null) Debug.Log("playermovement null in abilityhud");
+        if (playerMovement == null) return;
 
         slideCoolDownBar.fillAmount = playerMovement.slideLeft / playerMovement.maxSlideCharge;
         stickCoolDownBar.fillAmount = playerMovement.stickLeft / playerMovement.maxStickCharge;

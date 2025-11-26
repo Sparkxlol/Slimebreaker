@@ -9,6 +9,7 @@ TagManager:
   - Hazard
   - Wall
   - Floor
+  - LevelCanvas
   layers:
   - Default
   - TransparentFX
