@@ -130,7 +130,10 @@ public class GameManager : MonoBehaviour
             }
 
             if (optionsMenu != null)
+            {
+                optionsMenu.DeactivateOptions();
                 optionsMenu.OptionsCancelled();
+            }
 
             if (conversationCanvas != null)
                 conversationCanvas.SetActive(true);
