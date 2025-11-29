@@ -184,10 +184,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3213500107184310527}
     m_Modifications:
+    - target: {fileID: 1058873913099258790, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8d0fc329a210bb14a9888690adabc8fa, type: 3}
     - target: {fileID: 3791003506392420690, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
       propertyPath: m_Name
       value: HUDCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 7367901245529906754, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cdc03911103e26a4a83226d22091f0e6, type: 3}
     - target: {fileID: 7894554623740793306, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
       propertyPath: m_Pivot.x
       value: 0
