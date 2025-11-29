@@ -733,6 +733,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 206375649}
     m_Modifications:
+    - target: {fileID: 892599753522881350, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2820bc3965fbf8949bf01ce3d0d5bc43, type: 2}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalScale.x
       value: 115.82839
@@ -8809,6 +8813,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 206375649}
     m_Modifications:
+    - target: {fileID: 892599753522881350, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2820bc3965fbf8949bf01ce3d0d5bc43, type: 2}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalScale.x
       value: 53.792725
@@ -9641,6 +9649,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 206375649}
     m_Modifications:
+    - target: {fileID: 892599753522881350, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2820bc3965fbf8949bf01ce3d0d5bc43, type: 2}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalScale.x
       value: 118.54051
@@ -10182,6 +10194,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 206375649}
     m_Modifications:
+    - target: {fileID: 892599753522881350, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2820bc3965fbf8949bf01ce3d0d5bc43, type: 2}
     - target: {fileID: 2191102114979274088, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_LocalScale.x
       value: 111.438545
