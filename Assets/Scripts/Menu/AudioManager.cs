@@ -94,6 +94,18 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Call override and play a boss voiceline.
+    /// </summary>
+    /// <param name="clip">SFX clip that will be played.</param>
+    public void PlayVoiceline(AudioClip clip)
+    {
+        bossPlayerDeathAudioSource.clip = clip;
+        bossPlayerDeathAudioSource.loop = false;
+
+        bossPlayerDeathAudioSource.Play();
+    }
+
+    /// <summary>
     /// Call to add SFX to a pool of SFXs that are being played.
     /// </summary>
     /// <param name="clip">SFX clip that will be played.</param>

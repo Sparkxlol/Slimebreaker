@@ -13,6 +13,7 @@ public class LevelCanvas : MonoBehaviour
     public GameObject promptCanvas;
     public GameObject conversationCanvas;
     public GameObject dialoguePanel;
+    public GameObject bossCanvas;
 
     [Header("Buttons")]
     public EventTrigger exitTopperEventTrigger;
@@ -21,4 +22,11 @@ public class LevelCanvas : MonoBehaviour
     public Button settingsButton;
     public Button unstuckButton;
     public Button exitButton;
+
+    private void Awake()
+    {
+        BossUI bossUI = GetComponentInChildren<BossUI>();
+
+        bossCanvas =  (bossUI) ? bossUI.gameObject : null;
+    }
 }

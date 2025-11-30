@@ -83,6 +83,16 @@ public class PlayerRespawn : MonoBehaviour
         pm.glideLeft = pm.maxGlideCharge;
     }
 
+    public void Teleport(Transform location)
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.position = location.position;
+
+        pm.isGliding = false;
+        rb.useGravity = true;
+    }
+
     private void SaveCheckpoint(Checkpoint checkpoint)
     {
         PlayerPrefs.SetString("ACTIVE_CHECKPOINT_ID", checkpoint.CheckpointId);
