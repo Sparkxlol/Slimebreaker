@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
     private GameObject optionsCanvas;
     private GameObject pauseMenu;
     private OptionsMenu optionsMenu;
-    [SerializeField] private int mainMenuBuildIndex = 3;
+    [SerializeField] private int mainMenuBuildIndex = 0;
 
     [Header("Canvas")]
     private GameObject promptCanvas;
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
 
         GamePaused = false;
 
-        SceneManager.LoadScene(mainMenuBuildIndex);
+        SceneManager.LoadScene(buildIndex);
     }
 
     public void ActivatePauseMenu()

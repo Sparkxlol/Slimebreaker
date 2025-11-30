@@ -7,7 +7,7 @@ public class LevelLoader : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.GetComponentInParent<PlayerMovement>() != null)
             GameManager.instance.LoadLevel(sceneBuildIndex);
     }
 }

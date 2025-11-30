@@ -47,6 +47,7 @@ public class PlayerRespawn : MonoBehaviour
         else
         {
             SetCheckPoint(startingPoint.position);
+            Respawn();
         }
 
         pm.slideLeft = pm.maxSlideCharge;

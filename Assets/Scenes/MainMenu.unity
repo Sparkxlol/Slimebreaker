@@ -2701,7 +2701,7 @@ MonoBehaviour:
   menuCanvas: {fileID: 1675922535}
   optionsCanvas: {fileID: 1644706538}
   creditsCanvas: {fileID: 1894431178}
-  scene: 2
+  scene: 1
 --- !u!1 &1771248220
 GameObject:
   m_ObjectHideFlags: 0
