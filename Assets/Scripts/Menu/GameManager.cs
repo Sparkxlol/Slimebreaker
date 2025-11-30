@@ -94,6 +94,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PauseGameWithoutMenu()
+    {
+        PauseGame();
+
+        if (optionsCanvas != null)
+        {
+            optionsCanvas.SetActive(false);
+            pauseMenu.SetActive(false);
+        }
+    }
+
     public void PauseGame()
     {
         GamePaused = !GamePaused;

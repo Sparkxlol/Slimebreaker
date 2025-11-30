@@ -120,5 +120,7 @@ public class PlayerRespawn : MonoBehaviour
     {
         PlayerPrefs.DeleteKey("ACTIVE_CHECKPOINT_ID");
         Debug.LogWarning("Active checkpoint cleared!");
+
+        SetCheckPoint(startingPoint.position);
     }
 }
