@@ -72,11 +72,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float currentHorizontalDiveAngle = 0f;
     [SerializeField] private float defaultVerticalGlideAngle = -10f;
     [SerializeField] private float defaultHorizontalGlideAngle = 0f;
-    [SerializeField] private float slowDownGravityMultiplier = 3f;
     [SerializeField] private float lastGlidePress = 0f;
     [SerializeField] public bool glideTogglePressed = false;
     [SerializeField] private Vector3 initialGlideVelocity;
-    [SerializeField] private bool glideJustStarted;
     private float maxClimbSpeed = 0;
 
     [Header("Slide")]
@@ -454,7 +452,6 @@ public class PlayerMovement : MonoBehaviour
                 isGliding = true;
                 rb.useGravity = false;
 
-                glideJustStarted = true;
                 initialGlideVelocity = rb.linearVelocity;
                 maxClimbSpeed = initialGlideVelocity.magnitude;
                 currentVerticalDiveAngle = defaultVerticalGlideAngle;
@@ -485,23 +482,24 @@ public class PlayerMovement : MonoBehaviour
         if (isGliding && glideLeft > 0 && (!onGround || !onWall))
         {
             //this stops y velocity when glide starts
-            if (rb.linearVelocity.y > 0 && glideJustStarted)
-            {
-                glideLeft -= glideDepletionRate * Time.deltaTime;
-                rb.AddForce(Physics.gravity * (slowDownGravityMultiplier), ForceMode.Acceleration);
+            //if (rb.linearVelocity.y > 0 && glideJustStarted)
+            //{
+            //    glideLeft -= glideDepletionRate * Time.deltaTime;
+            //    rb.AddForce(Physics.gravity * (slowDownGravityMultiplier), ForceMode.Acceleration);
 
-                if (rb.linearVelocity.y < 0)
-                {
-                    rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-                    glideJustStarted = false;
-                }
-            }
-            else
-            {
-                if (glideJustStarted) glideJustStarted = false;
-                glideInput(inputDir);
-            }
-            
+            //    if (rb.linearVelocity.y < 0)
+            //    {
+            //        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+            //        glideJustStarted = false;
+            //    }
+            //}
+            //else
+            //{
+            //    if (glideJustStarted) glideJustStarted = false;
+            //    glideInput(inputDir);
+            //}
+            glideInput(inputDir);
+
         }
         else
         {
@@ -528,26 +526,31 @@ public class PlayerMovement : MonoBehaviour
 
         rb.useGravity = false;
 
-      
-        
 
         float maxVerticalAngle = 70f;
         float maxHorizontalAngle = 45f;
 
-        float verticalAngleChangeMultiplier = 30f;
+        //if  just started glide and moving upwards, change vertical angle to be upwards
+        if (currentVerticalDiveAngle < 0f && rb.linearVelocity.y > 0)
+        {
+            currentVerticalDiveAngle = maxVerticalAngle *  rb.linearVelocity.y / rb.linearVelocity.magnitude;
+        }
+        
+        float manualVerticalAngleChangeMultiplier = 60f;
+        float verticalAngleChangeMultiplier = 10f;
         float horizontalAngleChangeMultiplier = 50f;
 
         //tilt down
         if(Input.GetKey(KeyCode.W))
         {
-            currentVerticalDiveAngle -= verticalAngleChangeMultiplier * Time.deltaTime;
+            currentVerticalDiveAngle -= manualVerticalAngleChangeMultiplier * Time.deltaTime;
             currentVerticalDiveAngle = Mathf.Max((currentVerticalDiveAngle), (-maxVerticalAngle)); 
         }
 
         //tilt up
         else if (Input.GetKey(KeyCode.S)) 
         {
-            currentVerticalDiveAngle += verticalAngleChangeMultiplier * Time.deltaTime;
+            currentVerticalDiveAngle += manualVerticalAngleChangeMultiplier * Time.deltaTime;
             currentVerticalDiveAngle = Mathf.Min(currentVerticalDiveAngle, maxVerticalAngle);
         }
         else
@@ -564,7 +567,7 @@ public class PlayerMovement : MonoBehaviour
             }
                 
         }
-        //geol
+        
 
         //tilt left
         if (Input.GetKey(KeyCode.A))
@@ -620,8 +623,6 @@ public class PlayerMovement : MonoBehaviour
         {
             maxHorizontalSpeed = rb.linearVelocity.magnitude;
         }
-
-        
 
 
         //Pointing up/Climbing
@@ -686,7 +687,7 @@ public class PlayerMovement : MonoBehaviour
             verticalVelocity.y = -Mathf.Abs(angleRatio * maxDiveSpeed);
             verticalVelocity.y = Mathf.Min(0f, verticalVelocity.y);
 
-            horizontalSpeed -= Time.deltaTime * 1f;
+            horizontalSpeed *= 1 - (Time.deltaTime / 4f);
             horizontalSpeed = Mathf.Max(horizontalSpeed, 0f);
         }
         //this is causing instant downward velocity
@@ -702,8 +703,8 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-                //now calculate horizontal tilt
-                Vector3 tilt = Vector3.zero;
+        //now calculate horizontal tilt
+        Vector3 tilt = Vector3.zero;
         //if tilted left:
         if (Mathf.Abs(currentHorizontalDiveAngle) > 0.1f)
         {
@@ -870,7 +871,7 @@ public class PlayerMovement : MonoBehaviour
         
 
 
-        if (stickLeft < maxStickCharge)
+        if (stickLeft < maxStickCharge && !isSticking)
         {
             stickLeft += stickRechargeRate * Time.deltaTime;
             stickLeft = Mathf.Min(maxStickCharge, stickLeft);

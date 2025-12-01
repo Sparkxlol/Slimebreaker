@@ -53,6 +53,7 @@ MonoBehaviour:
   promptCanvas: {fileID: 7432078208625295078}
   conversationCanvas: {fileID: 7625631138992876298}
   dialoguePanel: {fileID: 4336252750545792193}
+  bossCanvas: {fileID: 0}
   exitTopperEventTrigger: {fileID: 8504312442903469214}
   saveOptionsButton: {fileID: 3051387248598465076}
   menuButton: {fileID: 6986340060669199998}
@@ -184,18 +185,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3213500107184310527}
     m_Modifications:
+    - target: {fileID: 69824236791892163, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1442ff72fafe39b47bad9f8ed8bf9ca1, type: 3}
+    - target: {fileID: 291572988537571361, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9e92effba3e25e49952d14cb46d4b72, type: 3}
     - target: {fileID: 1058873913099258790, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8d0fc329a210bb14a9888690adabc8fa, type: 3}
+      objectReference: {fileID: 21300000, guid: 6071acfd3f5ade749b4f437d15ebf157, type: 3}
+    - target: {fileID: 1403834540109335548, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1442ff72fafe39b47bad9f8ed8bf9ca1, type: 3}
     - target: {fileID: 3791003506392420690, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
       propertyPath: m_Name
       value: HUDCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4133780252866106006, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1442ff72fafe39b47bad9f8ed8bf9ca1, type: 3}
+    - target: {fileID: 4534359075989787535, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9e92effba3e25e49952d14cb46d4b72, type: 3}
+    - target: {fileID: 4732569955501579104, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9e92effba3e25e49952d14cb46d4b72, type: 3}
+    - target: {fileID: 6860245103483553874, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1442ff72fafe39b47bad9f8ed8bf9ca1, type: 3}
+    - target: {fileID: 7011507146849147266, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d9e92effba3e25e49952d14cb46d4b72, type: 3}
     - target: {fileID: 7367901245529906754, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cdc03911103e26a4a83226d22091f0e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 4e057d70dcc308e4090e2653d8d3488e, type: 3}
     - target: {fileID: 7894554623740793306, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -276,6 +309,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8121738084796968979, guid: 6c9fa43521a30ee489e3fee2da97e668, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1c0ad356e2276ad41b52673923369780, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
