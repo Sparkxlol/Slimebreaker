@@ -135,6 +135,10 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 preImpactVelocity;
 
+
+    [Header("Sound Effects")]
+    [SerializeField] private AudioClip jumpClip;
+
     private void Start()
     {
         col = GetComponentInChildren<Collider>();
@@ -1077,7 +1081,7 @@ public class PlayerMovement : MonoBehaviour
         newVelocity = baseJumpMagnitude * empoweredNonCharged * currentSurfaceNormal.normalized * 1.3f;
         rb.linearVelocity += newVelocity;
 
- 
+        AudioManager.instance.PlaySFX(jumpClip);
     }
 
 

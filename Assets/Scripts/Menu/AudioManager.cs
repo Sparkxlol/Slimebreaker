@@ -16,22 +16,36 @@ public class AudioManager : MonoBehaviour
     private AudioSource bossPlayerDeathAudioSource;
 
     private float bossStartDelay = 0;
-    private float bossStartDelayEnd = 5f;
+    private float bossStartDelayEnd = 2f;
 
 
     [Header("Sound Effects")]
     [SerializeField] private int numOfSFXs = 5;
     private List<AudioSource> sfxAudioSources;
-    
+
+    private float MusicVolumePercentage { get { return OptionsManager.instance.MusicVolumePercentage * OptionsManager.instance.MasterVolumePercentage; } }
+    private float SFXVolumePercentage { get { return OptionsManager.instance.SFXVolumePercentage * OptionsManager.instance.MasterVolumePercentage; } }
+    private float VoiceVolumePercentage { get { return OptionsManager.instance.VoiceVolumePercentage * OptionsManager.instance.MasterVolumePercentage; } }
+
 
     private void OnEnable()
     {
+        if (instance != this) return;
+
         PlayerRespawn.OnDeath += PlayerDeath;
+
+        OptionsManager.MasterVolumeChanged += SetSoundtrackVolume;
+        OptionsManager.MusicVolumeChanged += SetSoundtrackVolume;
     }
 
     private void OnDisable()
     {
+        if (instance != this) return;
+
         PlayerRespawn.OnDeath -= PlayerDeath;
+
+        OptionsManager.MasterVolumeChanged -= SetSoundtrackVolume;
+        OptionsManager.MusicVolumeChanged -= SetSoundtrackVolume;
     }
 
     private void Awake()
@@ -62,8 +76,8 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        activeSoundtrack.volume = OptionsManager.instance.MusicVolumePercentage;
-        // bossPlayerDeathAudioSource.volume = OptionsManager.instance.VoiceLinesVolumePercentage;
+        activeSoundtrack.volume = MusicVolumePercentage;
+        bossPlayerDeathAudioSource.volume = VoiceVolumePercentage;
 
         if (level < levelSoundtracks.Count && level >= 0)
             activeSoundtrack.clip = levelSoundtracks[level];
@@ -74,9 +88,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        // Event would be better here, bit advanced for current standings...
-        activeSoundtrack.volume = OptionsManager.instance.MusicVolumePercentage;
-
         bossStartDelay += Time.deltaTime;
     }
 
@@ -86,10 +97,7 @@ public class AudioManager : MonoBehaviour
 
         if (bossPlayerDeathClipsEnabled && bossPlayerDeathClips.Count > 0)
         {
-            bossPlayerDeathAudioSource.clip = bossPlayerDeathClips[Random.Range(0, bossPlayerDeathClips.Count)];
-            bossPlayerDeathAudioSource.loop = false;
-
-            bossPlayerDeathAudioSource.Play();
+            PlayVoiceline(bossPlayerDeathClips[Random.Range(0, bossPlayerDeathClips.Count)]);
         }
     }
 
@@ -99,6 +107,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="clip">SFX clip that will be played.</param>
     public void PlayVoiceline(AudioClip clip)
     {
+        bossPlayerDeathAudioSource.volume = VoiceVolumePercentage;
         bossPlayerDeathAudioSource.clip = clip;
         bossPlayerDeathAudioSource.loop = false;
 
@@ -116,7 +125,7 @@ public class AudioManager : MonoBehaviour
             if (!audioSource.isPlaying)
             {
                 audioSource.clip = clip;
-                // audioSource.volume = OptionsManager.instance.SoundEffectVolumePercentage;
+                audioSource.volume = SFXVolumePercentage;
                 audioSource.Play();
 
                 return;
@@ -124,7 +133,12 @@ public class AudioManager : MonoBehaviour
         }
 
         sfxAudioSources[0].clip = clip;
-        // sfxAudioSources[0].volume = OptionsManager.instance.SoundEffectVolumePercentage;
+        sfxAudioSources[0].volume = SFXVolumePercentage;
         sfxAudioSources[0].Play();
+    }
+
+    private void SetSoundtrackVolume()
+    {
+        activeSoundtrack.volume = MusicVolumePercentage;
     }
 }

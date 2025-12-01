@@ -8392,7 +8392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5788645849298631379, guid: 0e4549f14842122478c5043359cb7c98, type: 3}
       propertyPath: bossPlayerDeathClipsEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6085586756589093641, guid: 0e4549f14842122478c5043359cb7c98, type: 3}
       propertyPath: m_Name
@@ -12229,6 +12229,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.0000052232017
       objectReference: {fileID: 0}
+    - target: {fileID: 3446030304460886696, guid: 354f509bf74a94748b5285a165abd162, type: 3}
+      propertyPath: jumpClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 994841f85cf09fd4aa17ce5e2df3d16b, type: 3}
     - target: {fileID: 4538218753552191758, guid: 354f509bf74a94748b5285a165abd162, type: 3}
       propertyPath: m_Name
       value: PlayerPrefab
