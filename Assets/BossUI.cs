@@ -6,6 +6,7 @@ public class BossUI : MonoBehaviour
     [Header("Text")]
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject background;
+    [SerializeField] private TextMeshProUGUI timeText;
 
     private float maxDuration = 1f;
     private float currentDuration = 0;
@@ -29,7 +30,16 @@ public class BossUI : MonoBehaviour
     {
         text.text = line;
         maxDuration = duration;
+        currentDuration = 0;
 
         background.SetActive(true);
+    }
+
+    public void SetBossTime(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time % 60);
+
+        timeText.text = minutes + ":" + seconds.ToString("00");
     }
 }

@@ -48,7 +48,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9e838ba10c20a7e43933d73e02ce781d, type: 3}
   level: 0
   bossPlayerDeathClips:
-  - {fileID: 8300000, guid: 19cd7a6267121ad4e92292bf5d4b4fe6, type: 3}
-  - {fileID: 8300000, guid: da48f4e4acec2bd41a0b208fd93b6b33, type: 3}
+  - {fileID: 8300000, guid: 2c42726086edb2e4493498423a93522e, type: 3}
+  - {fileID: 8300000, guid: 7f0eadb92530df04685e06f86fdd8ba3, type: 3}
+  - {fileID: 8300000, guid: 80d22815184bc7f49bd64666a2cc1737, type: 3}
+  - {fileID: 8300000, guid: 3f74b9f8337121e42a3bcd711c080488, type: 3}
+  - {fileID: 8300000, guid: 25e60afc3cd24fb448cd3277f2bcdad6, type: 3}
+  - {fileID: 8300000, guid: 651b0c75896353e4f9797d3d7d945366, type: 3}
+  - {fileID: 8300000, guid: 4391d52efe3e9de47a949e1f35312ff5, type: 3}
+  - {fileID: 8300000, guid: cbdea0e2c00f69847b407f275e9aef42, type: 3}
+  - {fileID: 8300000, guid: 477470eebf0d003469d2a821080c0200, type: 3}
+  - {fileID: 8300000, guid: 2c8be1dd36169454aa8833ecdc0a1cb1, type: 3}
   bossPlayerDeathClipsEnabled: 0
   numOfSFXs: 12

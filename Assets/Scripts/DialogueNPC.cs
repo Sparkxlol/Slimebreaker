@@ -18,6 +18,8 @@ public class DialogueNPC : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        if (anim == null) return;
+
         foreach (var param in anim.parameters)
         {
             animParams.Add(param.name);
@@ -33,7 +35,7 @@ public class DialogueNPC : MonoBehaviour, IInteractable
         ConversationManager.Instance.StartConversation(conversation);
         CameraLock.LockCameraInput();
 
-        if (animParams.Contains("speaking"))
+        if (anim != null && animParams.Contains("speaking"))
             anim.SetBool("speaking", true);
     }
 
@@ -60,7 +62,7 @@ public class DialogueNPC : MonoBehaviour, IInteractable
         ConversationManager.Instance.EndConversation();
         CameraLock.UnlockCameraInput();
 
-        if (animParams.Contains("speaking"))
+        if (anim != null && animParams.Contains("speaking"))
             anim.SetBool("speaking", false);
     }
 

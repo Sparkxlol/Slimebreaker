@@ -1,12 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[CreateAssetMenu(menuName = "Dialogue/BossDialogue")]
-public class BossDialogue : ScriptableObject
-{
-    public DialogueLine[] lines;
-}
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class DialogueLine
@@ -39,12 +34,31 @@ public class BossLevel : MonoBehaviour
 
     private int targetsUsed = 0;
 
+    [Header("Timer")]
+    [SerializeField] private float maxTime = 120f;
+    public float currentTime = 0;
+
+
     private void Start()
     {
         bossUI = GameObject.FindGameObjectWithTag("LevelCanvas").GetComponent<LevelCanvas>().bossCanvas.GetComponent<BossUI>();
 
         if (bossUI == null)
             Debug.LogError("BossUI does not exist or cannot be found by LevelCanvas");
+
+        currentTime = maxTime;
+    }
+
+    private void Update()
+    {
+        currentTime -= Time.deltaTime;
+        bossUI.SetBossTime(currentTime);
+
+        if (currentTime <= 1f)
+        {
+            PlayerRespawn.instance.RemoveActiveCheckpoint();
+            GameManager.instance.LoadLevel(4);
+        }
     }
 
     private void OnEnable()
@@ -53,6 +67,8 @@ public class BossLevel : MonoBehaviour
         {
             collectible.OnCollected += TargetCollected;
         }
+
+        PlayerRespawn.OnDeath += PlayerDied;
     }
 
     private void OnDisable()
@@ -61,6 +77,13 @@ public class BossLevel : MonoBehaviour
         {
             collectible.OnCollected -= TargetCollected;
         }
+
+        PlayerRespawn.OnDeath -= PlayerDied;
+    }
+
+    private void PlayerDied()
+    {
+        currentTime -= 30f;
     }
 
     private void TargetCollected()
@@ -101,8 +124,6 @@ public class BossLevel : MonoBehaviour
 
         if (targetsUsed == bossTargets.Count)
         {
-            Debug.Log("Hello");
-
             StartCoroutine(StartBossDeath());
             return;
         }
@@ -112,7 +133,7 @@ public class BossLevel : MonoBehaviour
 
     private IEnumerator StartBossVoiceline()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1.5f);
 
         AudioManager.instance.PlayVoiceline(bossDialogue.lines[dialogueIndex].voiceline);
         bossUI.SetBossLine(bossDialogue.lines[dialogueIndex].text, bossDialogue.lines[dialogueIndex].voiceline.length);
@@ -122,10 +143,10 @@ public class BossLevel : MonoBehaviour
 
     private IEnumerator StartBossDeath()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(7.5f);
 
-        // AudioManager.instance.PlayVoiceline(bossDeathDialogue.voiceline);
-        // bossUI.SetBossLine(bossDeathDialogue.text, bossDeathDialogue.voiceline.length);
+        AudioManager.instance.PlayVoiceline(bossDeathDialogue.voiceline);
+        bossUI.SetBossLine(bossDeathDialogue.text, bossDeathDialogue.voiceline.length);
 
         foreach (QuestTarget target in bossDeathTargets)
         {
