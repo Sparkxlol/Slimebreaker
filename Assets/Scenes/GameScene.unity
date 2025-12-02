@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 36b3c6570f3071b498b8a2ee5d010834, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -94,7 +94,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 281fa632363d2ff468a9a4ad2d181c51, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -130,6 +130,10 @@ PrefabInstance:
     - target: {fileID: 7111266227979015410, guid: f3d877f027830b34383a7afa52942345, type: 3}
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_Veins_02_Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 7111266227979015410, guid: f3d877f027830b34383a7afa52942345, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7636867302718934600, guid: f3d877f027830b34383a7afa52942345, type: 3}
       propertyPath: m_LocalScale.x
@@ -212,6 +216,10 @@ PrefabInstance:
     - target: {fileID: 5929396415658952688, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
       propertyPath: m_Name
       value: PP_Mountain_Cave_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929396415658952688, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6413867161225518410, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
       propertyPath: m_LocalScale.x
@@ -333,6 +341,10 @@ PrefabInstance:
     - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_Name
       value: Spikes (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -505,6 +517,10 @@ PrefabInstance:
     - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_TagString
       value: Hazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 437161542279525297, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_Convex
@@ -793,6 +809,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform
       objectReference: {fileID: 0}
+    - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -861,6 +881,10 @@ PrefabInstance:
     - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_Name
       value: Spikes (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -960,6 +984,10 @@ PrefabInstance:
     - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
       propertyPath: m_Name
       value: Platform (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1063,6 +1091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_08 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1176659038182693018, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1954427572298285600, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5298002
@@ -1136,6 +1168,10 @@ PrefabInstance:
     - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_Name
       value: PP_Mountain_Cave_07 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -1262,6 +1298,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_22
       objectReference: {fileID: 0}
+    - target: {fileID: 9182045439169993109, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1290,6 +1330,10 @@ PrefabInstance:
     - target: {fileID: 7450378538176716190, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
       propertyPath: m_TagString
       value: Hazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450378538176716190, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7795413617436247844, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
       propertyPath: m_LocalScale.x
@@ -1386,7 +1430,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &206375649
 Transform:
@@ -1535,6 +1579,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Cave_Entrance_01
       objectReference: {fileID: 0}
+    - target: {fileID: 8088377713525962549, guid: dbd57a34af5d308478d801231c7ac0bb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8088377713525962550, guid: dbd57a34af5d308478d801231c7ac0bb, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -1660,6 +1708,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_05 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7537437362530198816, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8330154253850051829, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1737,6 +1789,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4283572941712784142, guid: 5f4e8f6cef8ef22449be06ec8056f28f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1757,6 +1813,10 @@ PrefabInstance:
     - target: {fileID: 1475570609427835203, guid: ea8b1559f8ba8874eb05117606bc1c64, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475570609427835203, guid: ea8b1559f8ba8874eb05117606bc1c64, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2247743758865249273, guid: ea8b1559f8ba8874eb05117606bc1c64, type: 3}
       propertyPath: m_LocalScale.x
@@ -1897,6 +1957,10 @@ PrefabInstance:
     - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Plateau_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 962306560501491978, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_LocalScale.x
@@ -2078,6 +2142,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4283572941712784142, guid: 5f4e8f6cef8ef22449be06ec8056f28f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2109,7 +2177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2656340250704165958, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -201.65228
+      value: -202.65228
       objectReference: {fileID: 0}
     - target: {fileID: 2656340250704165958, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2146,6 +2214,10 @@ PrefabInstance:
     - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_Name
       value: Spikes (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2241,6 +2313,10 @@ PrefabInstance:
     - target: {fileID: 6073663032193197780, guid: 109da2b7536a2fb4ab31da628ba3a385, type: 3}
       propertyPath: m_Name
       value: obj_gateDoor_right_LOW
+      objectReference: {fileID: 0}
+    - target: {fileID: 6073663032193197780, guid: 109da2b7536a2fb4ab31da628ba3a385, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6846083816583101550, guid: 109da2b7536a2fb4ab31da628ba3a385, type: 3}
       propertyPath: m_LocalScale.x
@@ -2411,6 +2487,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 8448691547421224641, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8448691547421224642, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -2550,6 +2630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4283572941712784142, guid: 5f4e8f6cef8ef22449be06ec8056f28f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2582,6 +2666,10 @@ PrefabInstance:
     - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_TagString
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -2656,6 +2744,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_19
       objectReference: {fileID: 0}
+    - target: {fileID: 3627751576562942866, guid: 11af110a30ee2144b85d9bbf3504ab85, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4112785340548618536, guid: 11af110a30ee2144b85d9bbf3504ab85, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.6858
@@ -2724,6 +2816,10 @@ PrefabInstance:
     - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Plateau_05 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7746122563665643125, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_LocalScale.x
@@ -2850,6 +2946,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2878,6 +2978,10 @@ PrefabInstance:
     - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_TagString
       value: Hazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7746122563665643125, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_LocalScale.x
@@ -3014,6 +3118,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3091,6 +3199,10 @@ PrefabInstance:
     - target: {fileID: 9182045439169993109, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_22 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9182045439169993109, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 9182045439169993110, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
       propertyPath: m_Convex
@@ -3191,6 +3303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
       value: 4.2327685
@@ -3263,6 +3379,10 @@ PrefabInstance:
     - target: {fileID: 1386387631047713358, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_14 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386387631047713358, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1762772882735790324, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -3337,6 +3457,10 @@ PrefabInstance:
     - target: {fileID: 2429872943744550515, guid: a6a65218c1bb3154093056765a472c97, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429872943744550515, guid: a6a65218c1bb3154093056765a472c97, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3094945178160094409, guid: a6a65218c1bb3154093056765a472c97, type: 3}
       propertyPath: m_LocalScale.x
@@ -3488,6 +3612,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3557,6 +3685,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3625,6 +3757,10 @@ PrefabInstance:
     - target: {fileID: 5447137243155776366, guid: 729e1a2b31d905344b3abbfd51406e6b, type: 3}
       propertyPath: m_Name
       value: PP_Stalactite_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5447137243155776366, guid: 729e1a2b31d905344b3abbfd51406e6b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5807640236296397499, guid: 729e1a2b31d905344b3abbfd51406e6b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -3703,6 +3839,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4283572941712784142, guid: 5f4e8f6cef8ef22449be06ec8056f28f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3719,6 +3859,10 @@ PrefabInstance:
     - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_Name
       value: Wall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
@@ -3865,6 +4009,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_06
       objectReference: {fileID: 0}
+    - target: {fileID: 5971720804321027172, guid: dbd71fd0aa0655d47ae01587101bb1a3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6454784999386070750, guid: dbd71fd0aa0655d47ae01587101bb1a3, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.8724535
@@ -3946,6 +4094,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 3994430562865788140, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3994430562865788141, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -4022,6 +4174,10 @@ PrefabInstance:
     - target: {fileID: 97021913861941883, guid: 56ae128a01fe17a4b93c24ec1b288071, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Column_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 97021913861941883, guid: 56ae128a01fe17a4b93c24ec1b288071, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 726029819734339777, guid: 56ae128a01fe17a4b93c24ec1b288071, type: 3}
       propertyPath: m_LocalScale.x
@@ -4153,6 +4309,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: obj_gateDoor_left_LOW
       objectReference: {fileID: 0}
+    - target: {fileID: 829147098919542142, guid: fe596f3f8ca06c649a13d762d93fd6f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4256,6 +4416,10 @@ PrefabInstance:
     - target: {fileID: 2568282597278562079, guid: 5a190edaa8dc93948b32bc26d29dcdf0, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 2568282597278562079, guid: 5a190edaa8dc93948b32bc26d29dcdf0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2949734364456119717, guid: 5a190edaa8dc93948b32bc26d29dcdf0, type: 3}
       propertyPath: m_LocalScale.x
@@ -4433,6 +4597,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
+    - target: {fileID: 1475570609427835203, guid: ea8b1559f8ba8874eb05117606bc1c64, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2247743758865249273, guid: ea8b1559f8ba8874eb05117606bc1c64, type: 3}
       propertyPath: m_LocalPosition.x
       value: -39.73227
@@ -4498,6 +4666,10 @@ PrefabInstance:
     - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_Name
       value: PP_Mountain_Cave_07 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -4661,6 +4833,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Rock_06
       objectReference: {fileID: 0}
+    - target: {fileID: 4942781407825022845, guid: 23ba222cd6198464b9629e12143e5c12, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5752109563430081991, guid: 23ba222cd6198464b9629e12143e5c12, type: 3}
       propertyPath: m_LocalScale.x
       value: 8.500461
@@ -4790,6 +4966,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_05 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9066846071202041810, guid: e0fed525a4cb0314888c5a47eb03ff2f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4806,6 +4986,10 @@ PrefabInstance:
     - target: {fileID: 2429872943744550515, guid: a6a65218c1bb3154093056765a472c97, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429872943744550515, guid: a6a65218c1bb3154093056765a472c97, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3094945178160094409, guid: a6a65218c1bb3154093056765a472c97, type: 3}
       propertyPath: m_LocalScale.x
@@ -4980,6 +5164,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
       value: 495.50607
@@ -5048,6 +5236,10 @@ PrefabInstance:
     - target: {fileID: 7450378538176716190, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450378538176716190, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7795413617436247844, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
       propertyPath: m_LocalScale.x
@@ -5261,6 +5453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_05
       objectReference: {fileID: 0}
+    - target: {fileID: 9066846071202041810, guid: e0fed525a4cb0314888c5a47eb03ff2f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5285,6 +5481,10 @@ PrefabInstance:
     - target: {fileID: 3994430562865788140, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
       propertyPath: m_TagString
       value: Hazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3994430562865788140, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3994430562865788141, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
       propertyPath: m_Convex
@@ -5442,6 +5642,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wall (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
       value: 278.86975
@@ -5563,6 +5767,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5588,6 +5796,10 @@ PrefabInstance:
     - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_Name
       value: PP_Mountain_Cave_07
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -5669,6 +5881,10 @@ PrefabInstance:
     - target: {fileID: 3929718764761056473, guid: 3f6b9801e8454a447aa3798e69a533db, type: 3}
       propertyPath: m_TagString
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929718764761056473, guid: 3f6b9801e8454a447aa3798e69a533db, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3929718764761056478, guid: 3f6b9801e8454a447aa3798e69a533db, type: 3}
       propertyPath: m_Convex
@@ -5769,6 +5985,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Hazard
       objectReference: {fileID: 0}
+    - target: {fileID: 3994430562865788140, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3994430562865788141, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -5858,6 +6078,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Mountain_Cave_05 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5929396415658952688, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6413867161225518410, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.7345572
@@ -5926,6 +6150,10 @@ PrefabInstance:
     - target: {fileID: 7389545334578365128, guid: 5805b7d7dfa688943847fd7087d3e583, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Plateau_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389545334578365128, guid: 5805b7d7dfa688943847fd7087d3e583, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7910327520384260210, guid: 5805b7d7dfa688943847fd7087d3e583, type: 3}
       propertyPath: m_LocalScale.x
@@ -6009,6 +6237,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Mountain_Cave_07 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2
@@ -6089,6 +6321,10 @@ PrefabInstance:
     - target: {fileID: 2429872943744550515, guid: a6a65218c1bb3154093056765a472c97, type: 3}
       propertyPath: m_TagString
       value: Hazard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2429872943744550515, guid: a6a65218c1bb3154093056765a472c97, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3094945178160094409, guid: a6a65218c1bb3154093056765a472c97, type: 3}
       propertyPath: m_LocalScale.x
@@ -6199,6 +6435,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Mountain_Cave_05 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5929396415658952688, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6413867161225518410, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
       propertyPath: m_LocalScale.x
       value: 8.151704
@@ -6282,6 +6522,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Mountain_Cave_05 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5929396415658952688, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 6413867161225518410, guid: 9072903e83511d849986a4a6ffe8502f, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.7345564
@@ -6350,6 +6594,10 @@ PrefabInstance:
     - target: {fileID: 2255185488925696329, guid: c510f7edfb2cd31479873187935fe4e7, type: 3}
       propertyPath: m_Name
       value: Sticky Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 2255185488925696329, guid: c510f7edfb2cd31479873187935fe4e7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6394886600981904279, guid: c510f7edfb2cd31479873187935fe4e7, type: 3}
       propertyPath: m_LocalScale.x
@@ -6493,6 +6741,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Rock_Plateau_03
       objectReference: {fileID: 0}
+    - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 962306560501491978, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.1149
@@ -6570,6 +6822,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_Veins_01_Red
       objectReference: {fileID: 0}
+    - target: {fileID: 3890194130028481829, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4519202108093241247, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
       propertyPath: m_LocalScale.x
       value: 29.836958
@@ -6632,6 +6888,127 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1954427572298285600, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
   m_PrefabInstance: {fileID: 1130084978}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1005430336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1005430339}
+  - component: {fileID: 1005430338}
+  - component: {fileID: 1005430337}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1005430337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005430336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+--- !u!108 &1005430338
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005430336}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 1
+  m_Color: {r: 1, g: 0.9103774, b: 0.9103774, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 2
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
+--- !u!4 &1005430339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005430336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.22547582, y: -0.22480305, z: 0.62122756, w: 0.7160312}
+  m_LocalPosition: {x: -370.39258, y: 32.030945, z: -461.99597}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 142.972, y: -183, z: -99.11499}
 --- !u!4 &1011433883 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
@@ -6779,6 +7156,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4487822664714724320, guid: 4e284fa31cb4d7a478aa70beb830ce66, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6804,6 +7185,10 @@ PrefabInstance:
     - target: {fileID: 8448691547421224641, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448691547421224641, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 9111935019912492155, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6866,6 +7251,10 @@ PrefabInstance:
     - target: {fileID: 4942781407825022845, guid: 23ba222cd6198464b9629e12143e5c12, type: 3}
       propertyPath: m_Name
       value: PP_Rock_06 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4942781407825022845, guid: 23ba222cd6198464b9629e12143e5c12, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5752109563430081991, guid: 23ba222cd6198464b9629e12143e5c12, type: 3}
       propertyPath: m_LocalScale.x
@@ -6958,6 +7347,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Hazard
       objectReference: {fileID: 0}
+    - target: {fileID: 3994430562865788140, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 3994430562865788141, guid: 4fd519581d02a8b46888cfa779e14b3b, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -7030,6 +7423,10 @@ PrefabInstance:
     - target: {fileID: 3627751576562942866, guid: 11af110a30ee2144b85d9bbf3504ab85, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_19 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3627751576562942866, guid: 11af110a30ee2144b85d9bbf3504ab85, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4112785340548618536, guid: 11af110a30ee2144b85d9bbf3504ab85, type: 3}
       propertyPath: m_LocalScale.x
@@ -7117,6 +7514,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Hazard
       objectReference: {fileID: 0}
+    - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7746122563665643125, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.1438665
@@ -7199,6 +7600,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_08
       objectReference: {fileID: 0}
+    - target: {fileID: 1176659038182693018, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1954427572298285600, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5298
@@ -7278,6 +7683,10 @@ PrefabInstance:
     - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_Name
       value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
@@ -7409,6 +7818,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Pebbles_10
       objectReference: {fileID: 0}
+    - target: {fileID: 1746560771595033255, guid: 0be64fba053eb624b86471a7e82437e0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7504,6 +7917,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Hazard
       objectReference: {fileID: 0}
+    - target: {fileID: 2568282597278562079, guid: 5a190edaa8dc93948b32bc26d29dcdf0, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2949734364456119717, guid: 5a190edaa8dc93948b32bc26d29dcdf0, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.1209843
@@ -7585,6 +8002,10 @@ PrefabInstance:
     - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_Name
       value: PP_Mountain_Cave_07 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -7706,6 +8127,10 @@ PrefabInstance:
     - target: {fileID: 7537437362530198816, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_05 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7537437362530198816, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8330154253850051829, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -7868,6 +8293,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 5971720804321027172, guid: dbd71fd0aa0655d47ae01587101bb1a3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5971720804321027173, guid: dbd71fd0aa0655d47ae01587101bb1a3, type: 3}
       propertyPath: m_Convex
       value: 1
@@ -8011,6 +8440,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Floor
       objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.2173772
@@ -8141,6 +8574,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_01
       objectReference: {fileID: 0}
+    - target: {fileID: 4283572941712784142, guid: 5f4e8f6cef8ef22449be06ec8056f28f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8178,6 +8615,10 @@ PrefabInstance:
     - target: {fileID: 2470980307358573835, guid: 11ba681857c717d44bf6b47b920b3f51, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 2470980307358573835, guid: 11ba681857c717d44bf6b47b920b3f51, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2954783378800885681, guid: 11ba681857c717d44bf6b47b920b3f51, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8244,6 +8685,10 @@ PrefabInstance:
     - target: {fileID: 7450378538176716190, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7450378538176716190, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7795413617436247844, guid: 24f59ee97c6e2f344b5df1a320c236cc, type: 3}
       propertyPath: m_LocalScale.x
@@ -8505,6 +8950,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 4526817683455543943, guid: e72ea026571108f4abdc467d87bbb75a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4526817683455543992, guid: e72ea026571108f4abdc467d87bbb75a, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -8529,6 +8978,10 @@ PrefabInstance:
     - target: {fileID: 1176659038182693018, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_08 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176659038182693018, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1954427572298285600, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
       propertyPath: m_LocalScale.x
@@ -8656,6 +9109,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Skull_02
       objectReference: {fileID: 0}
+    - target: {fileID: 7904034205344566517, guid: c755ae4389989a6478b7f60dfe06b68f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8552398687881800992, guid: c755ae4389989a6478b7f60dfe06b68f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -8680,6 +9137,10 @@ PrefabInstance:
     - target: {fileID: 1368411829790638125, guid: 331ce287414f79b448c29428cfc9d512, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Column_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1368411829790638125, guid: 331ce287414f79b448c29428cfc9d512, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1852742941222460055, guid: 331ce287414f79b448c29428cfc9d512, type: 3}
       propertyPath: m_LocalScale.x
@@ -8749,6 +9210,10 @@ PrefabInstance:
     - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Plateau_05 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932185254763273423, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7746122563665643125, guid: 970911080d7b75b4ba57d255d9ec3844, type: 3}
       propertyPath: m_LocalScale.x
@@ -8879,6 +9344,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8899,6 +9368,10 @@ PrefabInstance:
     - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_Name
       value: PP_Mountain_Cave_07 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1694183069328044109, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2074226671014587127, guid: cc70db1c01f87c941828327b838f69e4, type: 3}
       propertyPath: m_LocalScale.x
@@ -8968,6 +9441,10 @@ PrefabInstance:
     - target: {fileID: 2871866755756758409, guid: b5b2c3fce9c140749bdfd3c99ed2918e, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Pile_12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2871866755756758409, guid: b5b2c3fce9c140749bdfd3c99ed2918e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3211413110821932851, guid: b5b2c3fce9c140749bdfd3c99ed2918e, type: 3}
       propertyPath: m_LocalScale.x
@@ -9045,6 +9522,10 @@ PrefabInstance:
     - target: {fileID: 3540302587464774831, guid: 23302e90094183b44bda181a21c8305c, type: 3}
       propertyPath: m_Name
       value: PP_Cave_Tube_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3540302587464774831, guid: 23302e90094183b44bda181a21c8305c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4209316296657710613, guid: 23302e90094183b44bda181a21c8305c, type: 3}
       propertyPath: m_LocalScale.x
@@ -9171,6 +9652,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4283572941712784142, guid: 5f4e8f6cef8ef22449be06ec8056f28f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9212,7 +9697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2656340250704165958, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -201.65228
+      value: -202.65228
       objectReference: {fileID: 0}
     - target: {fileID: 2656340250704165958, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9249,6 +9734,10 @@ PrefabInstance:
     - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
       propertyPath: m_Name
       value: Spikes (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9318,6 +9807,10 @@ PrefabInstance:
     - target: {fileID: 1752442445038447678, guid: 862d2f115d17c874ebfdf93ef27152f5, type: 3}
       propertyPath: m_Name
       value: PP_Mine_Entrance_Wooden_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1752442445038447678, guid: 862d2f115d17c874ebfdf93ef27152f5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9392,6 +9885,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_22 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 9182045439169993109, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9465,6 +9962,10 @@ PrefabInstance:
     - target: {fileID: 7537437362530198816, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_05
+      objectReference: {fileID: 0}
+    - target: {fileID: 7537437362530198816, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8330154253850051829, guid: d8ac0e500b365384397fde36a7f09a89, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -9559,6 +10060,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9589,6 +10094,10 @@ PrefabInstance:
     - target: {fileID: 6081043224253025367, guid: 59350465cb7160d4da1f92d4da1a66f9, type: 3}
       propertyPath: m_Name
       value: PP_Rock_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081043224253025367, guid: 59350465cb7160d4da1f92d4da1a66f9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6858951701304809197, guid: 59350465cb7160d4da1f92d4da1a66f9, type: 3}
       propertyPath: m_LocalScale.x
@@ -9715,6 +10224,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9798,6 +10311,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_22 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9182045439169993109, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9820,6 +10337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Wooden_Wall_Window_02
       objectReference: {fileID: 0}
+    - target: {fileID: 1241715039032222021, guid: 35be4df54748f654589f1ec699bc22cc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1905204694758128639, guid: 35be4df54748f654589f1ec699bc22cc, type: 3}
       propertyPath: m_LocalScale.x
       value: 69.52914
@@ -9838,7 +10359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1905204694758128639, guid: 35be4df54748f654589f1ec699bc22cc, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -228.15228
+      value: -229.15228
       objectReference: {fileID: 0}
     - target: {fileID: 1905204694758128639, guid: 35be4df54748f654589f1ec699bc22cc, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9892,6 +10413,10 @@ PrefabInstance:
     - target: {fileID: 8448691547421224641, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_03 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448691547421224641, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 9111935019912492155, guid: de3d235f9adc7ba4485ec8002cc95856, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10049,6 +10574,55 @@ MonoBehaviour:
   TMPFont: {fileID: 0}
   Icon: {fileID: 0}
   Audio: {fileID: 0}
+--- !u!1 &1779408226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779408228}
+  - component: {fileID: 1779408227}
+  m_Layer: 4
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1779408227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779408226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sharedProfile: {fileID: 11400000, guid: 5f5112c42b911374aa10cabf8d387568, type: 2}
+  isGlobal: 1
+  blendDistance: 0
+  weight: 1
+  priority: 0
+--- !u!4 &1779408228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779408226}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -165.18126, y: 223.60268, z: 176.2127}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1779561773
 GameObject:
   m_ObjectHideFlags: 0
@@ -10134,6 +10708,10 @@ PrefabInstance:
     - target: {fileID: 3890194130028481829, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_Veins_01_Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 3890194130028481829, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4519202108093241247, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
       propertyPath: m_LocalScale.x
@@ -10256,6 +10834,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3295242263886197135, guid: 4f1c5cd5134483042a48c852e32a948f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10330,6 +10912,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10401,6 +10987,10 @@ PrefabInstance:
     - target: {fileID: 1386387631047713358, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386387631047713358, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1762772882735790324, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -10694,6 +11284,10 @@ PrefabInstance:
     - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_Name
       value: Wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
@@ -11152,6 +11746,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Cave_Entrance_04
       objectReference: {fileID: 0}
+    - target: {fileID: 1810219163067421630, guid: 5f10005441d4c6d45a769599059774bc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11168,6 +11766,10 @@ PrefabInstance:
     - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_Name
       value: PP_Rock_Plateau_03 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 437161542279525296, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 962306560501491978, guid: 513b251d5a277154b966a5c928c33ebe, type: 3}
       propertyPath: m_LocalScale.x
@@ -11281,6 +11883,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_08 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1176659038182693018, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 1954427572298285600, guid: b8851e6742fe7b14b8862eecd7507124, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5298002
@@ -11360,6 +11966,10 @@ PrefabInstance:
     - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_Name
       value: Wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1528871472081771800, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 3474128938593799188, guid: 69ad6a4e60826f840b531f8844d7c376, type: 3}
       propertyPath: m_LocalScale.x
@@ -11555,6 +12165,71 @@ MonoBehaviour:
   Event:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1992605377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1992605379}
+  - component: {fileID: 1992605378}
+  m_Layer: 0
+  m_Name: Reflection Probe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!215 &1992605378
+ReflectionProbe:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992605377}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Type: 0
+  m_Mode: 0
+  m_RefreshMode: 0
+  m_TimeSlicingMode: 0
+  m_Resolution: 128
+  m_UpdateFrequency: 0
+  m_BoxSize: {x: 10, y: 10, z: 10}
+  m_BoxOffset: {x: 0, y: 0, z: 0}
+  m_NearClip: 0.3
+  m_FarClip: 1000
+  m_ShadowDistance: 100
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IntensityMultiplier: 1
+  m_BlendDistance: 1
+  m_HDR: 1
+  m_BoxProjection: 0
+  m_RenderDynamicObjects: 0
+  m_UseOcclusionCulling: 1
+  m_Importance: 1
+  m_CustomBakedTexture: {fileID: 0}
+--- !u!4 &1992605379
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992605377}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.467239, y: -247.19144, z: -141.53226}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1998199929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11622,6 +12297,10 @@ PrefabInstance:
     - target: {fileID: 4556824517763562450, guid: eeb131ffb7640af42be1a9d512a13bcb, type: 3}
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556824517763562450, guid: eeb131ffb7640af42be1a9d512a13bcb, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11790,6 +12469,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spikes
       objectReference: {fileID: 0}
+    - target: {fileID: 8352050689568851463, guid: 83018b37469ae734695b535d863baf37, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11898,6 +12581,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Stone_Ground_22 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 9182045439169993109, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 9182045439169993110, guid: 1dc48f039b544604bbc4d0bd1a80de0b, type: 3}
       propertyPath: m_Convex
       value: 0
@@ -11935,6 +12622,10 @@ PrefabInstance:
     - target: {fileID: 2470980307358573835, guid: 11ba681857c717d44bf6b47b920b3f51, type: 3}
       propertyPath: m_TagString
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2470980307358573835, guid: 11ba681857c717d44bf6b47b920b3f51, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 2954783378800885681, guid: 11ba681857c717d44bf6b47b920b3f51, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12005,6 +12696,10 @@ PrefabInstance:
     - target: {fileID: 1386387631047713358, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
       propertyPath: m_Name
       value: PP_Stone_Ground_14
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386387631047713358, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1762772882735790324, guid: 0656bad31f8168c438fb5e4a84cdc5b2, type: 3}
       propertyPath: m_LocalScale.x
@@ -12115,6 +12810,10 @@ PrefabInstance:
     - target: {fileID: 3890194130028481829, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
       propertyPath: m_Name
       value: PP_Cave_Wall_Even_Veins_01_Red (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3890194130028481829, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 4519202108093241247, guid: 4b6a473b8614db04b916cfa07f57fd89, type: 3}
       propertyPath: m_LocalScale.x
@@ -12280,8 +12979,81 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9151767561274224202, guid: 354f509bf74a94748b5285a165abd162, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1225546570389230807}
   m_SourcePrefab: {fileID: 100100000, guid: 354f509bf74a94748b5285a165abd162, type: 3}
+--- !u!4 &1225546570389230805 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2538303047113421070, guid: 354f509bf74a94748b5285a165abd162, type: 3}
+  m_PrefabInstance: {fileID: 1225546570389230804}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1225546570389230806 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9151767561274224202, guid: 354f509bf74a94748b5285a165abd162, type: 3}
+  m_PrefabInstance: {fileID: 1225546570389230804}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1225546570389230807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225546570389230806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 1225546570389230805}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 16
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1001 &2428749159517653186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12639,3 +13411,6 @@ SceneRoots:
   - {fileID: 5399589530517122050}
   - {fileID: 1944495655}
   - {fileID: 2428749159517653186}
+  - {fileID: 1005430339}
+  - {fileID: 1779408228}
+  - {fileID: 1992605379}
