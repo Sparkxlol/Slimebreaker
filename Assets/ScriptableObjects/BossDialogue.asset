@@ -10,12 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: SlimeBoss
+  m_Name: BossDialogue
   m_EditorClassIdentifier: Assembly-CSharp::BossDialogue
   lines:
-  - text: Lock in little bro
-    voiceline: {fileID: 0}
-  - text: Ouaga
-    voiceline: {fileID: 0}
-  - text: Dougou
+  - text: Gomen amanai
     voiceline: {fileID: 0}

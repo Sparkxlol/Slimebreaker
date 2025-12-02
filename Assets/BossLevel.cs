@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,33 +16,28 @@ public class DialogueLine
 }
 
 [System.Serializable]
-public class BossCollectible
+public class BossTarget
 {
-    public Collectible collectible;
+    public GameObject NPC;
     public List<QuestTarget> targets;
+    public bool used = false;
 }
 
 public class BossLevel : MonoBehaviour
 {
     [Header("Objects")]
-    [SerializeField] private List<BossCollectible> collectibles;
-    [SerializeField] private GameObject boss;
+    [SerializeField] private List<Collectible> collectibles;
+    private bool collectibleActive = false;
+    [SerializeField] private List<BossTarget> bossTargets;
+    [SerializeField] private List<QuestTarget> bossDeathTargets;
     private BossUI bossUI;
 
     [Header("Lines")]
     [SerializeField] private BossDialogue bossDialogue;
+    [SerializeField] private DialogueLine bossDeathDialogue;
     private int dialogueIndex = 0;
 
-    private List<Action> enabledEvents;
-
-    private void Awake()
-    {
-        if (boss == null)
-        {
-            Debug.LogError("Boss not assigned in BossLevel");
-            Destroy(this.gameObject);
-        }
-    }
+    private int targetsUsed = 0;
 
     private void Start()
     {
@@ -54,36 +49,91 @@ public class BossLevel : MonoBehaviour
 
     private void OnEnable()
     {
-        foreach (BossCollectible collectible in collectibles)
+        foreach (Collectible collectible in collectibles)
         {
-            Action enabledEvent = () => TargetCollected(collectible);
-
-            enabledEvents.Add(enabledEvent);
-            collectible.collectible.OnCollected += enabledEvent;
-            
+            collectible.OnCollected += TargetCollected;
         }
     }
 
     private void OnDisable()
     {
-        for (int i = 0; i < collectibles.Count; i++)
+        foreach (Collectible collectible in collectibles)
         {
-            collectibles[i].collectible.OnCollected -= enabledEvents[i];
+            collectible.OnCollected -= TargetCollected;
         }
-
-        enabledEvents.Clear();
     }
 
-    private void TargetCollected(BossCollectible bossCollectible)
+    private void TargetCollected()
     {
-        AudioManager.instance.PlayVoiceline(bossDialogue.lines[dialogueIndex].voiceline);
-        bossUI.SetBossLine(bossDialogue.lines[dialogueIndex].text);
+        collectibleActive = true;
 
-        foreach (QuestTarget target in bossCollectible.targets)
+        foreach (Collectible collectible in collectibles)
+        {
+            collectible.canCollect = false;
+        }
+    }
+
+    public void OnNPCEvent(GameObject NPC)
+    {
+        if (!collectibleActive) return;
+
+        BossTarget usedTarget = null;
+        foreach (BossTarget target in bossTargets)
+        {
+            if (target.NPC == NPC) usedTarget = target;
+        }
+
+        if (usedTarget == null || usedTarget.used) return;
+
+        usedTarget.used = true;
+        targetsUsed++;
+        collectibleActive = false;
+
+        foreach (Collectible collectible in collectibles)
+        {
+            collectible.canCollect = true;
+        }
+
+        foreach (QuestTarget target in usedTarget.targets)
         {
             target.QuestCompleted();
         }
 
+        if (targetsUsed == bossTargets.Count)
+        {
+            Debug.Log("Hello");
+
+            StartCoroutine(StartBossDeath());
+            return;
+        }
+
+        StartCoroutine(StartBossVoiceline());
+    }
+
+    private IEnumerator StartBossVoiceline()
+    {
+        yield return new WaitForSeconds(.5f);
+
+        AudioManager.instance.PlayVoiceline(bossDialogue.lines[dialogueIndex].voiceline);
+        bossUI.SetBossLine(bossDialogue.lines[dialogueIndex].text, bossDialogue.lines[dialogueIndex].voiceline.length);
+
         dialogueIndex++;
+    }
+
+    private IEnumerator StartBossDeath()
+    {
+        yield return new WaitForSeconds(4f);
+
+        // AudioManager.instance.PlayVoiceline(bossDeathDialogue.voiceline);
+        // bossUI.SetBossLine(bossDeathDialogue.text, bossDeathDialogue.voiceline.length);
+
+        foreach (QuestTarget target in bossDeathTargets)
+        {
+            target.QuestCompleted();
+        }
+
+        yield return new WaitForSeconds(4f);
+
+        GameManager.instance.LoadMainMenu();
     }
 }

@@ -107,6 +107,8 @@ public class AudioManager : MonoBehaviour
     /// <param name="clip">SFX clip that will be played.</param>
     public void PlayVoiceline(AudioClip clip)
     {
+        if (clip == null) return;
+
         bossPlayerDeathAudioSource.volume = VoiceVolumePercentage;
         bossPlayerDeathAudioSource.clip = clip;
         bossPlayerDeathAudioSource.loop = false;
@@ -120,6 +122,8 @@ public class AudioManager : MonoBehaviour
     /// <param name="clip">SFX clip that will be played.</param>
     public void PlaySFX(AudioClip clip)
     {
+        if (clip == null) return;
+
         foreach (AudioSource audioSource in sfxAudioSources)
         {
             if (!audioSource.isPlaying)

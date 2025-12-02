@@ -9,7 +9,7 @@ public class DialogueNPC : MonoBehaviour, IInteractable
     public CameraLock CameraLock;
     [SerializeField] private NPCConversation conversation;
     [SerializeField] private GameObject promptUI;
-    [SerializeField] private bool canInteract = true;
+    [SerializeField] public bool canInteract = true;
 
     [Header("Animation")]
     [SerializeField] private Animator anim;

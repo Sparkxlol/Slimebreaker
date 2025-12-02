@@ -1,4 +1,3 @@
-using DialogueEditor;
 using System;
 using UnityEngine;
 
@@ -6,8 +5,12 @@ public class Collectible : MonoBehaviour, IInteractable
 {
     public bool isCollected = false;
     public event Action OnCollected;
+    public bool canCollect = true;
 
     [SerializeField] private GameObject promptUI;
+
+    [Header("Pickup")]
+    [SerializeField] private bool pickupOnTrigger = false;
 
     [Header("Teleport")]
     [SerializeField] private bool teleportPlayer = false;
@@ -15,6 +18,8 @@ public class Collectible : MonoBehaviour, IInteractable
 
     public void interact()
     {
+        if (!canCollect) return;
+
         CollectItem();
     }
 
@@ -22,6 +27,9 @@ public class Collectible : MonoBehaviour, IInteractable
     {
         if (promptUI != null)
             promptUI.SetActive(true);
+
+        if (pickupOnTrigger)
+            interact();
     }
 
     public void hidePrompt() 
@@ -34,13 +42,17 @@ public class Collectible : MonoBehaviour, IInteractable
 
     public void CollectItem()
     {
+        isCollected = true;
+
         if (OnCollected != null)
             OnCollected.Invoke();
 
         if (teleportPlayer && teleportLocation != null && PlayerRespawn.instance != null)
             PlayerRespawn.instance.Teleport(teleportLocation);
 
-        isCollected = true;
+        if (promptUI != null)
+            promptUI.SetActive(false);
+
         gameObject.SetActive(false);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerRespawn : MonoBehaviour
@@ -12,7 +13,7 @@ public class PlayerRespawn : MonoBehaviour
     public PlayerMovement pm;
 
     public Transform startingPoint;
-    private Vector3 respawnPoint;
+    private Transform respawnPoint;
 
     public static event Action OnDeath;
 
@@ -41,12 +42,12 @@ public class PlayerRespawn : MonoBehaviour
         Checkpoint loadedCheckpoint = LoadCheckpoint();
         if (loadedCheckpoint != null)
         {
-            SetCheckPoint(loadedCheckpoint.transform.position);
+            SetCheckPoint(loadedCheckpoint.transform);
             Respawn();
         }
         else
         {
-            SetCheckPoint(startingPoint.position);
+            SetCheckPoint(startingPoint);
             Respawn();
         }
 
@@ -64,7 +65,7 @@ public class PlayerRespawn : MonoBehaviour
 
         if(other.CompareTag("CheckPoint"))
         {
-            SetCheckPoint(other.transform.position);
+            SetCheckPoint(other.transform);
             SaveCheckpoint(other.GetComponent<Checkpoint>());
         }
     }
@@ -75,7 +76,7 @@ public class PlayerRespawn : MonoBehaviour
 
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
-        rb.position = respawnPoint;
+        rb.position = respawnPoint.position;
 
         pm.isGliding = false;
         rb.useGravity = true;
@@ -110,9 +111,9 @@ public class PlayerRespawn : MonoBehaviour
         return checkpoints.FirstOrDefault(c => c.CheckpointId == checkpointId);
     }
 
-    private void SetCheckPoint(Vector3 position)
+    private void SetCheckPoint(Transform transform)
     {
-        respawnPoint = position;
+        respawnPoint = transform;
     }
 
     [ContextMenu("Remove Active Checkpoint")]
@@ -121,6 +122,6 @@ public class PlayerRespawn : MonoBehaviour
         PlayerPrefs.DeleteKey("ACTIVE_CHECKPOINT_ID");
         Debug.LogWarning("Active checkpoint cleared!");
 
-        SetCheckPoint(startingPoint.position);
+        SetCheckPoint(startingPoint);
     }
 }
