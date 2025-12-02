@@ -1784,6 +1784,14 @@ PrefabInstance:
       propertyPath: inputController
       value: 
       objectReference: {fileID: 5362689772485226216}
+    - target: {fileID: 8567116573535012272, guid: 13a987faf3ec2d24fa7645f4cf15fb89, type: 3}
+      propertyPath: firstpersonInputController
+      value: 
+      objectReference: {fileID: 4466663476305225699}
+    - target: {fileID: 8567116573535012272, guid: 13a987faf3ec2d24fa7645f4cf15fb89, type: 3}
+      propertyPath: firstpersonPanTiltController
+      value: 
+      objectReference: {fileID: 2118366591998707188}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 6139999059583459470, guid: 13a987faf3ec2d24fa7645f4cf15fb89, type: 3}
@@ -1896,6 +1904,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62d54399b04b4fa48a73e121d4937dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4466663476305225699 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6759450043466477998, guid: c1a28f33b9d13284fbad98556e4c4916, type: 3}
+  m_PrefabInstance: {fileID: 6931781741081466445}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5253790274062389953 stripped

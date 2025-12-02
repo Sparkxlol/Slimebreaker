@@ -25,6 +25,8 @@ public class CameraSwitcher : MonoBehaviour
     [SerializeField] private float maxFOV = 140f;
     [SerializeField] private float chargeZoomSpeed = 1f;
 
+    private bool switched;
+
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -37,7 +39,12 @@ public class CameraSwitcher : MonoBehaviour
     {
         if (playerMovement.chargeTime == playerMovement.maxChargeTime)
         {
-            AlignCamera(firstPersonCam, thirdPersonCam);
+            if(switched)
+            {
+                SyncThirdPersonToFirstPerson();
+            }
+            switched = false;
+            
             firstPersonCam.Priority = 10;
             thirdPersonCam.Priority = 5;
             SetPlayerVisible(false);
@@ -45,7 +52,7 @@ public class CameraSwitcher : MonoBehaviour
         }
         else
         {
-            AlignCamera(thirdPersonCam, firstPersonCam);
+            switched = true;
             SyncFirstPersonTiltToFreeLook();
             thirdPersonCam.Priority = 10;
             firstPersonCam.Priority = 5;
@@ -82,18 +89,17 @@ public class CameraSwitcher : MonoBehaviour
         }
     }
 
- 
-    void AlignCamera(CinemachineCamera targetCam, CinemachineCamera sourceCam)
+
+    void SyncThirdPersonToFirstPerson()
     {
-        if (targetCam == null || sourceCam == null)
+        if (thirdPersonOrbitalFollow == null || firstPersonPanTilt == null)
             return;
 
-        // Make target camera look in the same direction and come from the same point
-        targetCam.transform.SetPositionAndRotation(
-            sourceCam.transform.position,
-            sourceCam.transform.rotation
-        );
+        // Copy look direction:
+        firstPersonPanTilt.PanAxis.Value = thirdPersonOrbitalFollow.HorizontalAxis.Value;
+        firstPersonPanTilt.TiltAxis.Value = thirdPersonOrbitalFollow.VerticalAxis.Value;
     }
+
 
 
     void SetPlayerVisible(bool visible)
