@@ -118,11 +118,9 @@ MonoBehaviour:
   currentHorizontalDiveAngle: 0
   defaultVerticalGlideAngle: -10
   defaultHorizontalGlideAngle: 0
-  slowDownGravityMultiplier: 3
   lastGlidePress: 0
   glideTogglePressed: 0
   initialGlideVelocity: {x: 0, y: 0, z: 0}
-  glideJustStarted: 0
   slideActive: 0
   slideLeft: 0
   maxSlideCharge: 15
@@ -150,6 +148,7 @@ MonoBehaviour:
     m_Bits: 384
   normalFriction: {fileID: 13400000, guid: aea93962d0153b94382accf4f06fd4cb, type: 2}
   slideFriction: {fileID: 13400000, guid: e59d5f4e4e4249e4ebc9441dc97ff6ab, type: 2}
+  jumpClip: {fileID: 8300000, guid: 994841f85cf09fd4aa17ce5e2df3d16b, type: 3}
 --- !u!114 &4530698414765052604
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1032,7 +1032,7 @@ public class PlayerMovement : MonoBehaviour
     void Bounce(Vector3 veloctiy, Vector3 surfaceNormal, bool charged) 
     {
         justBounced = true;
-        
+        AudioManager.instance.PlaySFX(jumpClip);
 
         float jumpSpeed = baseJumpMagnitude;
         
@@ -1082,7 +1082,7 @@ public class PlayerMovement : MonoBehaviour
         newVelocity = baseJumpMagnitude * empoweredNonCharged * currentSurfaceNormal.normalized * 1.3f;
         rb.linearVelocity += newVelocity;
 
-        AudioManager.instance.PlaySFX(jumpClip);
+        
     }
 
 
