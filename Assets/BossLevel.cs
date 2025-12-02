@@ -35,7 +35,7 @@ public class BossLevel : MonoBehaviour
     private int targetsUsed = 0;
 
     [Header("Timer")]
-    [SerializeField] private float maxTime = 120f;
+    [SerializeField] private float maxTime = 180f;
     public float currentTime = 0;
 
 
