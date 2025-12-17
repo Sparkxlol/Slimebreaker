@@ -1,15 +1,4 @@
-
-using TMPro;
-using Unity.Cinemachine;
-using Unity.Hierarchy;
-using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.ProBuilder;
-using UnityEngine.Rendering;
-
-
 
 public class PlayerMovement : MonoBehaviour
 {

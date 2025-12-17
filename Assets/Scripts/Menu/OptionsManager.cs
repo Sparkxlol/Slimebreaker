@@ -31,7 +31,7 @@ public class OptionsManager : MonoBehaviour
         get => windowedFullscreen;
         set
         {
-            Screen.fullScreen = value;
+            // Screen.fullScreen = value;
             windowedFullscreen = value;
         }
     }
@@ -110,7 +110,7 @@ public class OptionsManager : MonoBehaviour
     {
         // Video Settings
         Fullscreen = PlayerPrefs.GetInt(FULLSCREEN_KEY, 1) == 1;
-        WindowedFullscreen = PlayerPrefs.GetInt(WINDOWED_FULLSCREEN_KEY, 0) == 1; ;
+        WindowedFullscreen = PlayerPrefs.GetInt(WINDOWED_FULLSCREEN_KEY, 0) == 1;
 
         // Audio Settings
         MasterVolumePercentage = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, 1);
