@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -36,9 +37,30 @@ public class OptionsManager : MonoBehaviour
     }
 
     [Header("Audio")]
+    private const string MASTER_VOLUME_KEY = "MasterVolumeOption";
     private const string MUSIC_VOLUME_KEY = "MusicVolumeOption";
+    private const string SFX_VOLUME_KEY = "SFXVolumeOption";
+    private const string VOICE_VOLUME_KEY = "VoiceVolumeOption";
 
+    private float masterVolumePercentage = 1.0f;
     private float musicVolumePercentage = 1.0f;
+    private float sfxVolumePercentage = 1.0f;
+    private float voiceVolumePercentage = 1.0f;
+
+    public static event Action MasterVolumeChanged;
+    public static event Action MusicVolumeChanged;
+    public static event Action SFXVolumeChanged;
+    public static event Action VoiceVolumeChanged;
+
+    public float MasterVolumePercentage
+    {
+        get => masterVolumePercentage;
+        set
+        {
+            masterVolumePercentage = value;
+            MasterVolumeChanged?.Invoke();
+        }
+    }
 
     public float MusicVolumePercentage
     {
@@ -46,6 +68,27 @@ public class OptionsManager : MonoBehaviour
         set
         {
             musicVolumePercentage = value;
+            MusicVolumeChanged?.Invoke();
+        }
+    }
+
+    public float SFXVolumePercentage
+    {
+        get => sfxVolumePercentage;
+        set
+        {
+            sfxVolumePercentage = value;
+            SFXVolumeChanged?.Invoke();
+        }
+    }
+
+    public float VoiceVolumePercentage
+    {
+        get => voiceVolumePercentage;
+        set
+        {
+            voiceVolumePercentage = value;
+            VoiceVolumeChanged?.Invoke();
         }
     }
 
@@ -70,7 +113,10 @@ public class OptionsManager : MonoBehaviour
         WindowedFullscreen = PlayerPrefs.GetInt(WINDOWED_FULLSCREEN_KEY, 0) == 1; ;
 
         // Audio Settings
+        MasterVolumePercentage = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, 1);
         MusicVolumePercentage = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 1);
+        SFXVolumePercentage = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 1);
+        VoiceVolumePercentage = PlayerPrefs.GetFloat(VOICE_VOLUME_KEY, 1);
     }
 
     public void SaveSettings()
@@ -80,7 +126,10 @@ public class OptionsManager : MonoBehaviour
         PlayerPrefs.SetInt(WINDOWED_FULLSCREEN_KEY, WindowedFullscreen ? 1 : 0);
 
         // Audio Settings
+        PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, MasterVolumePercentage);
         PlayerPrefs.SetFloat(MUSIC_VOLUME_KEY, MusicVolumePercentage);
+        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, SFXVolumePercentage);
+        PlayerPrefs.SetFloat(VOICE_VOLUME_KEY, VoiceVolumePercentage);
 
         PlayerPrefs.Save();
     }

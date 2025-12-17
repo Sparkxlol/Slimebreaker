@@ -25,7 +25,10 @@ public class OptionsMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI windowedValue;
 
     [Header("Audio Options")]
+    [SerializeField] private Slider masterVolumeValue;
     [SerializeField] private Slider musicVolumeValue;
+    [SerializeField] private Slider sfxVolumeValue;
+    [SerializeField] private Slider voiceVolumeValue;
 
     [Header("Saving")]
     private List<RevertedAction> revertedActions = new List<RevertedAction>();
@@ -46,6 +49,14 @@ public class OptionsMenu : MonoBehaviour
         optionsUI.SetActive(false);
     }
 
+    /// <summary>
+    /// When adding new options:
+    ///     - Add to LoadOptions and add "Changed" function.
+    ///     - Create sliders/options in UI and event correct "Changed" events.
+    ///     - Add properties, keys, events, etc. to OptionsManager
+    ///     - Add to LoadSettings and SaveSettings in OptionsManager.
+    ///     - Add connections in the corresponding class. ex. GameManager, AudioManager, etc.
+    /// </summary>
     private void LoadOptions()
     {
         // Video Settings
@@ -53,7 +64,10 @@ public class OptionsMenu : MonoBehaviour
         windowedValue.text = (OptionsManager.instance.WindowedFullscreen) ? "On" : "Off";
 
         // Audio Settings
+        masterVolumeValue.value = OptionsManager.instance.MasterVolumePercentage;
         musicVolumeValue.value = OptionsManager.instance.MusicVolumePercentage;
+        sfxVolumeValue.value = OptionsManager.instance.SFXVolumePercentage;
+        voiceVolumeValue.value = OptionsManager.instance.VoiceVolumePercentage;
     }
 
     public void OptionsCancelled()
@@ -127,6 +141,18 @@ public class OptionsMenu : MonoBehaviour
         windowedValue.text = (OptionsManager.instance.WindowedFullscreen) ? "On" : "Off";
     }
 
+    public void MasterVolumeChanged(float value)
+    {
+        float oldMasterVolume = OptionsManager.instance.MasterVolumePercentage;
+        RecordAction(() =>
+        {
+            OptionsManager.instance.MasterVolumePercentage = oldMasterVolume;
+            masterVolumeValue.value = oldMasterVolume;
+        }, "MasterVolume");
+
+        OptionsManager.instance.MasterVolumePercentage = masterVolumeValue.value;
+    }
+
     public void MusicVolumeChanged(float value)
     {
         float oldMusicVolume = OptionsManager.instance.MusicVolumePercentage;
@@ -137,6 +163,30 @@ public class OptionsMenu : MonoBehaviour
         }, "MusicVolume");
 
         OptionsManager.instance.MusicVolumePercentage = musicVolumeValue.value;
+    }
+
+    public void SFXVolumeChanged(float value)
+    {
+        float oldSFXVolume = OptionsManager.instance.SFXVolumePercentage;
+        RecordAction(() =>
+        {
+            OptionsManager.instance.SFXVolumePercentage = oldSFXVolume;
+            sfxVolumeValue.value = oldSFXVolume;
+        }, "SFXVolume");
+
+        OptionsManager.instance.SFXVolumePercentage = sfxVolumeValue.value;
+    }
+
+    public void VoiceVolumeChanged(float value)
+    {
+        float oldVoiceVolume = OptionsManager.instance.VoiceVolumePercentage;
+        RecordAction(() =>
+        {
+            OptionsManager.instance.VoiceVolumePercentage = oldVoiceVolume;
+            voiceVolumeValue.value = oldVoiceVolume;
+        }, "VoiceVolume");
+
+        OptionsManager.instance.VoiceVolumePercentage = voiceVolumeValue.value;
     }
 
     public void RecordAction(Action actions, string key)

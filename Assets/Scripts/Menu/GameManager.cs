@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -7,16 +8,20 @@ public class GameManager : MonoBehaviour
     static public GameManager instance;
     static public bool GamePaused { get; private set; }
 
+    private LevelCanvas levelCanvas;
+
     [Header("Pausing")]
     [Tooltip("Allows for the pause menu to be activated, if true")]
     [SerializeField] private bool gameplayScene;
-    [SerializeField] private GameObject optionsCanvas;
-    [SerializeField] private GameObject pauseMenu;
-    [SerializeField] private OptionsMenu optionsMenu;
-    [SerializeField] private int mainMenuBuildIndex = 3;
+    private GameObject optionsCanvas;
+    private GameObject pauseMenu;
+    private OptionsMenu optionsMenu;
+    [SerializeField] private int mainMenuBuildIndex = 0;
 
     [Header("Canvas")]
-    [SerializeField] private GameObject promptCanvas;
+    private GameObject promptCanvas;
+    private GameObject conversationCanvas;
+    private GameObject dialoguePanel;
 
     [Header("Mouse")]
     [Tooltip("Locks the cursor in the middle of the screen, if true")]
@@ -33,11 +38,37 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        PreloadCanvas();
+        if (gameplayScene) levelCanvas = GameObject.FindGameObjectWithTag("LevelCanvas").GetComponent<LevelCanvas>();
     }
 
     void Start()
     {
+        if (gameplayScene)
+        {
+            optionsCanvas = levelCanvas.optionsCanvas;
+            pauseMenu = levelCanvas.pauseMenu;
+            optionsMenu = levelCanvas.optionsMenu;
+
+            promptCanvas = levelCanvas.promptCanvas;
+            conversationCanvas = levelCanvas.conversationCanvas;
+            dialoguePanel = levelCanvas.dialoguePanel;
+
+            levelCanvas.exitTopperEventTrigger.triggers.Add(new EventTrigger.Entry
+            {
+                eventID = EventTriggerType.PointerClick,
+                callback = new EventTrigger.TriggerEvent()
+            });
+            levelCanvas.exitTopperEventTrigger.triggers[levelCanvas.exitTopperEventTrigger.triggers.Count - 1].callback.AddListener((e) => ActivatePauseMenu());
+
+            levelCanvas.saveOptionsButton.onClick.AddListener(OptionsManager.instance.SaveSettings);
+            levelCanvas.menuButton.onClick.AddListener(LoadMainMenu);
+            levelCanvas.settingsButton.onClick.AddListener(DeactivatePauseMenu);
+            levelCanvas.unstuckButton.onClick.AddListener(RespawnPlayer);
+            levelCanvas.exitButton.onClick.AddListener(ExitGame);
+        }
+
+        PreloadCanvas();
+
         if (lockCursorWhilePlaying && gameplayScene)
             LockCursor();
         else
@@ -63,6 +94,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void PauseGameWithoutMenu()
+    {
+        PauseGame();
+
+        if (optionsCanvas != null)
+        {
+            optionsCanvas.SetActive(false);
+            pauseMenu.SetActive(false);
+        }
+    }
+
     public void PauseGame()
     {
         GamePaused = !GamePaused;
@@ -77,6 +119,12 @@ public class GameManager : MonoBehaviour
                 optionsCanvas.SetActive(true);
                 pauseMenu.SetActive(true);
             }
+
+            if (promptCanvas != null)
+                promptCanvas.SetActive(false);
+
+            if (conversationCanvas != null)
+                conversationCanvas.SetActive(false);
 
             if (lockCursorWhilePlaying)
                 UnlockCursor();
@@ -93,10 +141,19 @@ public class GameManager : MonoBehaviour
             }
 
             if (optionsMenu != null)
+            {
+                optionsMenu.DeactivateOptions();
                 optionsMenu.OptionsCancelled();
+            }
+
+            if (conversationCanvas != null)
+                conversationCanvas.SetActive(true);
 
             if (lockCursorWhilePlaying)
-                LockCursor();
+            {
+                if (dialoguePanel == null || !dialoguePanel.activeInHierarchy)
+                    LockCursor();
+            }
         }
     }
 
@@ -117,7 +174,7 @@ public class GameManager : MonoBehaviour
 
         GamePaused = false;
 
-        SceneManager.LoadScene(mainMenuBuildIndex);
+        SceneManager.LoadScene(buildIndex);
     }
 
     public void ActivatePauseMenu()
