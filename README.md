@@ -1,7 +1,7 @@
 # Slimebreaker
 
 Slimebreaker is a fast, precision-based 3D platformer built in Unity.  
-You play as a small slime trying to conquer brutally hard platforming challenges designed to channel and resolve rage through mastery and movement. :contentReference[oaicite:0]{index=0}
+You play as a small slime trying to conquer brutally hard platforming challenges designed to channel and resolve rage through mastery and movement.
 
 
 ## 🧑‍💻 Team
@@ -31,12 +31,12 @@ You play as a small slime trying to conquer brutally hard platforming challenges
 - 🧩 **Event-driven systems** for things like:
   - Player respawn
   - Collectibles
-  - Checkpoints :contentReference
+  - Checkpoints
 - 🧠 **Singleton managers** for:
   - Game state
   - Audio
   - Options
-  - UI canvases (HUD, menus, dialogue) :contentReference
+  - UI canvases (HUD, menus, dialogue)
 - 💬 **Dialogue & NPC interactions** (via a dialogue system package)  
 
 
@@ -62,7 +62,7 @@ This section explains exactly how to get the project running on your machine.
 
 3. **Unity Editor**  
    - Install the Unity version this project was developed with  
-     > Recommended: latest LTS in the 2021–2023 range.  
+     > Recommended: 6000.0.49f1
    - In Unity Hub → Installs:
      - Add the correct Unity version
      - Include **Windows Build Support (IL2CPP)** or **Mac Build Support** if you want to create standalone builds.
