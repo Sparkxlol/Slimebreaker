@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-<<<<<<< HEAD
+
 using Unity.VisualScripting;
-=======
->>>>>>> 613e1207f6bfcb4de4c2284678f9674a423f0825
+
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
