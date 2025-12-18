@@ -1,14 +1,13 @@
+<<<<<<< HEAD
 
 using TMPro;
 using Unity.Cinemachine;
 using Unity.Hierarchy;
 using Unity.VisualScripting;
 using UnityEditor;
+=======
+>>>>>>> 613e1207f6bfcb4de4c2284678f9674a423f0825
 using UnityEngine;
-using UnityEngine.ProBuilder;
-using UnityEngine.Rendering;
-
-
 
 public class PlayerMovement : MonoBehaviour
 {
